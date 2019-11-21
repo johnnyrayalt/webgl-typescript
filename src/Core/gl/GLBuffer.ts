@@ -89,9 +89,9 @@ export class GLBuffer {
 
 	/**
 	 * Binds this buffer
-	 * @param normalized | Indicates if the data should be normalized.
+	 * @param normalized | Indicates if the data should be normalized. default: false
 	 */
-	public bind = (normalized: boolean): void => {
+	public bind = (normalized: boolean = false): void => {
 		gl.bindBuffer(this._targetBufferType, this._buffer);
 
 		if (this._hasAttributeLocation) {
@@ -133,6 +133,15 @@ export class GLBuffer {
 	 * @param data
 	 */
 	public pushBackData = (data: number[]): void => {
+		for (let d of data) {
+			this._data.push(d);
+		}
+	};
+
+	/**
+	 * Uploads this buffers data to the GPU
+	 */
+	public upload = (): void => {
 		gl.bindBuffer(this._targetBufferType, this._buffer);
 
 		let bufferData: ArrayBuffer;
