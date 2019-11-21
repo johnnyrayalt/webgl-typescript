@@ -42,6 +42,10 @@ export class Engine {
 	private loop = (): void => {
 		gl.clear(gl.COLOR_BUFFER_BIT);
 
+		// Set uniforms.
+		const colorPosition = this._shader.getUniformLocation('u_color');
+		gl.uniform4f(colorPosition, 1, 0.5, 0, 1);
+
 		this._buffer.bind();
 		this._buffer.draw();
 
@@ -79,9 +83,10 @@ void main() {
 
 		const fragmentShaderSource: string = `
 precision mediump float;
+uniform vec4 u_color;
 
 void main() {
-    gl_FragColor = vec4(1.0);
+    gl_FragColor = u_color;
 }`;
 
 		this._shader = new Shader('basic', verticalShaderSource, fragmentShaderSource);
