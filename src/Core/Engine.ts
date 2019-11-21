@@ -55,8 +55,6 @@ export class Engine {
 		const vertices = [0, 0, 0, 0, 0.5, 0, 0.5, 0.5, 0]; // triangle
 
 		gl.bindBuffer(gl.ARRAY_BUFFER, this._buffer);
-		gl.vertexAttribPointer(0, 4, gl.FLOAT, false, 0, 0);
-		gl.enableVertexAttribArray(0);
 		gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
 
 		gl.bindBuffer(gl.ARRAY_BUFFER, undefined);
