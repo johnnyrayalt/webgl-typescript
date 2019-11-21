@@ -7,9 +7,9 @@ export class Shader {
 
 	/**
 	 * Creates a new shader
-	 * @param name Name of the shader
-	 * @param vertexSource Source of the vertex for the shader
-	 * @param fragmentSource Source of the fragment for the shader
+	 * @param name | Name of the shader
+	 * @param vertexSource | Source of the vertex for the shader
+	 * @param fragmentSource | Source of the fragment for the shader
 	 */
 	public constructor(name: string, vertexSource: string, fragmentSource: string) {
 		this._name = name;
