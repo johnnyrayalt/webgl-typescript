@@ -42,8 +42,12 @@ export class Engine {
 		gl.clear(gl.COLOR_BUFFER_BIT);
 
 		gl.bindBuffer(gl.ARRAY_BUFFER, this._buffer);
-		gl.vertexAttribPointer(0, 3, gl.FLOAT, false, 0, 0);
-		gl.enableVertexAttribArray(0);
+
+		let positionLocation = this._shader.getAttributeLocation(`a_position`);
+
+		gl.vertexAttribPointer(positionLocation, 3, gl.FLOAT, false, 0, 0);
+		gl.enableVertexAttribArray(positionLocation);
+
 		gl.drawArrays(gl.TRIANGLES, 0, 3);
 
 		requestAnimationFrame(this.loop.bind(this));
@@ -52,13 +56,20 @@ export class Engine {
 	private createBuffer = (): void => {
 		this._buffer = gl.createBuffer();
 
-		const vertices = [0, 0, 0, 0, 0.5, 0, 0.5, 0.5, 0]; // triangle
+		// triangle
+		// prettier-ignore
+		const vertices = [
+			0,    0,     0, // x
+			0,    0.5,   0, // y
+			0.5,  0.5,   0  // z
+		];
 
 		gl.bindBuffer(gl.ARRAY_BUFFER, this._buffer);
 		gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
 
+		let positionLocation = this._shader.getAttributeLocation('a_position');
 		gl.bindBuffer(gl.ARRAY_BUFFER, undefined);
-		gl.disableVertexAttribArray(0);
+		gl.disableVertexAttribArray(positionLocation);
 	};
 
 	private loadShaders = (): void => {
