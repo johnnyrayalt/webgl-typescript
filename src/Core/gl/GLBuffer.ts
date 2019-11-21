@@ -1,6 +1,30 @@
 import { gl } from './GLUtilities';
 
+/**
+ * Represents the information needed for a GLBuffer attribute.
+ */
+export class AttributeInfo {
+	/**
+	 * The location of this attribute
+	 */
+	public location: number;
+
+	/**
+	 * The size (number of elements) in this attribute (i.e. a vec3 = 3).
+	 */
+	public size: number;
+
+	/**
+	 * The number of elements from the beginning of the buffer
+	 */
+	public offset: number;
+}
+
+/**
+ * Represents a WebGLBuffer
+ */
 export class GLBuffer {
+	private _hasAttributeLocation: boolean = false;
 	private _elementSize: number;
 	private _stride: number;
 	private _buffer: WebGLBuffer;
@@ -11,6 +35,7 @@ export class GLBuffer {
 	private _typeSize: number;
 
 	private _data: number[] = [];
+	private _attributes: AttributeInfo[] = [];
 
 	/**
 	 * Creates a new GL Buffer.
@@ -50,5 +75,102 @@ export class GLBuffer {
 			default:
 				throw new Error(`Unrecognized data type: ${dataType.toString()}`);
 		}
+
+		this._stride = this._elementSize * this._typeSize;
+		this._buffer = gl.createBuffer();
 	}
+
+	/**
+	 * Destroys this buffer.
+	 */
+	public destroy = (): void => {
+		gl.deleteBuffer(this._buffer);
+	};
+
+	/**
+	 * Binds this buffer
+	 * @param normalized | Indicates if the data should be normalized.
+	 */
+	public bind = (normalized: boolean): void => {
+		gl.bindBuffer(this._targetBufferType, this._buffer);
+
+		if (this._hasAttributeLocation) {
+			for (let it of this._attributes) {
+				gl.vertexAttribPointer(
+					it.location,
+					it.size,
+					this._dataType,
+					normalized,
+					this._stride,
+					it.offset * this._typeSize,
+				);
+				gl.enableVertexAttribArray(it.location);
+			}
+		}
+	};
+
+	/**
+	 * Unbinds this buffer.
+	 */
+	public unbind = (): void => {
+		for (let it of this._attributes) {
+			gl.disableVertexAttribArray(it.location);
+		}
+		gl.bindBuffer(gl.ARRAY_BUFFER, this._buffer);
+	};
+
+	/**
+	 * Adds and attribute with the provided information to this buffer.
+	 * @param info THe information to be added.
+	 */
+	public addAttributeLocation = (info: AttributeInfo): void => {
+		this._hasAttributeLocation = true;
+		this._attributes.push(info);
+	};
+
+	/**
+	 * Adds data to this buffer
+	 * @param data
+	 */
+	public pushBackData = (data: number[]): void => {
+		gl.bindBuffer(this._targetBufferType, this._buffer);
+
+		let bufferData: ArrayBuffer;
+		switch (this._dataType) {
+			case gl.FLOAT:
+				bufferData = new Float32Array(this._data);
+				break;
+			case gl.INT:
+				bufferData = new Int32Array(this._data);
+				break;
+			case gl.UNSIGNED_INT:
+				bufferData = new Uint32Array(this._data);
+				break;
+			case gl.SHORT:
+				bufferData = new Int16Array(this._data);
+				break;
+			case gl.UNSIGNED_SHORT:
+				bufferData = new Uint16Array(this._data);
+				break;
+			case gl.BYTE:
+				bufferData = new Int8Array(this._data);
+				break;
+			case gl.UNSIGNED_BYTE:
+				bufferData = new Uint8Array(this._data);
+				break;
+		}
+
+		gl.bufferData(this._targetBufferType, bufferData, gl.STATIC_DRAW);
+	};
+
+	/**
+	 * Draws this buffer.
+	 */
+	public draw = (): void => {
+		if (this._targetBufferType === gl.ARRAY_BUFFER) {
+			gl.drawArrays(this._mode, 0, this._data.length / this._elementSize);
+		} else if (this._targetBufferType === gl.ELEMENT_ARRAY_BUFFER) {
+			gl.drawElements(this._mode, this._data.length, this._dataType, 0);
+		}
+	};
 }
