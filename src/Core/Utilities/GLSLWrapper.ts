@@ -1,5 +1,3 @@
-import * as path from 'path';
-
 export class GLSLWrapper {
 
 	public static getShaderType  = (type: string): string => {
