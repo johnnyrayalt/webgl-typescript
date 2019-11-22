@@ -4,14 +4,12 @@ import { AttributeInfo, GLBuffer } from './gl/GLBuffer';
 import { ConvertRbgToXyz } from './utilities/ConvertRBGToXYZ';
 
 /**
- * Main game engine class
+ * Main rendering engine class
  */
 export class Engine {
 	private _canvas: HTMLCanvasElement;
 	private _shader: Shader;
 	private _buffer: GLBuffer;
-
-	public constructor() {}
 
 	/**
 	 * Start the Engine main loop
@@ -46,7 +44,7 @@ export class Engine {
 		// Set uniforms.
 		const colorPosition = this._shader.getUniformLocation('u_color');
 		const colorValues = ConvertRbgToXyz.extractRBGValues();
-		gl.uniform4f(colorPosition, colorValues[0], colorValues[1], colorValues[2], 1);
+		gl.uniform4f(colorPosition, colorValues[0], colorValues[1], colorValues[2], colorValues[3]);
 
 		this._buffer.bind();
 		this._buffer.draw();
