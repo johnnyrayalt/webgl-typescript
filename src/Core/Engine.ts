@@ -4,7 +4,6 @@ import { GLBuffer } from './GL/GLBuffer';
 import { ConvertRbgToXyz } from './Services/ConvertRBGToXYZ';
 import { IAttributeInfo } from '../Interfaces/IAttributeInfo';
 import { GLSLWrapper } from './Utilities/GLSLWrapper';
-import * as path from 'path';
 
 /**
  * Main rendering engine class
