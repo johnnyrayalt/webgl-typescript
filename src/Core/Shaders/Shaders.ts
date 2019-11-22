@@ -1,4 +1,4 @@
-import { gl } from '../gl/GLUtilities';
+import { gl } from '../GL/GLUtilities';
 
 export class Shader {
 	private readonly _name: string;
@@ -82,7 +82,7 @@ export class Shader {
 	};
 
 	/**
-	 * Stores shaders name, type, and location to hash map _attributes
+	 * Stores Shaders name, type, and location to hash map _attributes
 	 */
 	private detectAttributes = (): void => {
 		let attributeCount = gl.getProgramParameter(this._program, gl.ACTIVE_ATTRIBUTES);
