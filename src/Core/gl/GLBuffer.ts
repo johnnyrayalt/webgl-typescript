@@ -25,14 +25,14 @@ export class AttributeInfo {
  */
 export class GLBuffer {
 	private _hasAttributeLocation: boolean = false;
-	private _elementSize: number;
-	private _stride: number;
-	private _buffer: WebGLBuffer;
+	private readonly _elementSize: number;
+	private readonly _stride: number;
+	private readonly _buffer: WebGLBuffer;
 
-	private _targetBufferType: number;
-	private _dataType: number;
-	private _mode: number;
-	private _typeSize: number;
+	private readonly _targetBufferType: number;
+	private readonly _dataType: number;
+	private readonly _mode: number;
+	private readonly _typeSize: number;
 
 	private _data: number[] = [];
 	private _attributes: AttributeInfo[] = [];
