@@ -1,6 +1,7 @@
 import { gl, GLUtilities } from './gl/GLUtilities';
 import { Shader } from './shaders/Shaders';
 import { AttributeInfo, GLBuffer } from './gl/GLBuffer';
+import { ConvertRbgToXyz } from './utilities/ConvertRBGToXYZ';
 
 /**
  * Main game engine class
@@ -13,7 +14,7 @@ export class Engine {
 	public constructor() {}
 
 	/**
-	 * Start the Engine main game loop
+	 * Start the Engine main loop
 	 */
 	public start = (): void => {
 		this._canvas = GLUtilities.initialize();
@@ -44,7 +45,8 @@ export class Engine {
 
 		// Set uniforms.
 		const colorPosition = this._shader.getUniformLocation('u_color');
-		gl.uniform4f(colorPosition, 1, 0.5, 0, 1);
+		const colorValues = ConvertRbgToXyz.extractRBGValues();
+		gl.uniform4f(colorPosition, colorValues[0], colorValues[1], colorValues[2], 1);
 
 		this._buffer.bind();
 		this._buffer.draw();
