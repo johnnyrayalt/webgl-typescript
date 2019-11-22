@@ -9,18 +9,18 @@ import { GLSLWrapper } from './Utilities/GLSLWrapper';
  * Main rendering engine class
  */
 export class Engine {
-	private _canvas: HTMLCanvasElement;
-	private _shader: Shader;
-	private _buffer: GLBuffer;
+	private canvas: HTMLCanvasElement;
+	private shader: Shader;
+	private buffer: GLBuffer;
 
 	/**
 	 * Start the Engine main loop
 	 */
 	public start = (): void => {
-		this._canvas = GLUtilities.initialize();
+		this.canvas = GLUtilities.initialize();
 		gl.clearColor(0.0, 0.0, 0.0, 1.0);
 		this.loadShaders();
-		this._shader.use();
+		this.shader.use();
 
 		this.createBuffer();
 
@@ -32,11 +32,11 @@ export class Engine {
 	 * Resizes canvas to window size
 	 */
 	public resize = (): void => {
-		if (this._canvas !== undefined) {
-			this._canvas.width = window.innerWidth;
-			this._canvas.height = window.innerHeight;
+		if (this.canvas !== undefined) {
+			this.canvas.width = window.innerWidth;
+			this.canvas.height = window.innerHeight;
 
-			gl.viewport(0, 0, this._canvas.width, this._canvas.height);
+			gl.viewport(0, 0, this.canvas.width, this.canvas.height);
 		}
 	};
 
@@ -44,24 +44,24 @@ export class Engine {
 		gl.clear(gl.COLOR_BUFFER_BIT);
 
 		// Set uniforms.
-		const colorPosition = this._shader.getUniformLocation('u_color');
+		const colorPosition = this.shader.getUniformLocation('u_color');
 		const colorValues = ConvertRbgToXyz.extractRBGValues();
 		gl.uniform4f(colorPosition, colorValues[0], colorValues[1], colorValues[2], colorValues[3]);
 
-		this._buffer.bind();
-		this._buffer.draw();
+		this.buffer.bind();
+		this.buffer.draw();
 
 		requestAnimationFrame(this.loop.bind(this));
 	};
 
 	private createBuffer = (): void => {
-		this._buffer = new GLBuffer(3);
+		this.buffer = new GLBuffer(3);
 
 		const positionAttribute = {} as IAttributeInfo;
-		positionAttribute.location = this._shader.getAttributeLocation('a_position');
+		positionAttribute.location = this.shader.getAttributeLocation('a_position');
 		positionAttribute.offset = 0;
 		positionAttribute.size = 3;
-		this._buffer.addAttributeLocation(positionAttribute);
+		this.buffer.addAttributeLocation(positionAttribute);
 		// triangle
 		// prettier-ignore
 		const vertices = [
@@ -76,9 +76,9 @@ export class Engine {
 			0,    0,    0,
 		];
 
-		this._buffer.pushBackData(vertices);
-		this._buffer.upload();
-		this._buffer.unbind();
+		this.buffer.pushBackData(vertices);
+		this.buffer.upload();
+		this.buffer.unbind();
 	};
 
 	private loadShaders = (): void => {
@@ -88,6 +88,6 @@ export class Engine {
 		const verticalShaderSource: string = convertShaders[0];
 		const fragmentShaderSource: string = convertShaders[1];
 
-		this._shader = new Shader('basic', verticalShaderSource, fragmentShaderSource);
+		this.shader = new Shader('basic', verticalShaderSource, fragmentShaderSource);
 	};
 }
