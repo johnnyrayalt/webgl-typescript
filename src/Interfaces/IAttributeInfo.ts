@@ -1,3 +1,6 @@
+/**
+ * Information for a buffers attributes
+ */
 export interface IAttributeInfo {
 	/**
 	 * The location of this attribute
