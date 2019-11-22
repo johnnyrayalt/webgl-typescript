@@ -1,7 +1,7 @@
-import { gl, GLUtilities } from './gl/GLUtilities';
-import { Shader } from './shaders/Shaders';
-import { AttributeInfo, GLBuffer } from './gl/GLBuffer';
-import { ConvertRbgToXyz } from './utilities/ConvertRBGToXYZ';
+import { gl, GLUtilities } from './GL/GLUtilities';
+import { Shader } from './Shaders/Shaders';
+import { AttributeInfo, GLBuffer } from './GL/GLBuffer';
+import { ConvertRbgToXyz } from './Services/ConvertRBGToXYZ';
 
 /**
  * Main rendering engine class
