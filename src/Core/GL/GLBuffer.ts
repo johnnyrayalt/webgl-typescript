@@ -40,9 +40,9 @@ export class GLBuffer {
 	/**
 	 * Creates a new GL Buffer.
 	 * @param elementSize | The size of each element of this buffer.
-	 * @param dataType | The data type of this buffer. default: gl.FLOAT
-	 * @param targetBufferType | The buffer target type, accepts ARRAY_BUFFER of ELEMENT_ARRAY_BUFFER default: gl.ARRAY_BUFFER
-	 * @param mode | The drawing mode of this buffer (i.e. gl.LINES, gl.TRIANGLES, etc...)  default: gl.TRIANGLES
+	 * @param dataType | The data type of this buffer. default: GL.FLOAT
+	 * @param targetBufferType | The buffer target type, accepts ARRAY_BUFFER of ELEMENT_ARRAY_BUFFER default: GL.ARRAY_BUFFER
+	 * @param mode | The drawing mode of this buffer (i.e. GL.LINES, GL.TRIANGLES, etc...)  default: GL.TRIANGLES
 	 */
 	public constructor(
 		elementSize: number,
