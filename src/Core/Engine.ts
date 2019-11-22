@@ -1,7 +1,8 @@
 import { gl, GLUtilities } from './GL/GLUtilities';
 import { Shader } from './Shaders/Shaders';
-import { AttributeInfo, GLBuffer } from './GL/GLBuffer';
+import { GLBuffer } from './GL/GLBuffer';
 import { ConvertRbgToXyz } from './Services/ConvertRBGToXYZ';
+import { IAttributeInfo } from '../Interfaces/IAttributeInfo';
 
 /**
  * Main rendering engine class
@@ -55,7 +56,7 @@ export class Engine {
 	private createBuffer = (): void => {
 		this._buffer = new GLBuffer(3);
 
-		const positionAttribute = new AttributeInfo();
+		const positionAttribute = {} as IAttributeInfo;
 		positionAttribute.location = this._shader.getAttributeLocation('a_position');
 		positionAttribute.offset = 0;
 		positionAttribute.size = 3;
@@ -63,9 +64,15 @@ export class Engine {
 		// triangle
 		// prettier-ignore
 		const vertices = [
-			0,    0,     0, // x
-			0,    0.5,   0, // y
-			0.5,  0.5,   0  // z
+			// top triangle
+			0,    0,    0, // x
+			0,    0.5,  0, // y
+			0.5,  0.5,  0, // z
+
+			// bottom triangle
+			0.5,  0.5,  0,
+			0.5,  0,    0,
+			0,    0,    0,
 		];
 
 		this._buffer.pushBackData(vertices);

@@ -1,24 +1,5 @@
 import { gl } from './GLUtilities';
-
-/**
- * Represents the information needed for a GLBuffer attribute.
- */
-export class AttributeInfo {
-	/**
-	 * The location of this attribute
-	 */
-	public location: number;
-
-	/**
-	 * The size (number of elements) in this attribute (i.e. a vec3 = 3).
-	 */
-	public size: number;
-
-	/**
-	 * The number of elements from the beginning of the buffer
-	 */
-	public offset: number;
-}
+import { IAttributeInfo } from '../../Interfaces/IAttributeInfo';
 
 /**
  * Represents a WebGLBuffer
@@ -35,7 +16,7 @@ export class GLBuffer {
 	private readonly _typeSize: number;
 
 	private _data: number[] = [];
-	private _attributes: AttributeInfo[] = [];
+	private _attributes: IAttributeInfo[] = [];
 
 	/**
 	 * Creates a new GL Buffer.
@@ -123,7 +104,7 @@ export class GLBuffer {
 	 * Adds and attribute with the provided information to this buffer.
 	 * @param info THe information to be added.
 	 */
-	public addAttributeLocation = (info: AttributeInfo): void => {
+	public addAttributeLocation = (info: IAttributeInfo): void => {
 		this._hasAttributeLocation = true;
 		this._attributes.push(info);
 	};
