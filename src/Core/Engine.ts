@@ -3,6 +3,8 @@ import { Shader } from './Shaders/Shaders';
 import { GLBuffer } from './GL/GLBuffer';
 import { ConvertRbgToXyz } from './Services/ConvertRBGToXYZ';
 import { IAttributeInfo } from '../Interfaces/IAttributeInfo';
+import { GLSLWrapper } from './Utilities/GLSLWrapper';
+import * as path from 'path';
 
 /**
  * Main rendering engine class
@@ -81,20 +83,11 @@ export class Engine {
 	};
 
 	private loadShaders = (): void => {
-		const verticalShaderSource: string = `
-attribute vec3 a_position;
-
-void main() {
-    gl_Position = vec4(a_position, 1.0);
-}`;
-
-		const fragmentShaderSource: string = `
-precision mediump float;
-uniform vec4 u_color;
-
-void main() {
-    gl_FragColor = u_color;
-}`;
+		const loadVertexShaderInput = GLSLWrapper.getShaderType('vertexShader');
+		const loadFragmentShaderInput = GLSLWrapper.getShaderType('fragmentShader');
+		const convertShaders = GLSLWrapper.convertFilesToString([loadVertexShaderInput, loadFragmentShaderInput]);
+		const verticalShaderSource: string = convertShaders[0];
+		const fragmentShaderSource: string = convertShaders[1];
 
 		this._shader = new Shader('basic', verticalShaderSource, fragmentShaderSource);
 	};

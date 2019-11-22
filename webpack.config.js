@@ -37,6 +37,14 @@ const config = {
   module: {
     rules: [
       {
+        test: /\.(glsl|vs|fs|vert|frag)$/,
+        exclude: /node_modules/,
+        use: [
+          'raw-loader',
+          'glslify-loader'
+        ]
+      },
+      {
         enforce: 'pre',
         test: /\.tsx?$/,
         exclude: [/\/node_modules\//],
@@ -55,7 +63,7 @@ const config = {
     compress: true,
     port: 3000,
     hot: true
-  }
+  },
 };
 
 module.exports = config;
