@@ -6,7 +6,7 @@ export let gl: WebGLRenderingContext;
 /**
  * Responsible for setting up WebGL rendering context
  */
-export class GLUtilities {
+export class GLCanvas {
 	/**
 	 * Initialize WebGL with elementID if provided if it is defined
 	 * @param elementId ID of the canvas element
@@ -32,5 +32,23 @@ export class GLUtilities {
 		}
 
 		return canvas;
+	};
+
+	/**
+	 * Resizes canvas to client width and height and sets viewport appropriately
+	 * @param canvas | An HTMLCanvasElement for resizing
+	 */
+	public static resize = (canvas: HTMLCanvasElement): void => {
+		if (canvas !== undefined) {
+			const width = canvas.clientWidth;
+			const height = canvas.clientHeight;
+
+			if (canvas.width !== width || canvas.height !== height) {
+				canvas.width = width;
+				canvas.height = height;
+			}
+
+			gl.viewport(0, 0, width, height);
+		}
 	};
 }

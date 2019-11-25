@@ -1,4 +1,4 @@
-import { gl, GLUtilities } from './GL/GLUtilities';
+import { gl, GLCanvas } from './GL/GLCanvas';
 import { Shader } from './Shaders/Shaders';
 import { GLBuffer } from './GL/GLBuffer';
 import { ConvertRbgToXyz } from './Services/ConvertRBGToXYZ';
@@ -9,7 +9,7 @@ import { GLSLWrapper } from './Utilities/GLSLWrapper';
  * Main rendering engine class
  */
 export class Engine {
-	private canvas: HTMLCanvasElement;
+	public canvas: HTMLCanvasElement;
 	private shader: Shader;
 	private buffer: GLBuffer;
 
@@ -17,27 +17,15 @@ export class Engine {
 	 * Start the Engine main loop
 	 */
 	public start = (): void => {
-		this.canvas = GLUtilities.initialize();
+		this.canvas = GLCanvas.initialize();
 		gl.clearColor(0.0, 0.0, 0.0, 1.0);
 		this.loadShaders();
 		this.shader.use();
 
 		this.createBuffer();
 
-		this.resize();
+		GLCanvas.resize(this.canvas);
 		this.loop();
-	};
-
-	/**
-	 * Resizes canvas to window size
-	 */
-	public resize = (): void => {
-		if (this.canvas !== undefined) {
-			this.canvas.width = window.innerWidth;
-			this.canvas.height = window.innerHeight;
-
-			gl.viewport(0, 0, this.canvas.width, this.canvas.height);
-		}
 	};
 
 	private loop = (): void => {

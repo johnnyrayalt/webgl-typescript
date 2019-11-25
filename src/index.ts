@@ -1,4 +1,5 @@
 import { Engine } from './Core/Engine';
+import { GLCanvas } from './Core/GL/GLCanvas';
 
 const engine = new Engine();
 
@@ -7,5 +8,5 @@ window.onload = () => {
 };
 
 window.onresize = () => {
-	engine.resize();
+	GLCanvas.resize(engine.canvas);
 };
