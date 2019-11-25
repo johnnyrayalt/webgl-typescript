@@ -1,6 +1,6 @@
-import { gl } from './GLCanvas';
 import { IAttributeInfo } from '../../Interfaces/IAttributeInfo';
 import { Shader } from '../Shaders/Shaders';
+import { gl } from './GLCanvas';
 
 /**
  * Represents a WebGLBuffer
@@ -91,7 +91,7 @@ export class GLBuffer {
 		this.pushBackData(vertices);
 		this.upload();
 		this.unbind();
-}
+	};
 
 	/**
 	 * Destroys this buffer.
@@ -109,14 +109,7 @@ export class GLBuffer {
 
 		if (this.hasAttributeLocation) {
 			for (let it of this.attributes) {
-				gl.vertexAttribPointer(
-					it.location,
-					it.size,
-					this.dataType,
-					normalized,
-					this.stride,
-					it.offset * this.typeSize,
-				);
+				gl.vertexAttribPointer(it.location, it.size, this.dataType, normalized, this.stride, it.offset * this.typeSize);
 				gl.enableVertexAttribArray(it.location);
 			}
 		}

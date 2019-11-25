@@ -1,7 +1,7 @@
-import { gl, GLCanvas } from './GL/GLCanvas';
-import { Shader } from './Shaders/Shaders';
 import { GLBuffer } from './GL/GLBuffer';
+import { gl, GLCanvas } from './GL/GLCanvas';
 import { ConvertRbgToXyz } from './Services/ConvertRBGToXYZ';
+import { Shader } from './Shaders/Shaders';
 
 /**
  * Main rendering engine class
