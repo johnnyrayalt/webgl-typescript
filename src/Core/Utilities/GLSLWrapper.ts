@@ -1,3 +1,6 @@
+/**
+ * Gets which shader the user selected and converts the GLSL file into a string from its file path
+ */
 export class GLSLWrapper {
 
 	public static getShaderType  = (type: string): string => {
