@@ -1,14 +1,14 @@
 import { GLBuffer } from './GL/GLBuffer';
 import { gl, GLCanvas } from './GL/GLCanvas';
+import { GLShader } from './GL/GLShaders';
 import { ConvertRbgToXyz } from './Services/ConvertRBGToXYZ';
-import { Shader } from './Shaders/Shaders';
 
 /**
  * Main rendering engine class
  */
 export class Engine {
 	public canvas: HTMLCanvasElement;
-	private shader: Shader;
+	private shader: GLShader;
 	private buffer: GLBuffer;
 
 	/**
@@ -24,8 +24,8 @@ export class Engine {
 		/**
 		 * Creates and attaches shaders
 		 */
-		const loadShaders = Shader.setShaders();
-		this.shader = new Shader('basic', loadShaders[0], loadShaders[1]);
+		const loadShaders = GLShader.setShaders();
+		this.shader = new GLShader('basic', loadShaders[0], loadShaders[1]);
 		this.shader.use();
 
 		/**
@@ -70,7 +70,6 @@ export class Engine {
 		 * Binds shader values
 		 */
 		this.buffer.bind();
-
 
 		requestAnimationFrame(this.loop.bind(this));
 	};
