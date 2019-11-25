@@ -19,11 +19,13 @@ export class Engine {
 	public start = (): void => {
 		this.canvas = GLCanvas.initialize();
 		gl.clearColor(0.0, 0.0, 0.0, 1.0);
+
 		const loadShaders = Shader.setShaders();
 		this.shader = new Shader('basic', loadShaders[0], loadShaders[1]);
 		this.shader.use();
 
-		this.createBuffer();
+		this.buffer = new GLBuffer(3);
+		this.buffer.createBuffer(this.shader);
 
 		this.loop();
 	};
@@ -61,32 +63,5 @@ export class Engine {
 
 
 		requestAnimationFrame(this.loop.bind(this));
-	};
-
-	private createBuffer = (): void => {
-		this.buffer = new GLBuffer(3);
-
-		const positionAttribute = {} as IAttributeInfo;
-		positionAttribute.location = this.shader.getAttributeLocation('a_position');
-		positionAttribute.offset = 0;
-		positionAttribute.size = 3;
-		this.buffer.addAttributeLocation(positionAttribute);
-		// triangle
-		// prettier-ignore
-		const vertices = [
-			// top triangle
-			0,    0,    0, // x
-			0,    0.5,  0, // y
-			0.5,  0.5,  0, // z
-
-			// bottom triangle
-			0.5,  0.5,  0,
-			0.5,  0,    0,
-			0,    0,    0,
-		];
-
-		this.buffer.pushBackData(vertices);
-		this.buffer.upload();
-		this.buffer.unbind();
 	};
 }
