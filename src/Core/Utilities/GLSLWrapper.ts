@@ -9,7 +9,7 @@ export class GLSLWrapper {
 	};
 
 	public static convertFilesToString = (filePaths: string[]): string[] => {
-
+		console.log(filePaths)
 		const filesAsStrings: string[] = [];
 		filePaths.forEach(filePath => {
 			const fileAsString = require(`../${filePath}`).default;
