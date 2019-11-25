@@ -6,7 +6,3 @@ const engine = new Engine();
 window.onload = () => {
 	engine.start();
 };
-
-window.onresize = () => {
-	GLCanvas.resize(engine.canvas);
-};
