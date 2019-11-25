@@ -1,4 +1,4 @@
-import { gl } from '../GL/GLUtilities';
+import { gl } from '../GL/GLCanvas';
 
 export class Shader {
 	private readonly name: string;
