@@ -1,4 +1,4 @@
-import { gl } from './GLUtilities';
+import { gl } from './GLCanvas';
 import { IAttributeInfo } from '../../Interfaces/IAttributeInfo';
 
 /**
