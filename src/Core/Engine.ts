@@ -19,7 +19,8 @@ export class Engine {
 	public start = (): void => {
 		this.canvas = GLCanvas.initialize();
 		gl.clearColor(0.0, 0.0, 0.0, 1.0);
-		this.loadShaders();
+		const loadShaders = Shader.setShaders();
+		this.shader = new Shader('basic', loadShaders[0], loadShaders[1]);
 		this.shader.use();
 
 		this.createBuffer();
@@ -87,15 +88,5 @@ export class Engine {
 		this.buffer.pushBackData(vertices);
 		this.buffer.upload();
 		this.buffer.unbind();
-	};
-
-	private loadShaders = (): void => {
-		const loadVertexShaderInput = GLSLWrapper.getShaderType('vertexShader');
-		const loadFragmentShaderInput = GLSLWrapper.getShaderType('fragmentShader');
-		const convertShaders = GLSLWrapper.convertFilesToString([loadVertexShaderInput, loadFragmentShaderInput]);
-		const verticalShaderSource: string = convertShaders[0];
-		const fragmentShaderSource: string = convertShaders[1];
-
-		this.shader = new Shader('basic', verticalShaderSource, fragmentShaderSource);
 	};
 }

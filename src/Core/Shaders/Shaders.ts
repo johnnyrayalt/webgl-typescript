@@ -1,5 +1,10 @@
 import { gl } from '../GL/GLCanvas';
+import { GLSLWrapper } from '../Utilities/GLSLWrapper';
 
+/**
+ * Main Shader class. Handles creation, context setting, and linking of vertex and fragment shaders into a single shader
+ * program to be bound in GLBuffer
+ */
 export class Shader {
 	private readonly name: string;
 	private program: WebGLProgram;
@@ -14,8 +19,8 @@ export class Shader {
 	 */
 	public constructor(name: string, vertexSource: string, fragmentSource: string) {
 		this.name = name;
-		const vertexShader = this.loadShader(vertexSource, gl.VERTEX_SHADER);
-		const fragmentShader = this.loadShader(fragmentSource, gl.FRAGMENT_SHADER);
+		const vertexShader = this.loadShaderWithType(vertexSource, gl.VERTEX_SHADER);
+		const fragmentShader = this.loadShaderWithType(fragmentSource, gl.FRAGMENT_SHADER);
 
 		this.createProgram(vertexShader, fragmentShader);
 
@@ -32,7 +37,7 @@ export class Shader {
 
 	/**
 	 * Gets the location of an attribute with a provided name
-	 * @param name The name of the attribute to retrieve
+	 * @param name | The name of the attribute to retrieve
 	 */
 	public getAttributeLocation = (name: string): number => {
 		if (this.attributes[name] === undefined) {
@@ -44,7 +49,7 @@ export class Shader {
 
 	/**
 	 * Gets the location of an uniform with the provided name
-	 * @param name
+	 * @param name | Name of the uniform
 	 */
 	public getUniformLocation = (name: string): WebGLUniformLocation => {
 		if (this.uniforms[name] === undefined) {
@@ -54,7 +59,12 @@ export class Shader {
 		return this.uniforms[name];
 	};
 
-	private loadShader = (source: string, shaderType: number): WebGLShader => {
+	/**
+	 * Creates an empty WebGLShader object with vertex or fragment contexts
+	 * @param source | Source location for the shader
+	 * @param shaderType | GLEnum type i.e. gl.VERTEX_SHADER || gl.FRAGMENT_SHADER
+	 */
+	private loadShaderWithType = (source: string, shaderType: number): WebGLShader => {
 		let shader: WebGLShader = gl.createShader(shaderType);
 
 		gl.shaderSource(shader, source);
@@ -67,6 +77,26 @@ export class Shader {
 		return shader;
 	};
 
+	/**
+	 * Converts GLSL files to strings and returns an array of stringified shader objects
+	 */
+	public static setShaders = (): string[] => {
+		let shaderArray = [];
+		const loadVertexShaderInput = GLSLWrapper.getShaderType('vertexShader');
+		const loadFragmentShaderInput = GLSLWrapper.getShaderType('fragmentShader');
+		const convertShaders = GLSLWrapper.convertFilesToString([loadVertexShaderInput, loadFragmentShaderInput]);
+		const verticalShaderSource: string = convertShaders[0];
+		const fragmentShaderSource: string = convertShaders[1];
+
+		shaderArray.push(verticalShaderSource, fragmentShaderSource);
+		return shaderArray;
+	};
+
+	/**
+	 * Links both shaders into a single program for WebGL consumption
+	 * @param vertexShader | Vertex shader to use
+	 * @param fragmentShader | Fragment shader to use
+	 */
 	private createProgram = (vertexShader: WebGLShader, fragmentShader: WebGLShader): void => {
 		this.program = gl.createProgram();
 
@@ -82,7 +112,7 @@ export class Shader {
 	};
 
 	/**
-	 * Stores Shaders name, type, and location to hash map _attributes
+	 * Stores Shaders attribute name, type, and location to hash map attributes
 	 */
 	private detectAttributes = (): void => {
 		let attributeCount = gl.getProgramParameter(this.program, gl.ACTIVE_ATTRIBUTES);
@@ -96,6 +126,9 @@ export class Shader {
 		}
 	};
 
+	/**
+	 * Stores Shaders uniform name, type, and location to hash map uniforms
+	 */
 	private detectUniforms = (): void => {
 		let uniformCount = gl.getProgramParameter(this.program, gl.ACTIVE_ATTRIBUTES);
 		for (let i = 0; i < uniformCount; i++) {
