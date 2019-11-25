@@ -15,16 +15,28 @@ export class Engine {
 	 * Start the Engine main loop
 	 */
 	public start = (): void => {
+		/**
+		 * Initialize new Canvas then set default background to black;
+		 */
 		this.canvas = GLCanvas.initialize();
 		gl.clearColor(0.0, 0.0, 0.0, 1.0);
 
+		/**
+		 * Creates and attaches shaders
+		 */
 		const loadShaders = Shader.setShaders();
 		this.shader = new Shader('basic', loadShaders[0], loadShaders[1]);
 		this.shader.use();
 
+		/**
+		 * Creates and binds data to buffer
+		 */
 		this.buffer = new GLBuffer(3);
 		this.buffer.createBuffer(this.shader);
 
+		/**
+		 * Start main loop
+		 */
 		this.loop();
 	};
 
