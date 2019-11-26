@@ -3,11 +3,11 @@
  */
 export class GLSLWrapper {
 
-	public static getShaderType  = (type: string): string => {
-		if (type === 'vertexShader') {
-			return (<HTMLInputElement>document.getElementById('vertexShader')).value
-		} else if (type === 'fragmentShader') {
-			return (<HTMLInputElement>document.getElementById('fragmentShader')).value
+	public static getShaderType = (type: string): string => {
+		if (type === 'vertex-shader') {
+			return (<HTMLInputElement>document.getElementById('vertex-shader')).value
+		} else if (type === 'fragment-shader') {
+			return (<HTMLInputElement>document.getElementById('fragment-shader')).value
 		}
 	};
 

@@ -17,7 +17,7 @@ export class Engine {
 		/**
 		 * Set up sliders
 		 */
-		const sliderContainerID = 'sliderContainer';
+		const sliderContainerID = 'slider-container';
 		CreateUI.generateSlider(sliderContainerID, "r", {min: 0, step: 1, max: 100, value: 50});
 		CreateUI.generateSlider(sliderContainerID, "g", {min: 0, step: 1, max: 100, value: 50});
 		CreateUI.generateSlider(sliderContainerID, "b", {min: 0, step: 1, max: 100, value: 50});

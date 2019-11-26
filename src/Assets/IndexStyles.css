@@ -2,6 +2,7 @@ html,
 body {
     margin: 0;
     overflow: hidden;
+    color: white;
 }
 
 canvas {
@@ -20,7 +21,6 @@ canvas {
     margin: 10px;
     width: 200px;
     display: inline;
-    color: white;
 }
 
 .slider-widget-outer {
