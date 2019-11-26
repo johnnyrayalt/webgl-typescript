@@ -3,18 +3,18 @@ export class ConvertRbgToXyz {
 		/**
 		 * Gets the user input value for each color slider and converts it to XYZ color space
 		 */
-		let r: number = parseInt((<HTMLInputElement>document.getElementById('r')).value) / 100;
-		let g: number = parseInt((<HTMLInputElement>document.getElementById('g')).value) / 100;
-		let b: number = parseInt((<HTMLInputElement>document.getElementById('b')).value) / 100;
-		let w: number = parseInt((<HTMLInputElement>document.getElementById('w')).value) / 100;
+		const r: number = parseInt((<HTMLInputElement>document.getElementById('r-input')).value) / 100;
+		const g: number = parseInt((<HTMLInputElement>document.getElementById('g-input')).value) / 100;
+		const b: number = parseInt((<HTMLInputElement>document.getElementById('b-input')).value) / 100;
+		const w: number = parseInt((<HTMLInputElement>document.getElementById('w-input')).value) / 100;
 
 		/**
-		 * Returns the value to the DOM
+		 * Sends updated value back to DOM
 		 */
-		document.getElementById('r-value').innerHTML = r.toString();
-		document.getElementById('g-value').innerHTML = g.toString();
-		document.getElementById('b-value').innerHTML = b.toString();
-		document.getElementById('w-value').innerHTML = w.toString();
+		document.getElementById('r-value').innerHTML = Math.ceil(r * 100).toString();
+		document.getElementById('g-value').innerHTML = Math.ceil(g * 100).toString();
+		document.getElementById('b-value').innerHTML = Math.ceil(b * 100).toString();
+		document.getElementById('w-value').innerHTML = Math.ceil(w * 100).toString();
 
 		return [r, g, b, w];
 	};

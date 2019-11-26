@@ -1,11 +1,11 @@
-import { gl } from '../GL/GLCanvas';
 import { GLSLWrapper } from '../Utilities/GLSLWrapper';
+import { gl } from './GLCanvas';
 
 /**
- * Main Shader class. Handles creation, context setting, and linking of vertex and fragment shaders into a single shader
+ * Main GLShader class. Handles creation, context setting, and linking of vertex and fragment shaders into a single shader
  * program to be bound in GLBuffer
  */
-export class Shader {
+export class GLShader {
 	private readonly name: string;
 	private program: WebGLProgram;
 	private attributes: { [name: string]: number } = {};

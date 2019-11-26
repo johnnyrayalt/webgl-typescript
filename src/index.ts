@@ -1,7 +1,7 @@
 import { Engine } from './Core/Engine';
-import { GLCanvas } from './Core/GL/GLCanvas';
-
 const engine = new Engine();
+require('./IndexStyles.css');
+engine.bootStrapUI();
 
 window.onload = () => {
 	engine.start();

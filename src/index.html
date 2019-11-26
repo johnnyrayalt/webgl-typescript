@@ -1,88 +1,33 @@
 <!DOCTYPE html>
 <html lang="">
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="x-ua-compatible" content="ie=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>
+			<%= htmlWebpackPlugin.options.title %>
+		</title>
 
-  <title>
-    <%= htmlWebpackPlugin.options.title %>
-  </title>
-
-  <meta name="description" content="<%= htmlWebpackPlugin.options.title %>">
-  <style type="text/css">
-    html, body {
-      margin: 0;
-      overflow: hidden;
-    }
-
-    canvas {
-      display: block;
-      width: 100vw;
-      height: 100vh;
-    }
-
-    .form {
-      z-index: 10000;
-      padding: 0;
-      margin: 10px;
-      width: 200px;
-      display: inline;
-      position: absolute;
-    }
-
-    .form label {
-      display: block;
-      color: white;
-    }
-
-    .form label p {
-      display: inline;
-      margin: 0 5px;
-    }
-  </style>
-</head>
-<body>
-  <div>
-    <form id="color-input" class="form">
-      <label for="r">
-        <p>R:</p>
-        <span id="r-value"></span>
-      </label>
-      <input type="range" min="0" max="100" step="1" name="r" id="r">
-
-      <label for="g">
-        <p>G:</p>
-        <span id="g-value"></span>
-      </label>
-      <input type="range" min="0" max="100" step="1" name="g" id="g">
-
-      <label for="b">
-        <p>B:</p>
-        <span id="b-value"></span>
-      </label>
-      <input type="range" min="0" max="100" step="1" name="b" id="b">
-
-      <label for="w">
-        <p>W:</p>
-        <span id="w-value"></span>
-      </label>
-      <input type="range" value="100" min="0" max="100" step="1" name="w" id="w">
-
-      <label>
-        <p>Choose Vertex Shader</p>
-        <select id="vertexShader">
-          <option id="2dVertexShader" value="Shaders/GLSL/VertexShaders/2dVertexShader.glsl">2D Vertex Shader</option>
-        </select>
-      </label>
-      <label>
-        <p>Choose Fragment Shader</p>
-        <select id="fragmentShader">
-          <option id="2dFragmentShader" value="Shaders/GLSL/FragmentShaders/2dFragmentShader.glsl">2D Fragment Shader</option>
-        </select>
-      </label>
-    </form>
-  </div>
-</body>
+		<meta name="description" content="<%= htmlWebpackPlugin.options.title %>" />
+	</head>
+	<body>
+		<div id="container">
+			<div id="sliderContainer"></div>
+			<label>
+				<p>Choose Vertex GLShader</p>
+				<select id="vertexShader">
+					<option id="2dVertexShader" value="Shaders/VertexShaders/2dVertexShader.glsl">2D Vertex GLShader</option>
+				</select>
+			</label>
+			<label>
+				<p>Choose Fragment GLShader</p>
+				<select id="fragmentShader">
+					<option id="2dFragmentShader" value="Shaders/FragmentShaders/2dFragmentShader.glsl">
+						2D Fragment GLShader
+					</option>
+				</select>
+			</label>
+		</div>
+	</body>
 </html>

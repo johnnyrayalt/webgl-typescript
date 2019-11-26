@@ -1,5 +1,5 @@
 import { IAttributeInfo } from '../../Interfaces/IAttributeInfo';
-import { Shader } from '../Shaders/Shaders';
+import { GLShader } from './GLShaders';
 import { gl } from './GLCanvas';
 
 /**
@@ -66,7 +66,7 @@ export class GLBuffer {
 	 * Creates and stands up a new Buffer given a shader program and object geometry as vertices.
 	 * @param shader | Current shader program
 	 */
-	public createBuffer = (shader: Shader): void => {
+	public createBuffer = (shader: GLShader): void => {
 		const positionAttribute: IAttributeInfo = {
 			location: shader.getAttributeLocation('a_position'),
 			offset: 0,

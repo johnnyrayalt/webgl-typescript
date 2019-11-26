@@ -1,15 +1,28 @@
 import { GLBuffer } from './GL/GLBuffer';
 import { gl, GLCanvas } from './GL/GLCanvas';
+import { GLShader } from './GL/GLShaders';
 import { ConvertRbgToXyz } from './Services/ConvertRBGToXYZ';
-import { Shader } from './Shaders/Shaders';
+import { CreateUI } from './Services/CreateUI';
 
 /**
  * Main rendering engine class
  */
 export class Engine {
 	public canvas: HTMLCanvasElement;
-	private shader: Shader;
+	private shader: GLShader;
 	private buffer: GLBuffer;
+
+
+	public bootStrapUI = (): void => {
+		/**
+		 * Set up sliders
+		 */
+		const sliderContainerID = 'sliderContainer';
+		CreateUI.generateSlider(sliderContainerID, "r", {min: 0, step: 1, max: 100, value: 50});
+		CreateUI.generateSlider(sliderContainerID, "g", {min: 0, step: 1, max: 100, value: 50});
+		CreateUI.generateSlider(sliderContainerID, "b", {min: 0, step: 1, max: 100, value: 50});
+		CreateUI.generateSlider(sliderContainerID, "w", {min: 0, step: 1, max: 100, value: 100});
+	};
 
 	/**
 	 * Start the Engine main loop
@@ -19,13 +32,13 @@ export class Engine {
 		 * Initialize new Canvas then set default background to black;
 		 */
 		this.canvas = GLCanvas.initialize();
-		gl.clearColor(0.0, 0.0, 0.0, 1.0);
+		gl.clearColor(0.0, 0.0, 0.0, 1);
 
 		/**
 		 * Creates and attaches shaders
 		 */
-		const loadShaders = Shader.setShaders();
-		this.shader = new Shader('basic', loadShaders[0], loadShaders[1]);
+		const loadShaders = GLShader.setShaders();
+		this.shader = new GLShader('basic', loadShaders[0], loadShaders[1]);
 		this.shader.use();
 
 		/**
@@ -60,10 +73,17 @@ export class Engine {
 		gl.viewport(0, 0, this.canvas.width, this.canvas.height);
 
 		/**
-		 * Sets uniforms from shaders
+		 * Gets uniforms from shaders
 		 */
 		const colorPosition = this.shader.getUniformLocation('u_color');
+
+		/**
+		 * Updates UI values
+		 */
 		const colorValues = ConvertRbgToXyz.extractRBGValues();
+		/**
+		 * Sets uniforms
+		 */
 		gl.uniform4f(colorPosition, colorValues[0], colorValues[1], colorValues[2], colorValues[3]);
 
 		/**
@@ -71,7 +91,9 @@ export class Engine {
 		 */
 		this.buffer.bind();
 
-
+		/**
+		 * Redraw 60 times a second
+		 */
 		requestAnimationFrame(this.loop.bind(this));
 	};
 }
