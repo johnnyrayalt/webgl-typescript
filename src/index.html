@@ -1,67 +1,77 @@
 <!DOCTYPE html>
 <html lang="">
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="x-ua-compatible" content="ie=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>
+			<%= htmlWebpackPlugin.options.title %>
+		</title>
 
-  <title>
-    <%= htmlWebpackPlugin.options.title %>
-  </title>
+		<meta name="description" content="<%= htmlWebpackPlugin.options.title %>" />
+		<style type="text/css">
+			html,
+			body {
+				margin: 0;
+				overflow: hidden;
+			}
 
-  <meta name="description" content="<%= htmlWebpackPlugin.options.title %>">
-  <style type="text/css">
-    html, body {
-      margin: 0;
-      overflow: hidden;
-    }
+			canvas {
+				display: block;
+				width: 100vw;
+				height: 100vh;
+			}
 
-    canvas {
-      display: block;
-      width: 100vw;
-      height: 100vh;
-    }
+			#container {
+				position: absolute;
+			}
 
-    #container {
-        position: absolute;
-    }
-    
-    #sliderContainer {
-      z-index: 10000;
-      padding: 0;
-      margin: 10px;
-      width: 200px;
-      display: inline;
-    }
+			#sliderContainer {
+				z-index: 10000;
+				padding: 0;
+				margin: 10px;
+				width: 200px;
+				display: inline;
+				color: white;
+			}
 
-    .form label {
-      display: block;
-      color: white;
-    }
+			.slider-widget-outer {
+				display: flex;
+			}
 
-    .form label p {
-      display: inline;
-      margin: 0 5px;
-    }
-  </style>
-</head>
-<body>
-  <div id="container">
-      <div id="sliderContainer">
-      </div>
-      <label>
-        <p>Choose Vertex GLShader</p>
-        <select id="vertexShader">
-          <option id="2dVertexShader" value="Shaders/VertexShaders/2dVertexShader.glsl">2D Vertex GLShader</option>
-        </select>
-      </label>
-      <label>
-        <p>Choose Fragment GLShader</p>
-        <select id="fragmentShader">
-          <option id="2dFragmentShader" value="Shaders/FragmentShaders/2dFragmentShader.glsl">2D Fragment GLShader</option>
-        </select>
-      </label>
-  </div>
-</body>
+			.slider-widget-label {
+				width: 25px;
+			}
+
+			.slider-widget-value {
+				margin-left: 15px;
+				width: 50px;
+			}
+
+			.slider-widget {
+				margin: 0 auto;
+				width: 100px;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="container">
+			<div id="sliderContainer"></div>
+			<label>
+				<p>Choose Vertex GLShader</p>
+				<select id="vertexShader">
+					<option id="2dVertexShader" value="Shaders/VertexShaders/2dVertexShader.glsl">2D Vertex GLShader</option>
+				</select>
+			</label>
+			<label>
+				<p>Choose Fragment GLShader</p>
+				<select id="fragmentShader">
+					<option id="2dFragmentShader" value="Shaders/FragmentShaders/2dFragmentShader.glsl">
+						2D Fragment GLShader
+					</option>
+				</select>
+			</label>
+		</div>
+	</body>
 </html>
