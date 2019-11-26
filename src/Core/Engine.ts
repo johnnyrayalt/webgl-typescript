@@ -2,6 +2,7 @@ import { GLBuffer } from './GL/GLBuffer';
 import { gl, GLCanvas } from './GL/GLCanvas';
 import { GLShader } from './GL/GLShaders';
 import { ConvertRbgToXyz } from './Services/ConvertRBGToXYZ';
+import { CreateUI } from './Services/CreateUI';
 
 /**
  * Main rendering engine class
@@ -10,6 +11,14 @@ export class Engine {
 	public canvas: HTMLCanvasElement;
 	private shader: GLShader;
 	private buffer: GLBuffer;
+
+
+	public bootStrapUI = (): void => {
+		CreateUI.generateSlider("r", {elementType: "range", min: 0, step: 1, max: 100, value: 50});
+		CreateUI.generateSlider("g", {elementType: "range", min: 0, step: 1, max: 100, value: 50});
+		CreateUI.generateSlider("b", {elementType: "range", min: 0, step: 1, max: 100, value: 50});
+		CreateUI.generateSlider("w", {elementType: "range", min: 0, step: 1, max: 100, value: 100});
+	};
 
 	/**
 	 * Start the Engine main loop
@@ -60,10 +69,18 @@ export class Engine {
 		gl.viewport(0, 0, this.canvas.width, this.canvas.height);
 
 		/**
-		 * Sets uniforms from shaders
+		 * Gets uniforms from shaders
 		 */
 		const colorPosition = this.shader.getUniformLocation('u_color');
+
+		/**
+		 * Updates UI values
+		 */
 		const colorValues = ConvertRbgToXyz.extractRBGValues();
+		CreateUI.updateSliderValue(colorValues);
+		/**
+		 * Sets uniforms
+		 */
 		gl.uniform4f(colorPosition, colorValues[0], colorValues[1], colorValues[2], colorValues[3]);
 
 		/**
@@ -71,6 +88,9 @@ export class Engine {
 		 */
 		this.buffer.bind();
 
+		/**
+		 * Redraw 60 times a second
+		 */
 		requestAnimationFrame(this.loop.bind(this));
 	};
 }

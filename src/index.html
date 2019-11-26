@@ -23,13 +23,16 @@
       height: 100vh;
     }
 
-    .form {
+    #container {
+        position: absolute;
+    }
+    
+    #sliderContainer {
       z-index: 10000;
       padding: 0;
       margin: 10px;
       width: 200px;
       display: inline;
-      position: absolute;
     }
 
     .form label {
@@ -44,32 +47,9 @@
   </style>
 </head>
 <body>
-  <div>
-    <form id="color-input" class="form">
-      <label for="r">
-        <p>R:</p>
-        <span id="r-value"></span>
-      </label>
-      <input type="range" min="0" max="100" step="1" name="r" id="r">
-
-      <label for="g">
-        <p>G:</p>
-        <span id="g-value"></span>
-      </label>
-      <input type="range" min="0" max="100" step="1" name="g" id="g">
-
-      <label for="b">
-        <p>B:</p>
-        <span id="b-value"></span>
-      </label>
-      <input type="range" min="0" max="100" step="1" name="b" id="b">
-
-      <label for="w">
-        <p>W:</p>
-        <span id="w-value"></span>
-      </label>
-      <input type="range" value="100" min="0" max="100" step="1" name="w" id="w">
-
+  <div id="container">
+      <div id="sliderContainer">
+      </div>
       <label>
         <p>Choose Vertex GLShader</p>
         <select id="vertexShader">
@@ -82,7 +62,6 @@
           <option id="2dFragmentShader" value="Shaders/FragmentShaders/2dFragmentShader.glsl">2D Fragment GLShader</option>
         </select>
       </label>
-    </form>
   </div>
 </body>
 </html>
