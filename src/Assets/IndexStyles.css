@@ -3,6 +3,7 @@ body {
     margin: 0;
     overflow: hidden;
     color: white;
+    font-family: 'Courier New', Courier, monospace;
 }
 
 canvas {
@@ -11,13 +12,14 @@ canvas {
     height: 100vh;
 }
 
-#container {
+/*Main Side Nav Container*/
+#side-nav-container {
     position: absolute;
+    margin: 0 20px;
 }
 
-#sliderContainer {
+#slider-container, #dropdown-container {
     z-index: 10000;
-    padding: 0;
     margin: 10px;
     width: 200px;
     display: inline;
@@ -39,4 +41,8 @@ canvas {
 .slider-widget {
     margin: 0 auto;
     width: 100px;
+}
+
+.dropdown-widget-label {
+    padding:10px 0;
 }
