@@ -1,13 +1,14 @@
+import constants from '../../Assets/constants';
+
 /**
  * Gets which shader the user selected and converts the GLSL file into a string from its file path
  */
 export class GLSLWrapper {
-
-	public static getShaderType  = (type: string): string => {
-		if (type === 'vertexShader') {
-			return (<HTMLInputElement>document.getElementById('vertexShader')).value
-		} else if (type === 'fragmentShader') {
-			return (<HTMLInputElement>document.getElementById('fragmentShader')).value
+	public static getShaderType = (type: string): string => {
+		if (type === constants.shaderType.vertexShader) {
+			return (<HTMLInputElement>document.getElementById(`${constants.shaderType.vertexShader}-shader`)).value;
+		} else if (type === constants.shaderType.fragmentShader) {
+			return (<HTMLInputElement>document.getElementById(`${constants.shaderType.fragmentShader}-shader`)).value;
 		}
 	};
 

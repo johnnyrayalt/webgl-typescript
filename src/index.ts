@@ -1,6 +1,7 @@
 import { Engine } from './Core/Engine';
 const engine = new Engine();
-require('./IndexStyles.css');
+require('./Assets/IndexStyles.css');
+
 engine.bootStrapUI();
 
 window.onload = () => {

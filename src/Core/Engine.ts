@@ -1,3 +1,4 @@
+import constants from '../Assets/constants';
 import { GLBuffer } from './GL/GLBuffer';
 import { gl, GLCanvas } from './GL/GLCanvas';
 import { GLShader } from './GL/GLShaders';
@@ -12,16 +13,45 @@ export class Engine {
 	private shader: GLShader;
 	private buffer: GLBuffer;
 
-
 	public bootStrapUI = (): void => {
 		/**
 		 * Set up sliders
 		 */
-		const sliderContainerID = 'sliderContainer';
-		CreateUI.generateSlider(sliderContainerID, "r", {min: 0, step: 1, max: 100, value: 50});
-		CreateUI.generateSlider(sliderContainerID, "g", {min: 0, step: 1, max: 100, value: 50});
-		CreateUI.generateSlider(sliderContainerID, "b", {min: 0, step: 1, max: 100, value: 50});
-		CreateUI.generateSlider(sliderContainerID, "w", {min: 0, step: 1, max: 100, value: 100});
+		const sliderContainerID = 'slider-container';
+		CreateUI.generateSlider(sliderContainerID, 'r', { min: 0, step: 1, max: 100, value: 50 });
+		CreateUI.generateSlider(sliderContainerID, 'g', { min: 0, step: 1, max: 100, value: 50 });
+		CreateUI.generateSlider(sliderContainerID, 'b', { min: 0, step: 1, max: 100, value: 50 });
+		CreateUI.generateSlider(sliderContainerID, 'w', { min: 0, step: 1, max: 100, value: 100 });
+
+		/**
+		 * Set up Vertex and Fragment Shader dropdown options
+		 * To add more to each drop down, format new paths under options.resourcePath
+		 * resourcePath: {
+		 *    [resourceName: string]: { [name: string]: string, [path: string]: string },
+		 *    [resourceName: string]: { [name: string]: string, [path: string]: string }
+		 * }
+		 */
+		const dropdownContainerID = 'dropdown-container';
+
+		/**
+		 * Vertex Shader list
+		 */
+		CreateUI.generateDropdown(dropdownContainerID, 'Vertex Shaders', {
+			shaderType: constants.shaderType.vertexShader,
+			resourcePath: {
+				basicVertexShader: { name: 'Basic Vertex Shader', path: constants.shaderValues.basicVertexShader },
+			},
+		});
+
+		/**
+		 * Fragment Shader list
+		 */
+		CreateUI.generateDropdown(dropdownContainerID, 'Fragment Shaders', {
+			shaderType: constants.shaderType.fragmentShader,
+			resourcePath: {
+				basicFragmentShader: { name: 'Basic Fragment Shader', path: constants.shaderValues.basicFragmentShader },
+			},
+		});
 	};
 
 	/**

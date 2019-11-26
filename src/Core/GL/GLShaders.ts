@@ -1,3 +1,4 @@
+import constants from '../../Assets/constants';
 import { GLSLWrapper } from '../Utilities/GLSLWrapper';
 import { gl } from './GLCanvas';
 
@@ -82,8 +83,8 @@ export class GLShader {
 	 */
 	public static setShaders = (): string[] => {
 		let shaderArray = [];
-		const loadVertexShaderInput = GLSLWrapper.getShaderType('vertexShader');
-		const loadFragmentShaderInput = GLSLWrapper.getShaderType('fragmentShader');
+		const loadVertexShaderInput = GLSLWrapper.getShaderType(constants.shaderType.vertexShader);
+		const loadFragmentShaderInput = GLSLWrapper.getShaderType(constants.shaderType.fragmentShader);
 		const convertShaders = GLSLWrapper.convertFilesToString([loadVertexShaderInput, loadFragmentShaderInput]);
 		const verticalShaderSource: string = convertShaders[0];
 		const fragmentShaderSource: string = convertShaders[1];
