@@ -14,10 +14,14 @@ export class Engine {
 
 
 	public bootStrapUI = (): void => {
-		CreateUI.generateSlider("r", {elementType: "range", min: 0, step: 1, max: 100, value: 50});
-		CreateUI.generateSlider("g", {elementType: "range", min: 0, step: 1, max: 100, value: 50});
-		CreateUI.generateSlider("b", {elementType: "range", min: 0, step: 1, max: 100, value: 50});
-		CreateUI.generateSlider("w", {elementType: "range", min: 0, step: 1, max: 100, value: 100});
+		/**
+		 * Set up sliders
+		 */
+		const sliderContainerID = 'sliderContainer';
+		CreateUI.generateSlider(sliderContainerID, "r", {min: 0, step: 1, max: 100, value: 50});
+		CreateUI.generateSlider(sliderContainerID, "g", {min: 0, step: 1, max: 100, value: 50});
+		CreateUI.generateSlider(sliderContainerID, "b", {min: 0, step: 1, max: 100, value: 50});
+		CreateUI.generateSlider(sliderContainerID, "w", {min: 0, step: 1, max: 100, value: 100});
 	};
 
 	/**
@@ -28,7 +32,7 @@ export class Engine {
 		 * Initialize new Canvas then set default background to black;
 		 */
 		this.canvas = GLCanvas.initialize();
-		gl.clearColor(0.0, 0.0, 0.0, 1.0);
+		gl.clearColor(0.0, 0.0, 0.0, 1);
 
 		/**
 		 * Creates and attaches shaders
@@ -77,7 +81,6 @@ export class Engine {
 		 * Updates UI values
 		 */
 		const colorValues = ConvertRbgToXyz.extractRBGValues();
-		CreateUI.updateSliderValue(colorValues);
 		/**
 		 * Sets uniforms
 		 */
