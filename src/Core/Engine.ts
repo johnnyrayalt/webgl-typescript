@@ -23,13 +23,29 @@ export class Engine {
 		CreateUI.generateSlider(sliderContainerID, 'b', { min: 0, step: 1, max: 100, value: 50 });
 		CreateUI.generateSlider(sliderContainerID, 'w', { min: 0, step: 1, max: 100, value: 100 });
 
+		/**
+		 * Set up Vertex and Fragment Shader dropdown options
+		 * To add more to each drop down, format new paths under options.resourcePath
+		 * resourcePath: {
+		 *    [resourceName: string]: { [name: string]: string, [path: string]: string },
+		 *    [resourceName: string]: { [name: string]: string, [path: string]: string }
+		 * }
+		 */
 		const dropdownContainerID = 'dropdown-container';
+
+		/**
+		 * Vertex Shader list
+		 */
 		CreateUI.generateDropdown(dropdownContainerID, 'Vertex Shaders', {
 			shaderType: constants.shaderType.vertexShader,
 			resourcePath: {
 				basicVertexShader: { name: 'Basic Vertex Shader', path: constants.shaderValues.basicVertexShader },
 			},
 		});
+
+		/**
+		 * Fragment Shader list
+		 */
 		CreateUI.generateDropdown(dropdownContainerID, 'Fragment Shaders', {
 			shaderType: constants.shaderType.fragmentShader,
 			resourcePath: {
