@@ -3,6 +3,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const nodeEnv = process.env.NODE_ENV || 'development';
 const isProd = nodeEnv === 'production';
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const plugins = [
   new webpack.DefinePlugin({
@@ -12,7 +13,8 @@ const plugins = [
   }),
   new HtmlWebpackPlugin({
     title: 'Under Construction',
-    template: '!!ejs-loader!src/index.html'
+    template: '!!ejs-loader!src/index.html',
+    inject: 'body',
   }),
   new webpack.LoaderOptionsPlugin({
     options: {
@@ -21,6 +23,9 @@ const plugins = [
         failOnHint: true
       }
     }
+  }),
+  new MiniCssExtractPlugin({
+    filename: '[name].css',
   })
 ];
 
@@ -50,8 +55,14 @@ const config = {
         exclude: [/\/node_modules\//],
         use: ['awesome-typescript-loader', 'source-map-loader']
       },
-      { test: /\.html$/, loader: 'html-loader' },
-      { test: /\.css$/, loaders: ['style-loader', 'css-loader'] }
+      {
+        test: /\.html$/,
+        loader: 'html-loader'
+      },
+      {
+        test: /\.css$/,
+        use: [MiniCssExtractPlugin.loader, 'css-loader']
+      }
     ].filter(Boolean)
   },
   resolve: {
