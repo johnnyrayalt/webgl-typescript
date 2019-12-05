@@ -60,12 +60,12 @@ export class CreateUI {
 		parent.innerHTML += `
 			<div class="dropdown-widget-outer">
 				<div class="dropdown-widget-label">${name}</div>
-				<select id="${options.shaderType}-shader"></select>
+				<select id="${options.shaderType}"></select>
 			</div>
 		`;
 
 		Object.keys(options.resourcePath).forEach(resource => {
-			const parent = document.getElementById(`${options.shaderType}-shader`);
+			const parent = document.getElementById(`${options.shaderType}`);
 			parent.innerHTML += `
 					<option value="${options.resourcePath[resource].path}">${options.resourcePath[resource].name}</option>
 			`;
