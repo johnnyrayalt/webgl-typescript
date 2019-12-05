@@ -1,4 +1,8 @@
 const Asset = require('parcel');
+/**
+ * Ignored due to lack of d.ts file
+ */
+// @ts-ignore
 import glsl from 'glslify';
 
 export class GLSLAsset extends Asset {

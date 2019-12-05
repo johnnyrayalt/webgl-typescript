@@ -2,8 +2,11 @@ import constants from '~/Assets/constants';
 
 /**
  * Import shaders to store in memory
+ * These are ts-ignored because they do not have a d.ts file
  */
+// @ts-ignore
 import BasicFragmentShader from '~/Core/Shaders/FragmentShaders/BasicFragmentShader.frag';
+// @ts-ignore
 import BasicVertexShader from '~/Core/Shaders/VertexShaders/BasicVertexShader.vert';
 
 export const ShaderManager: any = {
@@ -17,9 +20,9 @@ export const ShaderManager: any = {
 export class GLSLWrapper {
 	public static getShaderType = (type: string): string => {
 		if (type === constants.shaderType.vertexShader) {
-			return (<HTMLInputElement>document.getElementById(`${constants.shaderType.vertexShader}-shader`)).value;
+			return (<HTMLInputElement>document.getElementById(`${constants.shaderType.vertexShader}`)).value;
 		} else if (type === constants.shaderType.fragmentShader) {
-			return (<HTMLInputElement>document.getElementById(`${constants.shaderType.fragmentShader}-shader`)).value;
+			return (<HTMLInputElement>document.getElementById(`${constants.shaderType.fragmentShader}`)).value;
 		}
 	};
 
