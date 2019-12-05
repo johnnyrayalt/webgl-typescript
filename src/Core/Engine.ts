@@ -12,6 +12,7 @@ export class Engine {
 	public canvas: HTMLCanvasElement;
 	private shader: GLShader;
 	private buffer: GLBuffer;
+	private uniformLocationIndex: { [name: string]: WebGLUniformLocation };
 
 	public bootStrapUI = (): void => {
 		/**
@@ -70,12 +71,21 @@ export class Engine {
 		const loadShaders = GLShader.setShaders();
 		this.shader = new GLShader('basic', loadShaders[0], loadShaders[1]);
 		this.shader.use();
-
+		/**
+		 * Gets uniforms from shaders
+		 */
+		this.uniformLocationIndex = {
+			colorUniformLocation: this.shader.getUniformLocation('u_color'),
+		};
 		/**
 		 * Creates and binds data to buffer
 		 */
 		this.buffer = new GLBuffer(3);
 		this.buffer.createBuffer(this.shader);
+		/**
+		 * Binds shader values
+		 */
+		this.buffer.bind();
 
 		/**
 		 * Start main loop
@@ -96,16 +106,12 @@ export class Engine {
 		 * Rerender canvas if resized
 		 */
 		GLCanvas.checkRender(this.canvas, this.buffer);
+		this.shader.use;
 
 		/**
 		 * Sets viewport, i.e. where in clipspace the object is rendered
 		 */
 		gl.viewport(0, 0, this.canvas.width, this.canvas.height);
-
-		/**
-		 * Gets uniforms from shaders
-		 */
-		const colorPosition = this.shader.getUniformLocation('u_color');
 
 		/**
 		 * Updates UI values
@@ -114,12 +120,13 @@ export class Engine {
 		/**
 		 * Sets uniforms
 		 */
-		gl.uniform4f(colorPosition, colorValues[0], colorValues[1], colorValues[2], colorValues[3]);
-
-		/**
-		 * Binds shader values
-		 */
-		this.buffer.bind();
+		gl.uniform4f(
+			this.uniformLocationIndex.colorUniformLocation,
+			colorValues[0],
+			colorValues[1],
+			colorValues[2],
+			colorValues[3],
+		);
 
 		/**
 		 * Redraw 60 times a second

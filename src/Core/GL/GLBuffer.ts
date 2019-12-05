@@ -32,6 +32,7 @@ export class GLBuffer {
 		targetBufferType: number = gl.ARRAY_BUFFER,
 		mode: number = gl.TRIANGLES,
 	) {
+		this.buffer = gl.createBuffer();
 		this.elementSize = elementSize;
 		this.dataType = dataType;
 		this.targetBufferType = targetBufferType;
@@ -59,7 +60,6 @@ export class GLBuffer {
 		}
 
 		this.stride = this.elementSize * this.typeSize;
-		this.buffer = gl.createBuffer();
 	}
 
 	/**
