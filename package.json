@@ -1,51 +1,37 @@
 {
-  "author": "",
-  "deprecated": false,
-  "description": "",
-  "directories": {
-    "test": "tests"
-  },
-  "license": "ISC",
-  "main": "src/index.ts",
-  "name": "underconstruction",
-  "scripts": {
-    "build": "npm run build:prod",
-    "build:dev": "webpack --mode development --config ./webpack.config.js --progress --color --display-error-details",
-    "build:prod": "cross-env NODE_ENV=production webpack --mode production --config ./webpack.config.js  --progress  --color --display-error-details --bail",
-    "clean": "npm cache clear && rimraf -- dist",
-    "server:dev": "webpack-dev-server --mode development --config ./webpack.config.js --hot --inline --progress --watch",
-    "server:prod": "cross-env NODE_ENV=production webpack-dev-server  --mode production --config ./webpack.config.js --port 3000 --host 0.0.0.0 --hot --inline --progress  --watch --open --content-base dist/",
-    "start": "npm run server:dev"
-  },
-  "version": "0.0.1",
-  "dependencies": {
-    "gl-matrix": "^3.1.0"
-  },
-  "devDependencies": {
-    "@types/gl-matrix": "^2.4.5",
-    "@types/node": "^12.12.11",
-    "@types/webgl2": "0.0.5",
-    "awesome-typescript-loader": "^5.2.0",
-    "cross-env": "^5.0.1",
-    "css-loader": "^1.0.1",
-    "ejs-loader": "^0.3.0",
-    "eslint": "^5.4.0",
-    "glslify-loader": "^2.0.0",
-    "html-loader": "^0.5.5",
-    "html-webpack-plugin": "^3.2.0",
-    "mini-css-extract-plugin": "^0.8.0",
-    "node": "10.5.0",
-    "prettier": "^1.19.1",
-    "raw-loader": "^3.1.0",
-    "rimraf": "^2.6.1",
-    "source-map-loader": "^0.2.1",
-    "style-loader": "^0.22.1",
-    "ts-node": "^8.5.2",
-    "tslint": "^5.5.0",
-    "tslint-loader": "^3.5.3",
-    "typescript": "^3.0.1",
-    "webpack": "^4.17.0",
-    "webpack-cli": "^3.1.0",
-    "webpack-dev-server": "^3.1.5"
-  }
+	"author": "",
+	"deprecated": false,
+	"description": "",
+	"directories": {
+		"test": "tests"
+	},
+	"license": "ISC",
+	"main": "src/index.ts",
+	"browserslist": [
+		"last 1 Chrome versions"
+	],
+	"name": "underconstruction",
+	"scripts": {
+		"clean": "rimraf .cache dist",
+		"build": "npm run clean && parcel build ./src/index.html",
+		"start": "./scripts/start.sh"
+	},
+	"version": "0.0.1",
+	"dependencies": {
+		"@types/parcel-bundler": "^1.12.1",
+		"gl-matrix": "^3.1.0",
+		"glslify": "^7.0.0",
+		"parcel-bundler": "^1.12.4"
+	},
+	"devDependencies": {
+		"@types/gl-matrix": "^2.4.5",
+		"@types/node": "^12.12.11",
+		"@types/webgl2": "0.0.5",
+		"cssnano": "^4.1.10",
+		"parcel-bundler": "^1.12.4",
+		"prettier": "^1.19.1",
+		"rimraf": "^2.6.1",
+		"tslint": "^5.5.0",
+		"typescript": "^3.0.1"
+	}
 }
