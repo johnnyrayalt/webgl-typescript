@@ -5,8 +5,8 @@ const constants = {
 	},
 
 	shaderValues: {
-		basicVertexShader: 'Shaders/VertexShaders/BasicVertexShader.glsl',
-		basicFragmentShader: 'Shaders/FragmentShaders/BasicFragmentShader.glsl',
+		basicVertexShader: 'BasicVertexShader.vert',
+		basicFragmentShader: 'BasicFragmentShader.frag',
 	},
 };
 

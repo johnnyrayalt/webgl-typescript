@@ -1,6 +1,6 @@
-import constants from '../../Assets/constants';
-import { GLSLWrapper } from '../Utilities/GLSLWrapper';
-import { gl } from './GLCanvas';
+import constants from '~/Assets/constants';
+import { gl } from '~/Core/GL/GLCanvas';
+import { GLSLWrapper } from '~/Core/Utilities/GLSLWrapper';
 
 /**
  * Main GLShader class. Handles creation, context setting, and linking of vertex and fragment shaders into a single shader
@@ -83,9 +83,10 @@ export class GLShader {
 	 */
 	public static setShaders = (): string[] => {
 		let shaderArray = [];
-		const loadVertexShaderInput = GLSLWrapper.getShaderType(constants.shaderType.vertexShader);
-		const loadFragmentShaderInput = GLSLWrapper.getShaderType(constants.shaderType.fragmentShader);
-		const convertShaders = GLSLWrapper.convertFilesToString([loadVertexShaderInput, loadFragmentShaderInput]);
+		const loadVertexShaderInput: string = GLSLWrapper.getShaderType(constants.shaderType.vertexShader);
+		const loadFragmentShaderInput: string = GLSLWrapper.getShaderType(constants.shaderType.fragmentShader);
+		const convertShaders: string[] = GLSLWrapper.convertFilesToString([loadVertexShaderInput, loadFragmentShaderInput]);
+
 		const verticalShaderSource: string = convertShaders[0];
 		const fragmentShaderSource: string = convertShaders[1];
 
@@ -131,7 +132,7 @@ export class GLShader {
 	 * Stores Shaders uniform name, type, and location to hash map uniforms
 	 */
 	private detectUniforms = (): void => {
-		let uniformCount = gl.getProgramParameter(this.program, gl.ACTIVE_ATTRIBUTES);
+		let uniformCount = gl.getProgramParameter(this.program, gl.ACTIVE_UNIFORMS);
 		for (let i = 0; i < uniformCount; i++) {
 			let info: WebGLActiveInfo = gl.getActiveUniform(this.program, i);
 			if (!info) {

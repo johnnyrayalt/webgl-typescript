@@ -1,17 +1,23 @@
 {
-  "compilerOptions": {
-    "target": "es5",
-    "module": "commonjs",
-    "declaration": true,
-    "sourceMap": true,
-    "experimentalDecorators": true,
-    "outDir": "dist",
-    "lib": ["es2017", "dom"],
-    "noImplicitAny": true,
-    "suppressImplicitAnyIndexErrors": true,
-    "removeComments": true,
-    "resolveJsonModule": true,
-    "esModuleInterop": true
-  },
-  "exclude": ["node_modules", "dist"]
+	"compilerOptions": {
+		"baseUrl": ".",
+		"paths": {
+			"~*": ["./src/*"]
+		},
+		"typeRoots": ["node_modules/@types"],
+		"declaration": true,
+		"esModuleInterop": true,
+		"experimentalDecorators": true,
+		"lib": ["DOM", "esnext"],
+		"module": "esnext",
+		"moduleResolution": "node",
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"outDir": "dist",
+		"sourceMap": true,
+		"strict": true,
+		"strictNullChecks": false,
+		"target": "es2018"
+	},
+	"include": ["src/**/*"]
 }

@@ -1,4 +1,15 @@
-import constants from '../../Assets/constants';
+import constants from '~/Assets/constants';
+
+/**
+ * Import shaders to store in memory
+ */
+import BasicFragmentShader from '~/Core/Shaders/FragmentShaders/BasicFragmentShader.frag';
+import BasicVertexShader from '~/Core/Shaders/VertexShaders/BasicVertexShader.vert';
+
+export const ShaderManager: any = {
+	BasicVertexShader,
+	BasicFragmentShader,
+};
 
 /**
  * Gets which shader the user selected and converts the GLSL file into a string from its file path
@@ -14,10 +25,13 @@ export class GLSLWrapper {
 
 	public static convertFilesToString = (filePaths: string[]): string[] => {
 		const filesAsStrings: string[] = [];
-		filePaths.forEach(filePath => {
-			const fileAsString = require(`../${filePath}`).default;
-			filesAsStrings.push(fileAsString);
+		filePaths.forEach((filePath: string) => {
+			const parseFilePath: string = filePath.slice(0, -5);
+			if (parseFilePath in ShaderManager) {
+				filesAsStrings.push(ShaderManager[parseFilePath]);
+			}
 		});
+
 		return filesAsStrings;
 	};
 }
