@@ -7,17 +7,6 @@ import { ISliderOptions } from '~/Interfaces/HTML/ISliderOptions';
  */
 export class CreateUI {
 	/**
-	 * Gets location to generate slider
-	 * @param {string} sliderContainerID | ID of the parent container where the slider should be rendered
-	 * @param {string} name | Name of the slider to be set as the ID
-	 * @param {ISliderOptions} options | Uses interface ISliderOptions to set defaults
-	 */
-	public static generateSlider = (sliderContainerID: string, name: string, options: ISliderOptions): void => {
-		const parent = document.getElementById(sliderContainerID);
-		CreateUI.createSliderHtml(parent, name, options);
-	};
-
-	/**
 	 * Creates all of the UI elements
 	 */
 	public static bootStrapUI = (): void => {
@@ -34,15 +23,8 @@ export class CreateUI {
 		});
 
 		/**
-		 * Set up Vertex and Fragment Shader dropdown options
-		 * To add more to each drop down, format new paths under options.resourcePath
-		 * resourcePath: {
-		 *    [resourceName: string]: { [name: string]: string, [path: string]: string },
-		 *    [resourceName: string]: { [name: string]: string, [path: string]: string }
-		 * }
+		 * Set up dropdowns from constants
 		 */
-		// const dropdownContainerID = 'dropdown-container';
-
 		Object.values(constants.UI.shaderDropdown.dropdown).forEach(dropdown => {
 			CreateUI.generateDropdown(constants.UI.shaderDropdown.containerID, dropdown.name, {
 				shaderType: dropdown.shader.type,
@@ -54,38 +36,16 @@ export class CreateUI {
 				},
 			});
 		});
-
-		/**
-		 * Vertex Shader list
-		 */
-		// CreateUI.generateDropdown(dropdownContainerID, 'Vertex Shaders', {
-		// 	shaderType: constants.shaders.type.vertexShader,
-		// 	resourcePath: {
-		// 		VertexShader: { name: 'Basic Vertex Shader', path: constants.shaders.value.basicVertexShader },
-		// 	},
-		// });
-
-		// /**
-		//  * Fragment Shader list
-		//  */
-		// CreateUI.generateDropdown(dropdownContainerID, 'Fragment Shaders', {
-		// 	shaderType: constants.shaders.type.fragmentShader,
-		// 	resourcePath: {
-		// 		basicFragmentShader: {
-		// 			name: 'Basic Fragment Shader',
-		// 			path: constants.shaders.value.basicFragmentShader,
-		// 		},
-		// 	},
-		// });
 	};
 
 	/**
-	 * Sets the inner HTML for the slider with passed options as defaults
-	 * @param {HTMLElement} parent | ID of the parent container where the slider should be rendered
+	 * Gets location to generate slider and sets the inner HTML for the slider with passed options as defaults
+	 * @param {string} sliderContainerID | ID of the parent container where the slider should be rendered
 	 * @param {string} name | Name of the slider to be set as the ID
-	 * @param {ISliderOptions} options | Uses interface ISliderOptions to set defaults
+	 * @param {ISliderOptions} options | Set defaults
 	 */
-	private static createSliderHtml = (parent: HTMLElement, name: string, options: ISliderOptions): void => {
+	public static generateSlider = (sliderContainerID: string, name: string, options: ISliderOptions): void => {
+		const parent = document.getElementById(sliderContainerID);
 		parent.innerHTML += `
 			<div class="slider-widget-outer">
 				<div class="slider-widget-label" id="${name}-label">${name}:</div>
@@ -103,23 +63,13 @@ export class CreateUI {
 	};
 
 	/**
-	 * Gets location to generate dropdown
+	 * Gets location to generate dropdown and sets the inner HTML for the dropdown with passed options as defaults
 	 * @param {string} dropdownContainerID | ID of the parent container where the dropdown should be rendered
 	 * @param {string} name | Name of the dropdown to be set as the ID
-	 * @param {IDropdownOptions} options | Uses interface IDropdownOptions to set defaults
+	 * @param {IDropdownOptions} options | Set defaults
 	 */
 	public static generateDropdown = (dropdownContainerID: string, name: string, options: IDropdownOptions): void => {
 		const parent = document.getElementById(dropdownContainerID);
-		CreateUI.createDropdownHtml(parent, name, options);
-	};
-
-	/**
-	 * Sets the inner HTML for the dropdown with passed options as defaults
-	 * @param {HTMLElement} parent | ID of the parent container where the dropdown should be rendered
-	 * @param {string} name | Name of the dropdown to be set as the ID
-	 * @param {IDropdownOptions} options | Uses interface IDropdownOptions to set defaults
-	 */
-	private static createDropdownHtml = (parent: HTMLElement, name: string, options: IDropdownOptions): void => {
 		parent.innerHTML += `
 			<div class="dropdown-widget-outer">
 				<div class="dropdown-widget-label">${name}</div>
