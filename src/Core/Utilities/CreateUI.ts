@@ -29,7 +29,6 @@ export class CreateUI {
 		 */
 		Object.values(constants.UI.dropdownGroup).forEach(group => {
 			Object.values(group.dropdown).forEach(dropdown => {
-				console.log(dropdown);
 				CreateUI.generateDropdown(group.containerID, dropdown[0].displayName, {
 					shaderType: dropdown[1].shader.options.type,
 					resourcePath: {
