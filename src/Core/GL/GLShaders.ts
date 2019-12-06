@@ -1,6 +1,8 @@
 import constants from '~/Assets/constants';
 import { gl } from '~/Core/GL/GLCanvas';
 import { GLSLWrapper } from '~/Core/Utilities/GLSLWrapper';
+import { IUniformHashMap } from '~/Interfaces/GL/IUniformHashMap';
+import { INumHashMap } from '~Interfaces/INumHashMap';
 
 /**
  * Main GLShader class. Handles creation, context setting, and linking of vertex and fragment shaders into a single shader
@@ -9,8 +11,8 @@ import { GLSLWrapper } from '~/Core/Utilities/GLSLWrapper';
 export class GLShader {
 	private readonly name: string;
 	private program: WebGLProgram;
-	private attributes: { [name: string]: number } = {};
-	private uniforms: { [name: string]: WebGLUniformLocation } = {};
+	private attributes: INumHashMap = {};
+	private uniforms: IUniformHashMap = {};
 
 	/**
 	 * Creates a new shader

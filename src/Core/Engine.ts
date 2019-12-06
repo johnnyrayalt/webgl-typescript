@@ -1,17 +1,20 @@
+import { IUniformHashMap } from '../Interfaces/GL/IUniformHashMap';
 import { GLBuffer } from './GL/GLBuffer';
 import { gl, GLCanvas } from './GL/GLCanvas';
 import { GLShader } from './GL/GLShaders';
-import { InputReferences } from './Services/InputReferences';
+import { InputReferences } from './Utilities/InputReferences';
 
 /**
  * Main rendering engine class
  */
 export class Engine {
 	public canvas: HTMLCanvasElement;
+
+	private inputReferences: InputReferences;
+	private uniformLocationIndex: IUniformHashMap;
+
 	private shader: GLShader;
 	private buffer: GLBuffer;
-	private uniformLocationIndex: { [name: string]: WebGLUniformLocation };
-	private inputReferences: InputReferences;
 
 	/**
 	 * Creates a new Engine
@@ -83,7 +86,7 @@ export class Engine {
 		gl.viewport(0, 0, this.canvas.width, this.canvas.height);
 
 		/**
-		 * Updates UI values
+		 * Updates Slider UI values
 		 */
 		gl.uniform4f(
 			this.uniformLocationIndex.colorUniformLocation,

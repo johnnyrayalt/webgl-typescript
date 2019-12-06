@@ -1,8 +1,8 @@
+import { GLBuffer } from '~/Core/GL/GLBuffer';
+
 /**
  * WebGL Rendering Context
  */
-import { GLBuffer } from './GLBuffer';
-
 export let gl: WebGLRenderingContext;
 
 /**

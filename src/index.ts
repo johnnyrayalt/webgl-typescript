@@ -1,6 +1,6 @@
-import { CreateUI } from '~Core/Services/CreateUI';
+import { CreateUI } from '~Core/Utilities/CreateUI';
 import { Engine } from './Core/Engine';
-import { InputReferences } from './Core/Services/InputReferences';
+import { InputReferences } from './Core/Utilities/InputReferences';
 require('./Assets/IndexStyles.css');
 
 (() => {
