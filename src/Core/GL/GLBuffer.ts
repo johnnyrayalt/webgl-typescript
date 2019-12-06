@@ -1,6 +1,6 @@
 import { IAttributeInfo } from '../../Interfaces/IAttributeInfo';
-import { GLShader } from './GLShaders';
 import { gl } from './GLCanvas';
+import { GLShader } from './GLShaders';
 
 /**
  * Represents a WebGLBuffer
