@@ -3,11 +3,11 @@
  */
 
 export interface IDropdownOptions {
-	shaderType: string;
+	shaderType: string | (() => string);
 	resourcePath: {
 		[name: string]: {
 			name: string;
-			path: string;
+			path: string | (() => string);
 		};
 	};
 }

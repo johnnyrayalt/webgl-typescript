@@ -22,13 +22,16 @@ export class CreateUI {
 	 */
 	public static bootStrapUI = (): void => {
 		/**
-		 * Set up sliders
+		 * Set up sliders from constants
 		 */
-		const sliderContainerID = 'slider-container';
-		CreateUI.generateSlider(sliderContainerID, 'r', { min: 0, step: 1, max: 100, value: 50 });
-		CreateUI.generateSlider(sliderContainerID, 'g', { min: 0, step: 1, max: 100, value: 50 });
-		CreateUI.generateSlider(sliderContainerID, 'b', { min: 0, step: 1, max: 100, value: 50 });
-		CreateUI.generateSlider(sliderContainerID, 'w', { min: 0, step: 1, max: 100, value: 100 });
+		Object.values(constants.UI.colorSliders.slider).forEach(slider => {
+			CreateUI.generateSlider(constants.UI.colorSliders.containerID, slider.id, {
+				min: slider.min,
+				step: slider.step,
+				max: slider.max,
+				value: slider.value,
+			});
+		});
 
 		/**
 		 * Set up Vertex and Fragment Shader dropdown options
@@ -38,30 +41,42 @@ export class CreateUI {
 		 *    [resourceName: string]: { [name: string]: string, [path: string]: string }
 		 * }
 		 */
-		const dropdownContainerID = 'dropdown-container';
+		// const dropdownContainerID = 'dropdown-container';
+
+		Object.values(constants.UI.shaderDropdown.dropdown).forEach(dropdown => {
+			CreateUI.generateDropdown(constants.UI.shaderDropdown.containerID, dropdown.name, {
+				shaderType: dropdown.shader.type,
+				resourcePath: {
+					Shader: {
+						name: dropdown.shader.name,
+						path: dropdown.shader.path,
+					},
+				},
+			});
+		});
 
 		/**
 		 * Vertex Shader list
 		 */
-		CreateUI.generateDropdown(dropdownContainerID, 'Vertex Shaders', {
-			shaderType: constants.shaderType.vertexShader,
-			resourcePath: {
-				basicVertexShader: { name: 'Basic Vertex Shader', path: constants.shaderValues.basicVertexShader },
-			},
-		});
+		// CreateUI.generateDropdown(dropdownContainerID, 'Vertex Shaders', {
+		// 	shaderType: constants.shaders.type.vertexShader,
+		// 	resourcePath: {
+		// 		VertexShader: { name: 'Basic Vertex Shader', path: constants.shaders.value.basicVertexShader },
+		// 	},
+		// });
 
-		/**
-		 * Fragment Shader list
-		 */
-		CreateUI.generateDropdown(dropdownContainerID, 'Fragment Shaders', {
-			shaderType: constants.shaderType.fragmentShader,
-			resourcePath: {
-				basicFragmentShader: {
-					name: 'Basic Fragment Shader',
-					path: constants.shaderValues.basicFragmentShader,
-				},
-			},
-		});
+		// /**
+		//  * Fragment Shader list
+		//  */
+		// CreateUI.generateDropdown(dropdownContainerID, 'Fragment Shaders', {
+		// 	shaderType: constants.shaders.type.fragmentShader,
+		// 	resourcePath: {
+		// 		basicFragmentShader: {
+		// 			name: 'Basic Fragment Shader',
+		// 			path: constants.shaders.value.basicFragmentShader,
+		// 		},
+		// 	},
+		// });
 	};
 
 	/**

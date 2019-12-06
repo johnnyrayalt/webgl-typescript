@@ -85,8 +85,8 @@ export class GLShader {
 	 */
 	public static setShaders = (): string[] => {
 		let shaderArray = [];
-		const loadVertexShaderInput: string = GLSLWrapper.getShaderType(constants.shaderType.vertexShader);
-		const loadFragmentShaderInput: string = GLSLWrapper.getShaderType(constants.shaderType.fragmentShader);
+		const loadVertexShaderInput: string = GLSLWrapper.getShaderType(constants.shaders.type.vertexShader);
+		const loadFragmentShaderInput: string = GLSLWrapper.getShaderType(constants.shaders.type.fragmentShader);
 		const convertShaders: string[] = GLSLWrapper.convertFilesToString([loadVertexShaderInput, loadFragmentShaderInput]);
 
 		const verticalShaderSource: string = convertShaders[0];

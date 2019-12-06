@@ -25,12 +25,13 @@ export const ShaderManager: IStringHashMap = {
 export class GLSLWrapper {
 	/**
 	 * Determines if the passed shader is a vertex or fragment type
+	 * @param {string} type | gl.VERTEX_SHADER or gl.FRAGMENT_SHADER
 	 */
 	public static getShaderType = (type: string): string => {
-		if (type === constants.shaderType.vertexShader) {
-			return (<HTMLInputElement>document.getElementById(`${constants.shaderType.vertexShader}`)).value;
-		} else if (type === constants.shaderType.fragmentShader) {
-			return (<HTMLInputElement>document.getElementById(`${constants.shaderType.fragmentShader}`)).value;
+		if (type === constants.shaders.type.vertexShader) {
+			return (<HTMLInputElement>document.getElementById(`${constants.shaders.type.vertexShader}`)).value;
+		} else if (type === constants.shaders.type.fragmentShader) {
+			return (<HTMLInputElement>document.getElementById(`${constants.shaders.type.fragmentShader}`)).value;
 		}
 	};
 
