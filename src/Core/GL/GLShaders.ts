@@ -16,9 +16,9 @@ export class GLShader {
 
 	/**
 	 * Creates a new shader
-	 * @param name | Name of the shader
-	 * @param vertexSource | Source of the vertex for the shader
-	 * @param fragmentSource | Source of the fragment for the shader
+	 * @param {string} name | Name of the shader
+	 * @param {string} vertexSource | Source of the vertex for the shader
+	 * @param {string} fragmentSource | Source of the fragment for the shader
 	 */
 	public constructor(name: string, vertexSource: string, fragmentSource: string) {
 		this.name = name;
@@ -40,7 +40,7 @@ export class GLShader {
 
 	/**
 	 * Gets the location of an attribute with a provided name
-	 * @param name | The name of the attribute to retrieve
+	 * @param {string} name | The name of the attribute to retrieve
 	 */
 	public getAttributeLocation = (name: string): number => {
 		if (this.attributes[name] === undefined) {
@@ -52,7 +52,7 @@ export class GLShader {
 
 	/**
 	 * Gets the location of an uniform with the provided name
-	 * @param name | Name of the uniform
+	 * @param {string} name | Name of the uniform
 	 */
 	public getUniformLocation = (name: string): WebGLUniformLocation => {
 		if (this.uniforms[name] === undefined) {
@@ -64,8 +64,8 @@ export class GLShader {
 
 	/**
 	 * Creates an empty WebGLShader object with vertex or fragment contexts
-	 * @param source | Source location for the shader
-	 * @param shaderType | GLEnum type i.e. gl.VERTEX_SHADER || gl.FRAGMENT_SHADER
+	 * @param {string} source | Source location for the shader
+	 * @param {GLenum} shaderType | gl.VERTEX_SHADER || gl.FRAGMENT_SHADER
 	 */
 	private loadShaderWithType = (source: string, shaderType: number): WebGLShader => {
 		let shader: WebGLShader = gl.createShader(shaderType);
@@ -98,8 +98,8 @@ export class GLShader {
 
 	/**
 	 * Links both shaders into a single program for WebGL consumption
-	 * @param vertexShader | Vertex shader to use
-	 * @param fragmentShader | Fragment shader to use
+	 * @param {WebGLShader} vertexShader | Vertex shader to use
+	 * @param {WebGLShader} fragmentShader | Fragment shader to use
 	 */
 	private createProgram = (vertexShader: WebGLShader, fragmentShader: WebGLShader): void => {
 		this.program = gl.createProgram();
