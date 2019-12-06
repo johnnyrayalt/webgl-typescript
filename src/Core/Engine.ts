@@ -13,6 +13,10 @@ export class Engine {
 	private uniformLocationIndex: { [name: string]: WebGLUniformLocation };
 	private inputReferences: InputReferences;
 
+	/**
+	 * Creates a new Engine
+	 * @param inputReferences | HTML bindings from UI creation for realtime updates
+	 */
 	constructor(inputReferences: InputReferences) {
 		this.inputReferences = inputReferences;
 	}
@@ -46,6 +50,7 @@ export class Engine {
 		 */
 		this.buffer = new GLBuffer(3);
 		this.buffer.createBuffer(this.shader);
+
 		/**
 		 * Binds shader values
 		 */
