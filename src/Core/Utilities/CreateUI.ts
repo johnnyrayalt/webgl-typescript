@@ -8,15 +8,18 @@ import { ISliderOptions } from '~/Interfaces/HTML/ISliderOptions';
 export class CreateUI {
 	/**
 	 * Gets location to generate slider
-	 * @param sliderContainerID | ID of the parent container where the slider should be rendered
-	 * @param name | Name of the slider to be set as the ID
-	 * @param options | Uses interface ISliderOptions to set defaults
+	 * @param {string} sliderContainerID | ID of the parent container where the slider should be rendered
+	 * @param {string} name | Name of the slider to be set as the ID
+	 * @param {ISliderOptions} options | Uses interface ISliderOptions to set defaults
 	 */
 	public static generateSlider = (sliderContainerID: string, name: string, options: ISliderOptions): void => {
 		const parent = document.getElementById(sliderContainerID);
 		CreateUI.createSliderHtml(parent, name, options);
 	};
 
+	/**
+	 * Creates all of the UI elements
+	 */
 	public static bootStrapUI = (): void => {
 		/**
 		 * Set up sliders
@@ -63,9 +66,9 @@ export class CreateUI {
 
 	/**
 	 * Sets the inner HTML for the slider with passed options as defaults
-	 * @param parent | ID of the parent container where the slider should be rendered
-	 * @param name | Name of the slider to be set as the ID
-	 * @param options | Uses interface ISliderOptions to set defaults
+	 * @param {HTMLElement} parent | ID of the parent container where the slider should be rendered
+	 * @param {string} name | Name of the slider to be set as the ID
+	 * @param {ISliderOptions} options | Uses interface ISliderOptions to set defaults
 	 */
 	private static createSliderHtml = (parent: HTMLElement, name: string, options: ISliderOptions): void => {
 		parent.innerHTML += `
@@ -86,9 +89,9 @@ export class CreateUI {
 
 	/**
 	 * Gets location to generate dropdown
-	 * @param dropdownContainerID | ID of the parent container where the dropdown should be rendered
-	 * @param name | Name of the dropdown to be set as the ID
-	 * @param options | Uses interface IDropdownOptions to set defaults
+	 * @param {string} dropdownContainerID | ID of the parent container where the dropdown should be rendered
+	 * @param {string} name | Name of the dropdown to be set as the ID
+	 * @param {IDropdownOptions} options | Uses interface IDropdownOptions to set defaults
 	 */
 	public static generateDropdown = (dropdownContainerID: string, name: string, options: IDropdownOptions): void => {
 		const parent = document.getElementById(dropdownContainerID);
@@ -97,9 +100,9 @@ export class CreateUI {
 
 	/**
 	 * Sets the inner HTML for the dropdown with passed options as defaults
-	 * @param parent | ID of the parent container where the dropdown should be rendered
-	 * @param name | Name of the dropdown to be set as the ID
-	 * @param options | Uses interface IDropdownOptions to set defaults
+	 * @param {HTMLElement} parent | ID of the parent container where the dropdown should be rendered
+	 * @param {string} name | Name of the dropdown to be set as the ID
+	 * @param {IDropdownOptions} options | Uses interface IDropdownOptions to set defaults
 	 */
 	private static createDropdownHtml = (parent: HTMLElement, name: string, options: IDropdownOptions): void => {
 		parent.innerHTML += `

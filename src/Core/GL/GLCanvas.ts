@@ -11,7 +11,7 @@ export let gl: WebGLRenderingContext;
 export class GLCanvas {
 	/**
 	 * Initialize WebGL with elementID if provided if it is defined
-	 * @param elementId ID of the canvas element
+	 * @param {string} elementId | ID of the canvas element
 	 */
 	public static initialize = (elementId?: string): HTMLCanvasElement => {
 		let canvas: HTMLCanvasElement;
@@ -38,8 +38,8 @@ export class GLCanvas {
 
 	/**
 	 * Resize canvas to client width and height and sets viewport appropriately
-	 * @param canvas | An HTMLCanvasElement for resizing
-	 * @param multiplier | Amount to be multiplied by
+	 * @param {GLCanvas} canvas | Canvas context
+	 * @param {number} multiplier | Amount to be multiplied by
 	 */
 	private static resize = (canvas: HTMLCanvasElement, multiplier?: number): boolean => {
 		multiplier = multiplier || 1;
@@ -58,8 +58,8 @@ export class GLCanvas {
 
 	/**
 	 * Checks to see if the window and/or canvas is resized, then tells the DOM to recompute the new size
-	 * @param canvas | HTMLCanvasElement with GL context
-	 * @param buffer | Current buffer of type GLBuffer
+	 * @param {GLCanvas} canvas | Canvas context
+	 * @param {GLBuffer} buffer | Current buffer
 	 */
 	public static checkRender = (canvas: HTMLCanvasElement, buffer: GLBuffer): void => {
 		let needToRender = true;

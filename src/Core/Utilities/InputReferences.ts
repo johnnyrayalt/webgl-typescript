@@ -1,13 +1,15 @@
+import { ISliderBindingsManager } from '~/Interfaces/GL/ISliderBindingsManager';
+import { INumHashMap } from '~/Interfaces/INumHashMap';
 /**
  * Service for binding and holding values from HTML inputs
  */
 export class InputReferences {
-	rgbw: { [name: string]: number } = {};
-	sliderBindingsManager: { [name: string]: { input: HTMLInputElement; output: HTMLElement } };
+	rgbw: INumHashMap = {};
+	sliderBindingsManager: ISliderBindingsManager = {};
 
 	/**
 	 * Creates an InputReference class to handle HTML bindings
-	 * @this rgbw | Sets default color values to r, g, b = 50 & w = 100.
+	 * @this {INumHashMap} rgbw | Sets default color values to r, g, b = 50 & w = 100.
 	 */
 	constructor() {
 		this.rgbw = { r: 50 / 100, g: 50 / 100, b: 50 / 100, w: 100 / 100 };

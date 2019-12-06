@@ -10,6 +10,10 @@ import BasicVertexShader from '~/Core/Shaders/VertexShaders/BasicVertexShader.ve
 
 import { IStringHashMap } from '~/Interfaces/IStringHashMap';
 
+/**
+ * List of Shaders for use
+ * TODO:: This isnt very composable. can diverge easily from constants list
+ */
 export const ShaderManager: IStringHashMap = {
 	BasicVertexShader,
 	BasicFragmentShader,
