@@ -1,9 +1,7 @@
-import constants from '../Assets/constants';
 import { GLBuffer } from './GL/GLBuffer';
 import { gl, GLCanvas } from './GL/GLCanvas';
 import { GLShader } from './GL/GLShaders';
-import { ConvertRbgToXyz } from './Services/ConvertRBGToXYZ';
-import { CreateUI } from './Services/CreateUI';
+import { InputReferences } from './Services/InputReferences';
 
 /**
  * Main rendering engine class
@@ -13,47 +11,11 @@ export class Engine {
 	private shader: GLShader;
 	private buffer: GLBuffer;
 	private uniformLocationIndex: { [name: string]: WebGLUniformLocation };
+	private inputReferences: InputReferences;
 
-	public bootStrapUI = (): void => {
-		/**
-		 * Set up sliders
-		 */
-		const sliderContainerID = 'slider-container';
-		CreateUI.generateSlider(sliderContainerID, 'r', { min: 0, step: 1, max: 100, value: 50 });
-		CreateUI.generateSlider(sliderContainerID, 'g', { min: 0, step: 1, max: 100, value: 50 });
-		CreateUI.generateSlider(sliderContainerID, 'b', { min: 0, step: 1, max: 100, value: 50 });
-		CreateUI.generateSlider(sliderContainerID, 'w', { min: 0, step: 1, max: 100, value: 100 });
-
-		/**
-		 * Set up Vertex and Fragment Shader dropdown options
-		 * To add more to each drop down, format new paths under options.resourcePath
-		 * resourcePath: {
-		 *    [resourceName: string]: { [name: string]: string, [path: string]: string },
-		 *    [resourceName: string]: { [name: string]: string, [path: string]: string }
-		 * }
-		 */
-		const dropdownContainerID = 'dropdown-container';
-
-		/**
-		 * Vertex Shader list
-		 */
-		CreateUI.generateDropdown(dropdownContainerID, 'Vertex Shaders', {
-			shaderType: constants.shaderType.vertexShader,
-			resourcePath: {
-				basicVertexShader: { name: 'Basic Vertex Shader', path: constants.shaderValues.basicVertexShader },
-			},
-		});
-
-		/**
-		 * Fragment Shader list
-		 */
-		CreateUI.generateDropdown(dropdownContainerID, 'Fragment Shaders', {
-			shaderType: constants.shaderType.fragmentShader,
-			resourcePath: {
-				basicFragmentShader: { name: 'Basic Fragment Shader', path: constants.shaderValues.basicFragmentShader },
-			},
-		});
-	};
+	constructor(inputReferences: InputReferences) {
+		this.inputReferences = inputReferences;
+	}
 
 	/**
 	 * Start the Engine main loop
@@ -71,12 +33,14 @@ export class Engine {
 		const loadShaders = GLShader.setShaders();
 		this.shader = new GLShader('basic', loadShaders[0], loadShaders[1]);
 		this.shader.use();
+
 		/**
 		 * Gets uniforms from shaders
 		 */
 		this.uniformLocationIndex = {
 			colorUniformLocation: this.shader.getUniformLocation('u_color'),
 		};
+
 		/**
 		 * Creates and binds data to buffer
 		 */
@@ -116,17 +80,14 @@ export class Engine {
 		/**
 		 * Updates UI values
 		 */
-		const colorValues = ConvertRbgToXyz.extractRBGValues();
-		/**
-		 * Sets uniforms
-		 */
 		gl.uniform4f(
 			this.uniformLocationIndex.colorUniformLocation,
-			colorValues[0],
-			colorValues[1],
-			colorValues[2],
-			colorValues[3],
+			this.inputReferences.rgbw.r,
+			this.inputReferences.rgbw.g,
+			this.inputReferences.rgbw.b,
+			this.inputReferences.rgbw.w,
 		);
+		this.inputReferences.setDOMSliderValues();
 
 		/**
 		 * Redraw 60 times a second
