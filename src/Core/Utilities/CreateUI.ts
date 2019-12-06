@@ -13,27 +13,32 @@ export class CreateUI {
 		/**
 		 * Set up sliders from constants
 		 */
-		Object.values(constants.UI.colorSliders.slider).forEach(slider => {
-			CreateUI.generateSlider(constants.UI.colorSliders.containerID, slider.id, {
-				min: slider.min,
-				step: slider.step,
-				max: slider.max,
-				value: slider.value,
+		Object.values(constants.UI.sliderGroup).forEach(group => {
+			Object.values(group.slider).forEach(slider => {
+				CreateUI.generateSlider(group.containerID, slider.id, {
+					min: slider.min,
+					step: slider.step,
+					max: slider.max,
+					value: slider.value,
+				});
 			});
 		});
 
 		/**
 		 * Set up dropdowns from constants
 		 */
-		Object.values(constants.UI.shaderDropdown.dropdown).forEach(dropdown => {
-			CreateUI.generateDropdown(constants.UI.shaderDropdown.containerID, dropdown.name, {
-				shaderType: dropdown.shader.type,
-				resourcePath: {
-					Shader: {
-						name: dropdown.shader.name,
-						path: dropdown.shader.path,
+		Object.values(constants.UI.dropdownGroup).forEach(group => {
+			Object.values(group.dropdown).forEach(dropdown => {
+				console.log(dropdown);
+				CreateUI.generateDropdown(group.containerID, dropdown[0].displayName, {
+					shaderType: dropdown[1].shader.options.type,
+					resourcePath: {
+						Shader: {
+							name: dropdown[1].shader.name,
+							path: dropdown[1].shader.options.path,
+						},
 					},
-				},
+				});
 			});
 		});
 	};
