@@ -17,11 +17,17 @@ export class Engine {
 	private buffer: GLBuffer;
 
 	/**
-	 * Creates a new Engine
-	 * @param inputReferences | HTML bindings from UI creation for realtime updates
+	 *
+	 * @param {InputReferences} inputReferences | HTML bindings from UI creation for realtime updates
+	 * @param {GLCanvas} canvas | An HTMLCanvasElement bound to WebGL Context
+	 * @param {GLShader} shader | WebGLProgram in use
+	 * @param {GLBuffer} buffer | WebGLBuffer in use
 	 */
-	constructor(inputReferences: InputReferences) {
+	constructor(inputReferences: InputReferences, canvas: HTMLCanvasElement, shader: GLShader, buffer: GLBuffer) {
 		this.inputReferences = inputReferences;
+		this.canvas = canvas;
+		this.shader = shader;
+		this.buffer = buffer;
 	}
 
 	/**
@@ -29,16 +35,13 @@ export class Engine {
 	 */
 	public start = (): void => {
 		/**
-		 * Initialize new Canvas then set default background to black;
+		 * Set default background of the canvas to black;
 		 */
-		this.canvas = GLCanvas.initialize();
 		gl.clearColor(0.0, 0.0, 0.0, 1);
 
 		/**
-		 * Creates and attaches shaders
+		 * Uses shader program
 		 */
-		const loadShaders = GLShader.setShaders();
-		this.shader = new GLShader('basic', loadShaders[0], loadShaders[1]);
 		this.shader.use();
 
 		/**
@@ -49,9 +52,8 @@ export class Engine {
 		};
 
 		/**
-		 * Creates and binds data to buffer
+		 * Binds data to buffer
 		 */
-		this.buffer = new GLBuffer(3);
 		this.buffer.createBuffer(this.shader);
 
 		/**
