@@ -1,3 +1,5 @@
+import { INumHashMap } from './../Interfaces/INumHashMap';
+import constants from '~/Assets/constants';
 import { IUniformHashMap } from '../Interfaces/GL/IUniformHashMap';
 import { GLBuffer } from './GL/GLBuffer';
 import { gl, GLCanvas } from './GL/GLCanvas';
@@ -11,6 +13,7 @@ export class Engine {
 	public canvas: HTMLCanvasElement;
 
 	private inputReferences: InputReferences;
+	private attributeLocationIndex: INumHashMap;
 	private uniformLocationIndex: IUniformHashMap;
 
 	private shader: GLShader;
@@ -45,16 +48,22 @@ export class Engine {
 		this.shader.use();
 
 		/**
+		 * Gets Attributes from shaders
+		 */
+		this.attributeLocationIndex = {
+			positionAttributeLocation: this.shader.getAttributeLocation(constants.shaders.attributes.position),
+		};
+		/**
 		 * Gets uniforms from shaders
 		 */
 		this.uniformLocationIndex = {
-			colorUniformLocation: this.shader.getUniformLocation('u_color'),
+			colorUniformLocation: this.shader.getUniformLocation(constants.shaders.uniforms.color),
 		};
 
 		/**
 		 * Binds data to buffer
 		 */
-		this.buffer.createBuffer(this.shader);
+		this.buffer.createBuffer(this.attributeLocationIndex.positionAttributeLocation);
 
 		/**
 		 * Binds shader values

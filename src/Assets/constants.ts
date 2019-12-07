@@ -10,6 +10,14 @@ const constants: Schema = {
 			basicVertexShader: 'BasicVertexShader.vert',
 			basicFragmentShader: 'BasicFragmentShader.frag',
 		},
+
+		attributes: {
+			position: 'a_position',
+		},
+
+		uniforms: {
+			color: 'u_color',
+		},
 	},
 
 	UI: {

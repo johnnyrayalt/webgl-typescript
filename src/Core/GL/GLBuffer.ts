@@ -66,9 +66,9 @@ export class GLBuffer {
 	 * Creates and stands up a new Buffer given a shader program and object geometry as vertices.
 	 * @param {GLShader} shader | Current shader program
 	 */
-	public createBuffer = (shader: GLShader): void => {
+	public createBuffer = (positionAttributeLocation: number): void => {
 		const positionAttribute: IAttributeInfo = {
-			location: shader.getAttributeLocation('a_position'),
+			location: positionAttributeLocation,
 			offset: 0,
 			size: 3,
 		};
