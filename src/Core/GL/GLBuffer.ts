@@ -1,5 +1,4 @@
 import { gl } from '~/Core/GL/GLCanvas';
-import { GLShader } from '~/Core/GL/GLShaders';
 import { IAttributeInfo } from '~/Interfaces/GL/IAttributeInfo';
 
 /**

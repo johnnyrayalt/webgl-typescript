@@ -1,3 +1,3 @@
 export interface IAttributeHashMap {
-	[name: string]: WebGLAttributeLocation;
+	[name: string]: number;
 }

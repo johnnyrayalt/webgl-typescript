@@ -1,10 +1,10 @@
-import { INumHashMap } from './../Interfaces/INumHashMap';
 import constants from '~/Assets/constants';
-import { IUniformHashMap } from '../Interfaces/GL/IUniformHashMap';
-import { GLBuffer } from './GL/GLBuffer';
-import { gl, GLCanvas } from './GL/GLCanvas';
-import { GLShader } from './GL/GLShaders';
-import { InputReferences } from './Utilities/InputReferences';
+import { InputReferences } from '~/Core//Utilities/InputReferences';
+import { GLBuffer } from '~/Core/GL/GLBuffer';
+import { gl, GLCanvas } from '~/Core/GL/GLCanvas';
+import { GLShader } from '~/Core/GL/GLShaders';
+import { IUniformHashMap } from '~/Interfaces/GL/IUniformHashMap';
+import { INumHashMap } from '~/Interfaces/INumHashMap';
 
 /**
  * Main rendering engine class
