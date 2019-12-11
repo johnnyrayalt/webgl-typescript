@@ -63,31 +63,19 @@ export class GLBuffer {
 	 * Creates and stands up a new Buffer given a shader program and object geometry as vertices.
 	 * @param {GLShader} shader | Current shader program
 	 */
-	public createBuffer = (positionAttributeLocation: IAttributeHashMap): void => {
-		const positionAttribute: any = {
-			location: positionAttributeLocation,
-			offset: 0,
-			count: 3,
-		};
-
-		this.addAttributeLocation(positionAttribute);
-		// triangle
-		// prettier-ignore
-		const vertices = [
-			// top triangle
-			0,    0,    0, // x
-			0,    0.5,  0, // y
-			0.5,  0.5,  0, // z
-
-			// bottom triangle
-			0.5,  0.5,  0,
-			0.5,  0,    0,
-			0,    0,    0,
-		];
-
-		this.pushBackData(vertices);
-		this.upload();
-		this.unbind();
+	public createBufferInfo = (attributeIndex: IAttributeHashMap): void => {
+		Object.keys(attributeIndex).forEach((key: string) => {
+			const attribute: any = {
+				location: attributeIndex[key],
+				offest: 0,
+				count: attributeIndex[key].numComponents,
+			};
+			this.addAttributeLocation(attribute);
+			const data: number[] = attributeIndex[key].data;
+			this.pushBackData(data);
+			this.upload();
+			this.unbind();
+		});
 	};
 
 	/**

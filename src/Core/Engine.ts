@@ -66,7 +66,7 @@ export class Engine {
 		this.attributeIndex = {
 			...this.shader.getAttributes(this.vertexSource),
 		};
-		// console.log(this.attributeLocationIndex);
+		// console.log(this.attributeIndex);
 		/**
 		 * Gets Uniforms from shaders
 		 */
@@ -77,7 +77,7 @@ export class Engine {
 		/**
 		 * Binds Position Buffer
 		 */
-		this.buffer.createBuffer(this.attributeIndex);
+		this.buffer.createBufferInfo(this.attributeIndex);
 
 		/**
 		 * Binds shader values
