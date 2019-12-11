@@ -1,48 +1,55 @@
 html,
 body {
-    margin: 0;
-    overflow: hidden;
-    color: white;
-    font-family: 'Courier New', Courier, monospace;
+	margin: 0;
+	overflow: hidden;
+	color: black;
+	font-family: 'Courier New', Courier, monospace;
 }
 
 canvas {
-    display: block;
-    width: 100vw;
-    height: 100vh;
+	display: block;
+	width: 100vw;
+	height: 100vh;
 }
 
 /*Main Side Nav Container*/
 #side-nav-container {
-    position: absolute;
-    margin: 0 20px;
+	position: absolute;
+	margin: 0;
+	padding-left: 20px;
+	height: 100vh;
+	background-color: #cacaca;
 }
 
-#slider-container, #dropdown-container {
-    z-index: 10000;
-    margin: 10px;
-    width: 200px;
-    display: inline;
+#slider-container,
+#dropdown-container {
+	z-index: 10000;
+	margin: 10px;
+	display: inline;
 }
 
 .slider-widget-outer {
-    display: flex;
+	display: flex;
 }
 
 .slider-widget-label {
-    width: 25px;
+	width: 25px;
 }
 
 .slider-widget-value {
-    margin-left: 15px;
-    width: 50px;
+	margin-left: 15px;
+	width: 50px;
 }
 
 .slider-widget {
-    margin: 0 auto;
-    width: 100px;
+	margin: 0 auto;
+	width: 100px;
 }
 
 .dropdown-widget-label {
-    padding:10px 0;
+	padding: 10px 0;
+}
+
+.dropdown-widget-select {
+	font-family: 'Courier New', Courier, monospace;
 }

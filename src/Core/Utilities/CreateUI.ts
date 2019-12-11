@@ -77,7 +77,7 @@ export class CreateUI {
 		parent.innerHTML += `
 			<div class="dropdown-widget-outer">
 				<div class="dropdown-widget-label">${name}</div>
-				<select id="${options.shaderType}"></select>
+				<select class="dropdown-widget-select" id="${options.shaderType}"></select>
 			</div>
 		`;
 
