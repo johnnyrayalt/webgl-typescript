@@ -89,7 +89,7 @@ export class GLBuffer {
 	 * Binds this buffer
 	 * @param {boolean} normalized | Indicates if the data should be normalized. default: false
 	 */
-	public bind = (normalized: boolean = false): void => {
+	public bindAttributes = (normalized: boolean = false): void => {
 		gl.bindBuffer(this.targetBufferType, this.buffer);
 
 		if (this.hasAttributeLocation) {

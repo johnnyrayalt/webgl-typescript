@@ -75,14 +75,14 @@ export class Engine {
 		};
 
 		/**
-		 * Binds Position Buffer
+		 * Binds attributes to buffer
 		 */
 		this.buffer.createBufferInfo(this.attributeIndex);
 
 		/**
 		 * Binds shader values
 		 */
-		this.buffer.bind();
+		this.buffer.bindAttributes();
 
 		/**
 		 * Start main loop

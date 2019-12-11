@@ -1,8 +1,4 @@
-A rendering engine for WebGL written in typescript.
-
-The goal of this repo is to create a fully functional, flexible, and composable WebGL playground for writing and manipulating shaders.
-It will allow for the user to pick from a selection of primitives for quick shape generation in 2d or 3d, or to load in
-custom shaders written in GLSL to test in isolation without the need to write boilerplate code every time.
+A rendering engine for WebGL written in typescript with on screen controls
 
 Browser must support WebGL 2.0 or higher.
 
