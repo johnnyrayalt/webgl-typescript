@@ -1,8 +1,10 @@
 import constants from '~/Assets/constants';
 import { gl } from '~/Core/GL/GLCanvas';
 import { GLSLWrapper } from '~/Core/Utilities/GLSLWrapper';
+import { IAttributeHashMap } from '~/Interfaces/GL/IAttributeHashMap';
 import { IUniformHashMap } from '~/Interfaces/GL/IUniformHashMap';
 import { INumHashMap } from '~Interfaces/INumHashMap';
+import { TriangleData } from './../Shapes/Triangle';
 
 /**
  * Main GLShader class. Handles creation, context setting, and linking of vertex and fragment shaders into a single shader
@@ -10,9 +12,10 @@ import { INumHashMap } from '~Interfaces/INumHashMap';
  */
 export class GLShader {
 	private readonly name: string;
+	private attributes: IAttributeHashMap = {};
+	private attributeLocations: INumHashMap = {};
+	private uniforms: IUniformHashMap = {};
 	private program: WebGLProgram;
-	public readonly attributes: INumHashMap = {};
-	public readonly uniforms: IUniformHashMap = {};
 
 	/**
 	 * Creates a new shader
@@ -32,25 +35,51 @@ export class GLShader {
 	}
 
 	/**
+	 * Converts GLSL files to strings and returns an array of stringified shader objects
+	 */
+	public static loadShaders = (): string[] => {
+		let shaderArray = [];
+		const loadVertexShaderInput: string = GLSLWrapper.getShaderType(constants.shaders.type.vertexShader);
+		const loadFragmentShaderInput: string = GLSLWrapper.getShaderType(constants.shaders.type.fragmentShader);
+		const convertShaders: string[] = GLSLWrapper.convertFilesToString([loadVertexShaderInput, loadFragmentShaderInput]);
+
+		const verticalShaderSource: string = convertShaders[0];
+		const fragmentShaderSource: string = convertShaders[1];
+
+		shaderArray.push(verticalShaderSource, fragmentShaderSource);
+		return shaderArray;
+	};
+
+	/**
 	 * Use shader
 	 */
 	public use = (): void => {
 		gl.useProgram(this.program);
 	};
 
+	public getAttributes = (shader: string): IAttributeHashMap => {
+		this.getAttributeLocation(shader);
+		Object.keys(this.attributeLocations).forEach((key: string) => {
+			this.attributes[key] = {
+				numComponents: 3,
+				data: TriangleData,
+			};
+		});
+
+		return this.attributes;
+	};
 	/**
 	 * Gets the location of an attribute with a provided name
 	 * @param {string} shader | The stringified shader source
 	 */
-	public getAttributeLocation = (shader: string): INumHashMap => {
+	private getAttributeLocation = (shader: string): INumHashMap => {
 		const regex = new RegExp(/(?<=(attribute)\s[i|b]*[vec|mat]*(2|3|4)\s)([A-Za-z0-9_]+)/, 'g');
 		const attributeNames: string[] = shader.match(regex);
-
 		attributeNames.forEach((name: string) => {
-			this.attributes[name];
+			this.attributeLocations[name];
 		});
 
-		return this.attributes;
+		return this.attributeLocations;
 	};
 
 	/**
@@ -87,22 +116,6 @@ export class GLShader {
 	};
 
 	/**
-	 * Converts GLSL files to strings and returns an array of stringified shader objects
-	 */
-	public static setShaders = (): string[] => {
-		let shaderArray = [];
-		const loadVertexShaderInput: string = GLSLWrapper.getShaderType(constants.shaders.type.vertexShader);
-		const loadFragmentShaderInput: string = GLSLWrapper.getShaderType(constants.shaders.type.fragmentShader);
-		const convertShaders: string[] = GLSLWrapper.convertFilesToString([loadVertexShaderInput, loadFragmentShaderInput]);
-
-		const verticalShaderSource: string = convertShaders[0];
-		const fragmentShaderSource: string = convertShaders[1];
-
-		shaderArray.push(verticalShaderSource, fragmentShaderSource);
-		return shaderArray;
-	};
-
-	/**
 	 * Links both shaders into a single program for WebGL consumption
 	 * @param {WebGLShader} vertexShader | Vertex shader to use
 	 * @param {WebGLShader} fragmentShader | Fragment shader to use
@@ -132,7 +145,7 @@ export class GLShader {
 				break;
 			}
 
-			this.attributes[info.name] = gl.getAttribLocation(this.program, info.name);
+			this.attributeLocations[info.name] = gl.getAttribLocation(this.program, info.name);
 		}
 	};
 

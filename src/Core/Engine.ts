@@ -3,8 +3,8 @@ import { InputReferences } from '~/Core//Utilities/InputReferences';
 import { GLBuffer } from '~/Core/GL/GLBuffer';
 import { gl, GLCanvas } from '~/Core/GL/GLCanvas';
 import { GLShader } from '~/Core/GL/GLShaders';
+import { IAttributeHashMap } from '~/Interfaces/GL/IAttributeHashMap';
 import { IUniformHashMap } from '~/Interfaces/GL/IUniformHashMap';
-import { INumHashMap } from '~/Interfaces/INumHashMap';
 
 /**
  * Main rendering engine class
@@ -13,7 +13,7 @@ export class Engine {
 	public canvas: HTMLCanvasElement;
 
 	private inputReferences: InputReferences;
-	private attributeLocationIndex: INumHashMap;
+	private attributeIndex: IAttributeHashMap;
 	private uniformLocationIndex: IUniformHashMap;
 
 	private shader: GLShader;
@@ -63,10 +63,10 @@ export class Engine {
 		/**
 		 * Gets Attributes from shaders
 		 */
-		this.attributeLocationIndex = {
-			...this.shader.getAttributeLocation(this.vertexSource),
+		this.attributeIndex = {
+			...this.shader.getAttributes(this.vertexSource),
 		};
-
+		// console.log(this.attributeLocationIndex);
 		/**
 		 * Gets Uniforms from shaders
 		 */
@@ -77,7 +77,7 @@ export class Engine {
 		/**
 		 * Binds Position Buffer
 		 */
-		this.buffer.createPositionBuffer(this.attributeLocationIndex[constants.shaders.attributes.position]);
+		this.buffer.createBuffer(this.attributeIndex);
 
 		/**
 		 * Binds shader values

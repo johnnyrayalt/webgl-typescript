@@ -1,3 +1,6 @@
 export interface IAttributeHashMap {
-	[name: string]: number;
+	[name: string]: {
+		numComponents?: number;
+		data?: number[];
+	};
 }

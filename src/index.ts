@@ -25,7 +25,7 @@ require('./Assets/IndexStyles.css');
 	/**
 	 * Gets and sets shaders files as strings
 	 */
-	const loadShaders = GLShader.setShaders();
+	const loadShaders = GLShader.loadShaders();
 
 	/**
 	 * Creates a new WebGLProgram from the two supplies WebGLShaders

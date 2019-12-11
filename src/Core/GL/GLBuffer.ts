@@ -1,5 +1,6 @@
 import { gl } from '~/Core/GL/GLCanvas';
 import { IAttributeInfo } from '~/Interfaces/GL/IAttributeInfo';
+import { IAttributeHashMap } from '~Interfaces/GL/IAttributeHashMap';
 
 /**
  * Represents a WebGLBuffer
@@ -7,12 +8,11 @@ import { IAttributeInfo } from '~/Interfaces/GL/IAttributeInfo';
 export class GLBuffer {
 	private hasAttributeLocation: boolean = false;
 	private readonly elementSize: number;
-	private readonly stride: number;
 	private readonly buffer: WebGLBuffer;
 
 	private readonly targetBufferType: number;
 	private readonly dataType: number;
-	private readonly mode: number;
+	private readonly primitiveType: number;
 	private readonly typeSize: number;
 
 	private data: number[] = [];
@@ -23,19 +23,19 @@ export class GLBuffer {
 	 * @param {GLenum} elementSize | The size of each element of this buffer i.e. 3 for triangle etc....
 	 * @param {GLenum} dataType | The data type of this buffer. default: GL.FLOAT
 	 * @param {GLenum} targetBufferType | The buffer target type, accepts ARRAY_BUFFER of ELEMENT_ARRAY_BUFFER default: GL.ARRAY_BUFFER
-	 * @param {GLenum} mode | The drawing mode of this buffer (i.e. GL.LINES, GL.TRIANGLES, etc...)  default: GL.TRIANGLES
+	 * @param {GLenum} primitiveType | The drawing type of this buffer (i.e. GL.LINES, GL.TRIANGLES, etc...)  default: GL.TRIANGLES
 	 */
 	public constructor(
 		elementSize: number,
 		dataType: number = gl.FLOAT,
 		targetBufferType: number = gl.ARRAY_BUFFER,
-		mode: number = gl.TRIANGLES,
+		primitiveType: number = gl.TRIANGLES,
 	) {
 		this.buffer = gl.createBuffer();
 		this.elementSize = elementSize;
 		this.dataType = dataType;
 		this.targetBufferType = targetBufferType;
-		this.mode = mode;
+		this.primitiveType = primitiveType;
 
 		/**
 		 * Determine byte size
@@ -57,19 +57,17 @@ export class GLBuffer {
 			default:
 				throw new Error(`Unrecognized data type: ${dataType.toString()}`);
 		}
-
-		this.stride = this.elementSize * this.typeSize;
 	}
 
 	/**
 	 * Creates and stands up a new Buffer given a shader program and object geometry as vertices.
 	 * @param {GLShader} shader | Current shader program
 	 */
-	public createPositionBuffer = (positionAttributeLocation: number): void => {
-		const positionAttribute: IAttributeInfo = {
+	public createBuffer = (positionAttributeLocation: IAttributeHashMap): void => {
+		const positionAttribute: any = {
 			location: positionAttributeLocation,
 			offset: 0,
-			size: 3,
+			count: 3,
 		};
 
 		this.addAttributeLocation(positionAttribute);
@@ -108,7 +106,7 @@ export class GLBuffer {
 
 		if (this.hasAttributeLocation) {
 			for (let it of this.attributes) {
-				gl.vertexAttribPointer(it.location, it.size, this.dataType, normalized, this.stride, it.offset * this.typeSize);
+				gl.vertexAttribPointer(it.location, it.count, this.dataType, normalized, 0, it.offset * this.typeSize);
 				gl.enableVertexAttribArray(it.location);
 			}
 		}
@@ -182,9 +180,9 @@ export class GLBuffer {
 	 */
 	public draw = (): void => {
 		if (this.targetBufferType === gl.ARRAY_BUFFER) {
-			gl.drawArrays(this.mode, 0, this.data.length / this.elementSize);
+			gl.drawArrays(this.primitiveType, 0, this.data.length / this.elementSize);
 		} else if (this.targetBufferType === gl.ELEMENT_ARRAY_BUFFER) {
-			gl.drawElements(this.mode, this.data.length, this.dataType, 0);
+			gl.drawElements(this.primitiveType, this.data.length, this.dataType, 0);
 		} else {
 			throw new Error('Invalid target buffer type');
 		}
