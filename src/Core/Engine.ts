@@ -19,6 +19,9 @@ export class Engine {
 	private shader: GLShader;
 	private buffer: GLBuffer;
 
+	public vertexSource: string;
+	public fragmentSource: string;
+
 	/**
 	 *
 	 * @param {InputReferences} inputReferences | HTML bindings from UI creation for realtime updates
@@ -26,11 +29,21 @@ export class Engine {
 	 * @param {GLShader} shader | WebGLProgram in use
 	 * @param {GLBuffer} buffer | WebGLBuffer in use
 	 */
-	constructor(inputReferences: InputReferences, canvas: HTMLCanvasElement, shader: GLShader, buffer: GLBuffer) {
+	constructor(
+		inputReferences: InputReferences,
+		canvas: HTMLCanvasElement,
+		shader: GLShader,
+		buffer: GLBuffer,
+		vertexSource: string,
+		fragmentSource: string,
+	) {
 		this.inputReferences = inputReferences;
 		this.canvas = canvas;
 		this.shader = shader;
 		this.buffer = buffer;
+
+		this.vertexSource = vertexSource;
+		this.fragmentSource = fragmentSource;
 	}
 
 	/**
@@ -51,19 +64,20 @@ export class Engine {
 		 * Gets Attributes from shaders
 		 */
 		this.attributeLocationIndex = {
-			positionAttributeLocation: this.shader.getAttributeLocation(constants.shaders.attributes.position),
-		};
-		/**
-		 * Gets uniforms from shaders
-		 */
-		this.uniformLocationIndex = {
-			colorUniformLocation: this.shader.getUniformLocation(constants.shaders.uniforms.color),
+			...this.shader.getAttributeLocation(this.vertexSource),
 		};
 
 		/**
-		 * Binds data to buffer
+		 * Gets Uniforms from shaders
 		 */
-		this.buffer.createBuffer(this.attributeLocationIndex.positionAttributeLocation);
+		this.uniformLocationIndex = {
+			...this.shader.getUniformLocation(this.fragmentSource),
+		};
+
+		/**
+		 * Binds Position Buffer
+		 */
+		this.buffer.createPositionBuffer(this.attributeLocationIndex[constants.shaders.attributes.position]);
 
 		/**
 		 * Binds shader values
@@ -97,10 +111,10 @@ export class Engine {
 		gl.viewport(0, 0, this.canvas.width, this.canvas.height);
 
 		/**
-		 * Updates Slider UI values
+		 * Updates Color Slider UI values
 		 */
 		gl.uniform4f(
-			this.uniformLocationIndex.colorUniformLocation,
+			this.uniformLocationIndex[constants.shaders.uniforms.color],
 			this.inputReferences.rgbw.r,
 			this.inputReferences.rgbw.g,
 			this.inputReferences.rgbw.b,

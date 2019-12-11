@@ -11,8 +11,8 @@ import { INumHashMap } from '~Interfaces/INumHashMap';
 export class GLShader {
 	private readonly name: string;
 	private program: WebGLProgram;
-	private attributes: INumHashMap = {};
-	private uniforms: IUniformHashMap = {};
+	public readonly attributes: INumHashMap = {};
+	public readonly uniforms: IUniformHashMap = {};
 
 	/**
 	 * Creates a new shader
@@ -40,26 +40,32 @@ export class GLShader {
 
 	/**
 	 * Gets the location of an attribute with a provided name
-	 * @param {string} name | The name of the attribute to retrieve
+	 * @param {string} shader | The stringified shader source
 	 */
-	public getAttributeLocation = (name: string): number => {
-		if (this.attributes[name] === undefined) {
-			throw new Error(`Unable to find attribute name ${name} in shader ${this.name}`);
-		}
+	public getAttributeLocation = (shader: string): INumHashMap => {
+		const regex = new RegExp(/(?<=(attribute)\s[i|b]*[vec|mat]*(2|3|4)\s)([A-Za-z0-9_]+)/, 'g');
+		const attributeNames: string[] = shader.match(regex);
 
-		return this.attributes[name];
+		attributeNames.forEach((name: string) => {
+			this.attributes[name];
+		});
+
+		return this.attributes;
 	};
 
 	/**
 	 * Gets the location of an uniform with the provided name
-	 * @param {string} name | Name of the uniform
+	 * @param {string} shader | The stringified shader source
 	 */
-	public getUniformLocation = (name: string): WebGLUniformLocation => {
-		if (this.uniforms[name] === undefined) {
-			throw new Error(`Unable to find uniform name ${name} in shader ${this.name}`);
-		}
+	public getUniformLocation = (shader: string): WebGLUniformLocation => {
+		const regex = new RegExp(/(?<=(uniform)\s[i|b]*[vec|mat]*(2|3|4)\s)([A-Za-z0-9_]+)/, 'g');
+		const uniformNames: string[] = shader.match(regex);
 
-		return this.uniforms[name];
+		uniformNames.forEach((name: string) => {
+			this.uniforms[name];
+		});
+
+		return this.uniforms;
 	};
 
 	/**

@@ -65,7 +65,7 @@ export class GLBuffer {
 	 * Creates and stands up a new Buffer given a shader program and object geometry as vertices.
 	 * @param {GLShader} shader | Current shader program
 	 */
-	public createBuffer = (positionAttributeLocation: number): void => {
+	public createPositionBuffer = (positionAttributeLocation: number): void => {
 		const positionAttribute: IAttributeInfo = {
 			location: positionAttributeLocation,
 			offset: 0,
@@ -185,6 +185,8 @@ export class GLBuffer {
 			gl.drawArrays(this.mode, 0, this.data.length / this.elementSize);
 		} else if (this.targetBufferType === gl.ELEMENT_ARRAY_BUFFER) {
 			gl.drawElements(this.mode, this.data.length, this.dataType, 0);
+		} else {
+			throw new Error('Invalid target buffer type');
 		}
 	};
 }
