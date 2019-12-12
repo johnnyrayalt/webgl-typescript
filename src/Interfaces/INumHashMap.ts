@@ -1,3 +1,3 @@
 export interface INumHashMap {
-	[name: string]: string;
+	[name: string]: number;
 }

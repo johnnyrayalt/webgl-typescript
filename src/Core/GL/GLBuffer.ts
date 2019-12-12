@@ -1,6 +1,6 @@
 import { gl } from '~/Core/GL/GLCanvas';
 import { IAttributeInfo } from '~/Interfaces/GL/IAttributeInfo';
-import { IAttributeHashMap } from '~Interfaces/GL/IAttributeHashMap';
+import { IAttributeIndexMap } from '~Interfaces/GL/IAttributeIndexMap';
 
 /**
  * Represents a WebGLBuffer
@@ -61,7 +61,7 @@ export class GLBuffer {
 	 * Creates and stands up a new Buffer given a shader program and object geometry as vertices.
 	 * @param {GLShader} shader | Current shader program
 	 */
-	public createBufferInfo = (attributeIndex: IAttributeHashMap): void => {
+	public createBufferInfo = (attributeIndex: IAttributeIndexMap): void => {
 		Object.keys(attributeIndex).forEach((outerKey: string) => {
 			Object.keys(attributeIndex[outerKey]).forEach((innerKey: string) => {
 				this.numComponents = attributeIndex[outerKey][innerKey].numComponents;

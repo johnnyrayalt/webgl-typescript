@@ -3,8 +3,8 @@ import { InputReferences } from '~/Core//Utilities/InputReferences';
 import { GLBuffer } from '~/Core/GL/GLBuffer';
 import { gl, GLCanvas } from '~/Core/GL/GLCanvas';
 import { GLShader } from '~/Core/GL/GLShaders';
-import { IAttributeHashMap } from '~/Interfaces/GL/IAttributeHashMap';
 import { IUniformHashMap } from '~/Interfaces/GL/IUniformHashMap';
+import { IAttributeIndexMap } from '~Interfaces/GL/IAttributeIndexMap';
 import { Square, Triangle } from './Shapes/Triangle';
 
 /**
@@ -14,7 +14,7 @@ export class Engine {
 	public canvas: HTMLCanvasElement;
 
 	private inputReferences: InputReferences;
-	private attributeIndex: IAttributeHashMap;
+	private attributeIndex: IAttributeIndexMap;
 	private uniformIndex: IUniformHashMap;
 
 	private shader: GLShader;
@@ -68,7 +68,7 @@ export class Engine {
 			first: GLShader.getAttributes(this.vertexSource, 2, Square),
 			second: GLShader.getAttributes(this.vertexSource, 3, Triangle),
 		};
-		console.log(this.attributeIndex);
+		// console.log(this.attributeIndex);
 
 		/**
 		 * Gets Uniforms from shaders

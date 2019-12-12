@@ -3,7 +3,7 @@ import { gl } from '~/Core/GL/GLCanvas';
 import { GLSLWrapper } from '~/Core/Utilities/GLSLWrapper';
 import { IAttributeHashMap } from '~/Interfaces/GL/IAttributeHashMap';
 import { IUniformHashMap } from '~/Interfaces/GL/IUniformHashMap';
-import { INumHashMap } from '~/Interfaces/INumHashMap';
+import { IStringHashMap } from '~/Interfaces/IStringHashMap';
 
 /**
  * Main GLShader class. Handles creation, context setting, and linking of
@@ -12,7 +12,6 @@ import { INumHashMap } from '~/Interfaces/INumHashMap';
  */
 export class GLShader {
 	private readonly name: string;
-	private attributes: any = {};
 	private attributeLocations: any = {};
 	private uniformLocation: IUniformHashMap = {};
 	private program: WebGLProgram;
@@ -63,16 +62,18 @@ export class GLShader {
 	 * @param {number} numComponents | Number of components i.e. x, y, z.
 	 * @param {number[]} data | Vertex data for the buffer
 	 */
-	public static getAttributes = (shader: string, numComponents: number, data: number[]): any => {
+	public static getAttributes = (shader: string, numComponents: number, data: number[]): IAttributeHashMap => {
 		const attributes = GLShader.getAttributeLocation(shader);
-		console.log(attributes);
-		Object.keys(attributes).forEach((key: string) => {
-			attributes[key] = {
+		let newAttrib: IAttributeHashMap = {};
+
+		Object.values(attributes).forEach(value => {
+			newAttrib[value] = {
 				numComponents: numComponents,
 				data: data,
 			};
 		});
-		return attributes;
+
+		return newAttrib;
 	};
 
 	/**
@@ -86,21 +87,20 @@ export class GLShader {
 	 * Gets the location of an attribute with a provided name
 	 * @param {string} shader | The stringified shader source
 	 */
-	private static getAttributeLocation = (shader: string): INumHashMap => {
+	private static getAttributeLocation = (shader: string): IStringHashMap => {
 		const regex = new RegExp(/(?<=(attribute)\s[i|b]*[vec|mat]*(2|3|4)\s)([A-Za-z0-9_]+)/, 'g');
 		const attributeNames: string[] = shader.match(regex);
 
 		if (attributeNames === null) {
 			return;
 		}
-		const attributeLocations: INumHashMap = {};
+		const attributeLocations: IStringHashMap = {};
 		attributeNames.forEach((name: string) => {
 			let id = 0;
 			while (id < attributeNames.length) {
 				attributeLocations[id++] = name;
 			}
 		});
-		console.log(attributeLocations);
 
 		return attributeLocations;
 	};
