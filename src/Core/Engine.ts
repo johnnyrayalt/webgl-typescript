@@ -14,7 +14,7 @@ export class Engine {
 
 	private inputReferences: InputReferences;
 	private attributeIndex: IAttributeHashMap;
-	private uniformLocationIndex: IUniformHashMap;
+	private uniformIndex: IUniformHashMap;
 
 	private shader: GLShader;
 	private buffer: GLBuffer;
@@ -65,13 +65,15 @@ export class Engine {
 		 */
 		this.attributeIndex = {
 			...this.shader.getAttributes(this.vertexSource),
+			...this.shader.getAttributes(this.fragmentSource),
 		};
-		// console.log(this.attributeIndex);
+
 		/**
 		 * Gets Uniforms from shaders
 		 */
-		this.uniformLocationIndex = {
-			...this.shader.getUniformLocation(this.fragmentSource),
+		this.uniformIndex = {
+			...this.shader.getUniforms(this.vertexSource),
+			...this.shader.getUniforms(this.fragmentSource),
 		};
 
 		/**
@@ -114,7 +116,7 @@ export class Engine {
 		 * Updates Color Slider UI values
 		 */
 		gl.uniform4f(
-			this.uniformLocationIndex[constants.shaders.uniforms.color],
+			this.uniformIndex[constants.shaders.uniforms.color],
 			this.inputReferences.rgbw.r,
 			this.inputReferences.rgbw.g,
 			this.inputReferences.rgbw.b,

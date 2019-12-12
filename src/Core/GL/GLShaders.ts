@@ -15,6 +15,7 @@ export class GLShader {
 	private attributes: IAttributeHashMap = {};
 	private attributeLocations: INumHashMap = {};
 	private uniforms: IUniformHashMap = {};
+	private uniformLocation: IUniformHashMap = {};
 	private program: WebGLProgram;
 
 	/**
@@ -68,6 +69,16 @@ export class GLShader {
 
 		return this.attributes;
 	};
+
+	public getUniforms = (shader: string): IUniformHashMap => {
+		this.getUniformLocation(shader);
+		Object.keys(this.uniformLocation).forEach((key: string) => {
+			this.uniforms[key] = this.uniformLocation[key];
+		});
+
+		return this.uniforms;
+	};
+
 	/**
 	 * Gets the location of an attribute with a provided name
 	 * @param {string} shader | The stringified shader source
@@ -75,6 +86,11 @@ export class GLShader {
 	private getAttributeLocation = (shader: string): INumHashMap => {
 		const regex = new RegExp(/(?<=(attribute)\s[i|b]*[vec|mat]*(2|3|4)\s)([A-Za-z0-9_]+)/, 'g');
 		const attributeNames: string[] = shader.match(regex);
+
+		if (attributeNames === null) {
+			return;
+		}
+
 		attributeNames.forEach((name: string) => {
 			this.attributeLocations[name];
 		});
@@ -86,15 +102,15 @@ export class GLShader {
 	 * Gets the location of an uniform with the provided name
 	 * @param {string} shader | The stringified shader source
 	 */
-	public getUniformLocation = (shader: string): WebGLUniformLocation => {
+	private getUniformLocation = (shader: string): IUniformHashMap => {
 		const regex = new RegExp(/(?<=(uniform)\s[i|b]*[vec|mat]*(2|3|4)\s)([A-Za-z0-9_]+)/, 'g');
 		const uniformNames: string[] = shader.match(regex);
 
-		uniformNames.forEach((name: string) => {
-			this.uniforms[name];
-		});
+		if (uniformNames === null) {
+			return;
+		}
 
-		return this.uniforms;
+		return this.uniformLocation;
 	};
 
 	/**
@@ -160,7 +176,7 @@ export class GLShader {
 				break;
 			}
 
-			this.uniforms[info.name] = gl.getUniformLocation(this.program, info.name);
+			this.uniformLocation[info.name] = gl.getUniformLocation(this.program, info.name);
 		}
 	};
 }
