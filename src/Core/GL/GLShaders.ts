@@ -76,16 +76,9 @@ export class GLShader {
 	};
 
 	/**
-	 * Gets and formats uniforms
-	 * @param {string} shader | GLSL shader as a string.
+	 * Gets uniforms
 	 */
 	public getUniforms = (): IUniformHashMap => {
-		// this.getUniformLocation(shader);
-
-		// Object.keys(this.uniformLocation).forEach((key: string) => {
-		// 	this.uniforms[key] = this.uniformLocation;
-		// });
-
 		return this.uniformLocation;
 	};
 
