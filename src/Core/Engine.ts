@@ -5,7 +5,7 @@ import { gl, GLCanvas } from '~/Core/GL/GLCanvas';
 import { GLShader } from '~/Core/GL/GLShaders';
 import { IAttributeHashMap } from '~/Interfaces/GL/IAttributeHashMap';
 import { IUniformHashMap } from '~/Interfaces/GL/IUniformHashMap';
-import { TriangleData } from './Shapes/Triangle';
+import { Square, Triangle } from './Shapes/Triangle';
 
 /**
  * Main rendering engine class
@@ -65,8 +65,10 @@ export class Engine {
 		 * Gets Attributes from shaders
 		 */
 		this.attributeIndex = {
-			...this.shader.getAttributes(this.vertexSource, 2, TriangleData),
+			first: GLShader.getAttributes(this.vertexSource, 2, Square),
+			second: GLShader.getAttributes(this.vertexSource, 3, Triangle),
 		};
+		console.log(this.attributeIndex);
 
 		/**
 		 * Gets Uniforms from shaders

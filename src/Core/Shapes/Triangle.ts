@@ -1,4 +1,4 @@
-export const TriangleData = [
+export const Square = [
 	// top triangle
 	// 0,
 	// 0,
@@ -33,3 +33,5 @@ export const TriangleData = [
 	80,
 	30,
 ];
+
+export const Triangle = [10, 20, 80, 20, 10, 30];

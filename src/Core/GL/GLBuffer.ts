@@ -62,18 +62,20 @@ export class GLBuffer {
 	 * @param {GLShader} shader | Current shader program
 	 */
 	public createBufferInfo = (attributeIndex: IAttributeHashMap): void => {
-		Object.keys(attributeIndex).forEach((key: string) => {
-			this.numComponents = attributeIndex[key].numComponents;
-			const attribute: any = {
-				location: attributeIndex[key],
-				offest: 0,
-				count: attributeIndex[key].numComponents,
-			};
-			this.addAttributeLocation(attribute);
-			const data: number[] = attributeIndex[key].data;
-			this.pushBackData(data);
-			this.upload();
-			this.unbind();
+		Object.keys(attributeIndex).forEach((outerKey: string) => {
+			Object.keys(attributeIndex[outerKey]).forEach((innerKey: string) => {
+				this.numComponents = attributeIndex[outerKey][innerKey].numComponents;
+				const attribute: any = {
+					location: attributeIndex[outerKey][innerKey],
+					offest: 0,
+					count: attributeIndex[outerKey][innerKey].numComponents,
+				};
+				this.addAttributeLocation(attribute);
+				const data: number[] = attributeIndex[outerKey][innerKey].data;
+				this.pushBackData(data);
+				this.upload();
+				this.unbind();
+			});
 		});
 	};
 
