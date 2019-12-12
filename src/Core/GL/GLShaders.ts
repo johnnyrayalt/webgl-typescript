@@ -109,18 +109,6 @@ export class GLShader {
 	};
 
 	/**
-	 * Gets the location of an uniform with the provided name
-	 * @param {string} shader | The stringified shader source
-	 */
-	// private getUniformLocation = (shader: string): IUniformHashMap => {
-	// 	const regex = new RegExp(/(?<=(uniform)\s[i|b]*[vec|mat]*(2|3|4)\s)([A-Za-z0-9_]+)/, 'g');
-	// 	const uniformNames: string[] = shader.match(regex);
-	// 	Object.values(this.uniformLocation)
-
-	// 	return this.uniformLocation;
-	// };
-
-	/**
 	 * Creates an empty WebGLShader object with vertex or fragment contexts
 	 * @param {string} source | Source location for the shader
 	 * @param {GLenum} shaderType | gl.VERTEX_SHADER || gl.FRAGMENT_SHADER
