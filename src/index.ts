@@ -39,7 +39,7 @@ require('./Assets/IndexStyles.css');
 	 * Creates buffer
 	 * @param {number} | elementSize
 	 */
-	const glBuffer = new GLBuffer(3);
+	const glBuffer = new GLBuffer();
 
 	/**
 	 * Create new Engine

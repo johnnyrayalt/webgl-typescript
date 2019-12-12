@@ -65,8 +65,7 @@ export class Engine {
 		 * Gets Attributes from shaders
 		 */
 		this.attributeIndex = {
-			...this.shader.getAttributes(this.vertexSource, 6, TriangleData),
-			...this.shader.getAttributes(this.fragmentSource, 3, TriangleData),
+			...this.shader.getAttributes(this.vertexSource, 2, TriangleData),
 		};
 
 		/**

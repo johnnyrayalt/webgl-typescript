@@ -7,7 +7,7 @@ import { IAttributeHashMap } from '~Interfaces/GL/IAttributeHashMap';
  */
 export class GLBuffer {
 	private hasAttributeLocation: boolean = false;
-	private readonly elementSize: number;
+	private numComponents: number;
 	private readonly buffer: WebGLBuffer;
 
 	private readonly targetBufferType: number;
@@ -20,19 +20,17 @@ export class GLBuffer {
 
 	/**
 	 * Creates a new GL Buffer.
-	 * @param {GLenum} elementSize | The size of each element of this buffer i.e. 3 for triangle etc....
 	 * @param {GLenum} dataType | The data type of this buffer. default: GL.FLOAT
 	 * @param {GLenum} targetBufferType | The buffer target type, accepts ARRAY_BUFFER of ELEMENT_ARRAY_BUFFER default: GL.ARRAY_BUFFER
 	 * @param {GLenum} primitiveType | The drawing type of this buffer (i.e. GL.LINES, GL.TRIANGLES, etc...)  default: GL.TRIANGLES
 	 */
 	public constructor(
-		elementSize: number,
 		dataType: number = gl.FLOAT,
 		targetBufferType: number = gl.ARRAY_BUFFER,
 		primitiveType: number = gl.TRIANGLES,
 	) {
 		this.buffer = gl.createBuffer();
-		this.elementSize = elementSize;
+
 		this.dataType = dataType;
 		this.targetBufferType = targetBufferType;
 		this.primitiveType = primitiveType;
@@ -65,6 +63,7 @@ export class GLBuffer {
 	 */
 	public createBufferInfo = (attributeIndex: IAttributeHashMap): void => {
 		Object.keys(attributeIndex).forEach((key: string) => {
+			this.numComponents = attributeIndex[key].numComponents;
 			const attribute: any = {
 				location: attributeIndex[key],
 				offest: 0,
@@ -175,7 +174,7 @@ export class GLBuffer {
 	 */
 	public draw = (): void => {
 		if (this.targetBufferType === gl.ARRAY_BUFFER) {
-			gl.drawArrays(this.primitiveType, 0, this.data.length / this.elementSize);
+			gl.drawArrays(this.primitiveType, 0, this.data.length / this.numComponents);
 		} else if (this.targetBufferType === gl.ELEMENT_ARRAY_BUFFER) {
 			gl.drawElements(this.primitiveType, this.data.length, this.dataType, 0);
 		} else {

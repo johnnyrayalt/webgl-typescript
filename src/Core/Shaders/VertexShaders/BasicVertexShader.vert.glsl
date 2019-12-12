@@ -6,5 +6,5 @@ void main() {
     vec2 one = a_position / u_resolution;
     vec2 two = one * 2.0;
     vec2 clipspace = two - 1.0;
-    gl_Position = vec4(clipspace, 0, 1);
+    gl_Position = vec4(clipspace * vec2(1, -1), 0, 1);
 }
