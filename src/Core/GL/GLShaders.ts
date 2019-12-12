@@ -4,11 +4,11 @@ import { GLSLWrapper } from '~/Core/Utilities/GLSLWrapper';
 import { IAttributeHashMap } from '~/Interfaces/GL/IAttributeHashMap';
 import { IUniformHashMap } from '~/Interfaces/GL/IUniformHashMap';
 import { INumHashMap } from '~Interfaces/INumHashMap';
-import { TriangleData } from './../Shapes/Triangle';
 
 /**
- * Main GLShader class. Handles creation, context setting, and linking of vertex and fragment shaders into a single shader
- * program to be bound in GLBuffer
+ * Main GLShader class. Handles creation, context setting, and linking of
+ * vertex and fragment shaders into a single shader program
+ * to be bound in GLBuffer
  */
 export class GLShader {
 	private readonly name: string;
@@ -58,18 +58,28 @@ export class GLShader {
 		gl.useProgram(this.program);
 	};
 
-	public getAttributes = (shader: string): IAttributeHashMap => {
+	/**
+	 * Gets and formats attributes
+	 * @param {string} shader | GLSL shader as a string
+	 * @param {number} numComponents | Number of components i.e. x, y, z.
+	 * @param {number[]} data | Vertex data for the buffer
+	 */
+	public getAttributes = (shader: string, numComponents: number, data: number[]): IAttributeHashMap => {
 		this.getAttributeLocation(shader);
 		Object.keys(this.attributeLocations).forEach((key: string) => {
 			this.attributes[key] = {
-				numComponents: 3,
-				data: TriangleData,
+				numComponents: numComponents,
+				data: data,
 			};
 		});
 
 		return this.attributes;
 	};
 
+	/**
+	 * Gets and formats uniforms
+	 * @param {string} shader | GLSL shader as a string.
+	 */
 	public getUniforms = (shader: string): IUniformHashMap => {
 		this.getUniformLocation(shader);
 		Object.keys(this.uniformLocation).forEach((key: string) => {

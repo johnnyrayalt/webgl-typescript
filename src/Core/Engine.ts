@@ -1,3 +1,4 @@
+import { TriangleData } from './Shapes/Triangle';
 import constants from '~/Assets/constants';
 import { InputReferences } from '~/Core//Utilities/InputReferences';
 import { GLBuffer } from '~/Core/GL/GLBuffer';
@@ -64,8 +65,8 @@ export class Engine {
 		 * Gets Attributes from shaders
 		 */
 		this.attributeIndex = {
-			...this.shader.getAttributes(this.vertexSource),
-			...this.shader.getAttributes(this.fragmentSource),
+			...this.shader.getAttributes(this.vertexSource, 3, TriangleData),
+			...this.shader.getAttributes(this.fragmentSource, 3, TriangleData),
 		};
 
 		/**
