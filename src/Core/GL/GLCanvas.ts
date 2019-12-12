@@ -41,19 +41,18 @@ export class GLCanvas {
 	 * @param {GLCanvas} canvas | Canvas context
 	 * @param {number} multiplier | Amount to be multiplied by
 	 */
-	private static resize = (canvas: HTMLCanvasElement, multiplier?: number): boolean => {
-		multiplier = multiplier || 1;
-		if (canvas !== undefined) {
-			const width = (canvas.clientWidth * multiplier) | 0;
-			const height = (canvas.clientHeight * multiplier) | 0;
+	private static resize = (canvas: HTMLCanvasElement): boolean => {
+		const toCSSPixels = window.devicePixelRatio;
 
-			if (canvas.width !== width || canvas.height !== height) {
-				canvas.width = width;
-				canvas.height = height;
-				return true;
-			}
-			return false;
+		const width: number = Math.floor(canvas.clientWidth * toCSSPixels);
+		const height: number = Math.floor(canvas.clientHeight * toCSSPixels);
+
+		if (canvas.width !== width || canvas.height !== height) {
+			canvas.width = width;
+			canvas.height = height;
+			return true;
 		}
+		return false;
 	};
 
 	/**

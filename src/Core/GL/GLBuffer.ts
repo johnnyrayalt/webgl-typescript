@@ -93,9 +93,16 @@ export class GLBuffer {
 		gl.bindBuffer(this.targetBufferType, this.buffer);
 
 		if (this.hasAttributeLocation) {
-			for (let it of this.attributes) {
-				gl.vertexAttribPointer(it.location, it.count, this.dataType, normalized, 0, it.offset * this.typeSize);
-				gl.enableVertexAttribArray(it.location);
+			for (let attribute of this.attributes) {
+				gl.vertexAttribPointer(
+					attribute.location,
+					attribute.count,
+					this.dataType,
+					normalized,
+					0,
+					attribute.offset * this.typeSize,
+				);
+				gl.enableVertexAttribArray(attribute.location);
 			}
 		}
 	};
@@ -104,8 +111,8 @@ export class GLBuffer {
 	 * Unbinds this buffer.
 	 */
 	public unbind = (): void => {
-		for (let it of this.attributes) {
-			gl.disableVertexAttribArray(it.location);
+		for (let attribute of this.attributes) {
+			gl.disableVertexAttribArray(attribute.location);
 		}
 		gl.bindBuffer(gl.ARRAY_BUFFER, this.buffer);
 	};

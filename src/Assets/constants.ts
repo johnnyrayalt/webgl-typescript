@@ -17,6 +17,7 @@ const constants: Schema = {
 
 		uniforms: {
 			color: 'u_color',
+			resolution: 'u_resolution',
 		},
 	},
 

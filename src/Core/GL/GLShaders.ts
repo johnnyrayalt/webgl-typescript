@@ -14,7 +14,6 @@ export class GLShader {
 	private readonly name: string;
 	private attributes: IAttributeHashMap = {};
 	private attributeLocations: INumHashMap = {};
-	private uniforms: IUniformHashMap = {};
 	private uniformLocation: IUniformHashMap = {};
 	private program: WebGLProgram;
 
@@ -80,13 +79,14 @@ export class GLShader {
 	 * Gets and formats uniforms
 	 * @param {string} shader | GLSL shader as a string.
 	 */
-	public getUniforms = (shader: string): IUniformHashMap => {
-		this.getUniformLocation(shader);
-		Object.keys(this.uniformLocation).forEach((key: string) => {
-			this.uniforms[key] = this.uniformLocation[key];
-		});
+	public getUniforms = (): IUniformHashMap => {
+		// this.getUniformLocation(shader);
 
-		return this.uniforms;
+		// Object.keys(this.uniformLocation).forEach((key: string) => {
+		// 	this.uniforms[key] = this.uniformLocation;
+		// });
+
+		return this.uniformLocation;
 	};
 
 	/**
@@ -112,16 +112,13 @@ export class GLShader {
 	 * Gets the location of an uniform with the provided name
 	 * @param {string} shader | The stringified shader source
 	 */
-	private getUniformLocation = (shader: string): IUniformHashMap => {
-		const regex = new RegExp(/(?<=(uniform)\s[i|b]*[vec|mat]*(2|3|4)\s)([A-Za-z0-9_]+)/, 'g');
-		const uniformNames: string[] = shader.match(regex);
+	// private getUniformLocation = (shader: string): IUniformHashMap => {
+	// 	const regex = new RegExp(/(?<=(uniform)\s[i|b]*[vec|mat]*(2|3|4)\s)([A-Za-z0-9_]+)/, 'g');
+	// 	const uniformNames: string[] = shader.match(regex);
+	// 	Object.values(this.uniformLocation)
 
-		if (uniformNames === null) {
-			return;
-		}
-
-		return this.uniformLocation;
-	};
+	// 	return this.uniformLocation;
+	// };
 
 	/**
 	 * Creates an empty WebGLShader object with vertex or fragment contexts
@@ -185,7 +182,6 @@ export class GLShader {
 			if (!info) {
 				break;
 			}
-
 			this.uniformLocation[info.name] = gl.getUniformLocation(this.program, info.name);
 		}
 	};

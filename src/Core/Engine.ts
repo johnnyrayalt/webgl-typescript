@@ -1,4 +1,3 @@
-import { TriangleData } from './Shapes/Triangle';
 import constants from '~/Assets/constants';
 import { InputReferences } from '~/Core//Utilities/InputReferences';
 import { GLBuffer } from '~/Core/GL/GLBuffer';
@@ -6,6 +5,7 @@ import { gl, GLCanvas } from '~/Core/GL/GLCanvas';
 import { GLShader } from '~/Core/GL/GLShaders';
 import { IAttributeHashMap } from '~/Interfaces/GL/IAttributeHashMap';
 import { IUniformHashMap } from '~/Interfaces/GL/IUniformHashMap';
+import { TriangleData } from './Shapes/Triangle';
 
 /**
  * Main rendering engine class
@@ -54,7 +54,7 @@ export class Engine {
 		/**
 		 * Set default background of the canvas to black;
 		 */
-		gl.clearColor(0.0, 0.0, 0.0, 1);
+		gl.clearColor(1, 1, 1, 1);
 
 		/**
 		 * Uses shader program
@@ -65,7 +65,7 @@ export class Engine {
 		 * Gets Attributes from shaders
 		 */
 		this.attributeIndex = {
-			...this.shader.getAttributes(this.vertexSource, 3, TriangleData),
+			...this.shader.getAttributes(this.vertexSource, 6, TriangleData),
 			...this.shader.getAttributes(this.fragmentSource, 3, TriangleData),
 		};
 
@@ -73,8 +73,7 @@ export class Engine {
 		 * Gets Uniforms from shaders
 		 */
 		this.uniformIndex = {
-			...this.shader.getUniforms(this.vertexSource),
-			...this.shader.getUniforms(this.fragmentSource),
+			...this.shader.getUniforms(),
 		};
 
 		/**
@@ -112,9 +111,10 @@ export class Engine {
 		 * Sets viewport, i.e. where in clipspace the object is rendered
 		 */
 		gl.viewport(0, 0, this.canvas.width, this.canvas.height);
+		gl.uniform2f(this.uniformIndex[constants.shaders.uniforms.resolution], this.canvas.width, this.canvas.height);
 
 		/**
-		 * Updates Color Slider UI values
+		 * Updates Color & Slider UI values
 		 */
 		gl.uniform4f(
 			this.uniformIndex[constants.shaders.uniforms.color],
