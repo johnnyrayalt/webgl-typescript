@@ -6,6 +6,21 @@ import { ISliderOptions } from '~/Interfaces/HTML/ISliderOptions';
  * Stands up UI Elements
  */
 export class CreateUI {
+	public static createHTMLCanvas = (elementId?: string): HTMLCanvasElement => {
+		let canvas: HTMLCanvasElement;
+
+		if (elementId !== undefined) {
+			canvas = document.getElementById(elementId) as HTMLCanvasElement;
+			if (canvas === undefined) {
+				throw new Error(`Cannot find elementID of name: ${elementId}`);
+			}
+		} else {
+			canvas = document.createElement('canvas') as HTMLCanvasElement;
+			document.body.appendChild(canvas);
+		}
+
+		return canvas;
+	};
 	/**
 	 * Creates all of the UI elements
 	 */

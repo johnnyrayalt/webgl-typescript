@@ -4,9 +4,9 @@ import constants from '~/Assets/constants';
  * These are ts-ignored because they do not have a d.ts file
  */
 // @ts-ignore
-import BasicFragmentShader from '~/Core/Shaders/FragmentShaders/BasicFragmentShader.frag.glsl';
+import BasicFragmentShader from '~/Core/Shaders/FragmentShaders/BasicFragmentShader.frag';
 // @ts-ignore
-import BasicVertexShader from '~/Core/Shaders/VertexShaders/BasicVertexShader.vert.glsl';
+import BasicVertexShader from '~/Core/Shaders/VertexShaders/BasicVertexShader.vert';
 
 import { IStringHashMap } from '~/Interfaces/IStringHashMap';
 
@@ -39,16 +39,11 @@ export class GLSLWrapper {
 	 * Converts GLSL files into strings
 	 * @param {string[]} filePaths | Array of paths to the vertex and fragment files defined in constants
 	 */
-	public static convertFilesToString = (filePaths: string[]): string[] => {
-		const filesAsStrings: string[] = [];
-
-		filePaths.map((filePath: string) => {
-			const parseFilePath: string = filePath.slice(0, -5);
-			if (parseFilePath in ShaderManager) {
-				filesAsStrings.push(ShaderManager[parseFilePath]);
-			}
-		});
-
-		return filesAsStrings;
+	public static convertFilesToString = (filePath: string): string => {
+		console.log(filePath);
+		const parseFilePath: string = filePath.slice(0, -5);
+		if (parseFilePath in ShaderManager) {
+			return ShaderManager[parseFilePath];
+		}
 	};
 }
