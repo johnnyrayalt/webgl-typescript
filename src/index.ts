@@ -1,3 +1,4 @@
+import { InputReferences } from './Core/Utilities/InputReferences';
 import { GLCanvas } from '~/Core/GLComponents/GLCanvas';
 // @ts-ignore
 import BasicFragmentShader from '~/Core/Shaders/FragmentShaders/BasicFragmentShader.frag';
@@ -70,6 +71,11 @@ const resize = (gl: WebGLRenderingContext): void => {
 	CreateUI.bootStrapUI();
 
 	/**
+	 * Bind UI References
+	 */
+	const inputReferences = new InputReferences();
+
+	/**
 	 * Gets and Creates Shaders
 	 */
 	getShaderSources();
@@ -82,9 +88,11 @@ const resize = (gl: WebGLRenderingContext): void => {
 	const shaderProgram = createProgram(glCanvas.gl, vertexShader, fragmentShader);
 
 	/**
-	 * get Attributes
+	 * get Attributes and Uniforms
 	 */
 	const positionAttributeLocation = glCanvas.gl.getAttribLocation(shaderProgram, 'a_position');
+	const resolutionUniformLocation = glCanvas.gl.getUniformLocation(shaderProgram, 'u_resolution');
+	const colorUniformLocation = glCanvas.gl.getUniformLocation(shaderProgram, 'u_color');
 
 	/**
 	 * Create buffers for attributes to recieve data
@@ -101,9 +109,12 @@ const resize = (gl: WebGLRenderingContext): void => {
 	 */
 	// prettier-ignore
 	const positions = [
-		0, 0,
-		0, 0.5,
-		0.7, 0
+		10, 20,
+		80, 20,
+		10, 30,
+		10, 30,
+		80, 20,
+		80, 30
 	];
 	glCanvas.gl.bufferData(glCanvas.gl.ARRAY_BUFFER, new Float32Array(positions), glCanvas.gl.STATIC_DRAW);
 
@@ -149,7 +160,27 @@ const resize = (gl: WebGLRenderingContext): void => {
 
 	glCanvas.gl.vertexAttribPointer(positionAttributeLocation, size, type, normalize, stride, offset);
 
+	/**
+	 * Set the resolution
+	 */
+	glCanvas.gl.uniform2f(resolutionUniformLocation, glCanvas.gl.canvas.width, glCanvas.gl.canvas.height);
+
+	/**
+	 * Updates Color & Slider UI values
+	 */
+	glCanvas.gl.uniform4f(
+		colorUniformLocation,
+		inputReferences.rgbw.r,
+		inputReferences.rgbw.g,
+		inputReferences.rgbw.b,
+		inputReferences.rgbw.w,
+	);
+	inputReferences.setDOMSliderValues();
+
+	/**
+	 * Draws image as triangles
+	 */
 	const primitiveType = glCanvas.gl.TRIANGLES;
-	const count = 3;
+	const count = 6;
 	glCanvas.gl.drawArrays(primitiveType, offset, count);
 })();
