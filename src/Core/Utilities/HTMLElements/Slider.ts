@@ -1,4 +1,4 @@
-import { ISliderOptions } from '~Interfaces/HTML/ISliderOptions';
+import { ISliderOptions } from '~/Interfaces/HTML/ISliderOptions';
 
 export class Slider {
 	constructor(name: string, sliderContainerID: string, options: ISliderOptions) {

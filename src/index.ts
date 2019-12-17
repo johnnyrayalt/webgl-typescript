@@ -1,20 +1,20 @@
 import { Engine } from '~/Core/Engine';
+import { LetterU } from '~/Core/Geometry/LetterU';
+import { GLBuffer } from '~/Core/GLComponents/GLBuffer';
 import { GLCanvas } from '~/Core/GLComponents/GLCanvas';
 import { GLShader } from '~/Core/GLComponents/GLShader';
 // @ts-ignore
 import BasicFragmentShader from '~/Core/Shaders/FragmentShaders/BasicFragmentShader.frag';
 // @ts-ignore
 import BasicVertexShader from '~/Core/Shaders/VertexShaders/BasicVertexShader.vert';
+import { Canvas } from '~/Core/Utilities/HTMLElements/Canvas';
 import { InputReferences } from '~/Core/Utilities/HTMLElements/InputReferences';
 import { Slider } from '~/Core/Utilities/HTMLElements/Slider';
 import { IAttributeManager } from '~/Interfaces/GL/IAttributeManager';
 import { IBufferManager } from '~/Interfaces/GL/IBufferManager';
 import { IUniformManager } from '~/Interfaces/GL/IUniformManager';
-import { LetterU } from '~Core/Geometry/LetterU';
-import { Canvas } from '~Core/Utilities/HTMLElements/Canvas';
-import { IObjectProperties } from '~Interfaces/IObjectProperties';
-import { GLBuffer } from './Core/GLComponents/GLBuffer';
-require('./Assets/IndexStyles.css');
+import { IObjectProperties } from '~/Interfaces/IObjectProperties';
+require('~/Assets/IndexStyles.css');
 
 ((): void => {
 	/**

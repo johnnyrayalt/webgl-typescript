@@ -39,6 +39,13 @@ export class InputReferences {
 		});
 	};
 
+	public updateObjectPosition = (translation: number[]) => {
+		if (translation[0] !== this.uiValues.x || translation[1] !== this.uiValues.y) {
+			translation[0] = this.uiValues.x;
+			translation[1] = this.uiValues.y;
+		}
+	};
+
 	/**
 	 * Adds event listener to each slider input to listen for value changes
 	 */

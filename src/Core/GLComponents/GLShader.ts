@@ -1,20 +1,24 @@
 export class GLShader {
-	name: string;
-	shader: WebGLShader;
+	public readonly name: string;
+	public readonly type: number;
+	public readonly source: string;
+	public readonly shader: WebGLShader;
 
 	constructor(gl: WebGLRenderingContext, name: string, type: number, source: string) {
 		this.name = name;
-		this.shader = this.createShader(gl, type, source);
+		this.type = type;
+		this.source = source;
+		this.shader = this.createShader(gl);
 	}
 
-	private createShader = (gl: WebGLRenderingContext, type: number, source: string): WebGLShader => {
-		const shader = gl.createShader(type);
-		gl.shaderSource(shader, source);
+	private createShader = (gl: WebGLRenderingContext): WebGLShader => {
+		const shader = gl.createShader(this.type);
+		gl.shaderSource(shader, this.source);
 		gl.compileShader(shader);
 		const error = gl.getShaderInfoLog(shader);
 		if (error !== '') {
 			gl.deleteShader(shader);
-			throw new Error(`Error compiling shader from source: ${source}: ${error}`);
+			throw new Error(`Error compiling shader from source: ${this.name}: ${error}`);
 		}
 
 		return shader;

@@ -90,16 +90,8 @@ export class Engine {
 		);
 		this.inputReferences.setDOMSliderValues();
 		this.gl.uniform2fv(this.uniformManager.translationUniformLocation, this.objectProperties.translation);
-		const updatePosition = () => {
-			if (
-				this.objectProperties.translation[0] !== this.inputReferences.uiValues.x ||
-				this.objectProperties.translation[1] !== this.inputReferences.uiValues.y
-			) {
-				this.objectProperties.translation[0] = this.inputReferences.uiValues.x;
-				this.objectProperties.translation[1] = this.inputReferences.uiValues.y;
-			}
-		};
-		updatePosition();
+
+		this.inputReferences.updateObjectPosition(this.objectProperties.translation);
 		/**
 		 * Draws image as triangles
 		 */
