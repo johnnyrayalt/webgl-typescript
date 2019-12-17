@@ -1,3 +1,3 @@
-export interface IUniformHashMap {
+export interface IUniformManager {
 	[name: string]: WebGLUniformLocation;
 }

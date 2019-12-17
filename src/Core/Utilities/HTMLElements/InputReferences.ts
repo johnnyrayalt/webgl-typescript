@@ -1,5 +1,6 @@
 import { ISliderBindingsManager } from '~/Interfaces/GL/ISliderBindingsManager';
 import { INumHashMap } from '~/Interfaces/INumHashMap';
+
 /**
  * Service for binding and holding values from HTML inputs
  */
