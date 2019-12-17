@@ -30,7 +30,26 @@ export class InputReferences {
 	 */
 	public setDOMSliderValues = (): void => {
 		Object.keys(this.sliderBindingsManager).forEach((key: string) => {
-			this.sliderBindingsManager[key].output.innerHTML = String(Math.floor(this.uiValues[key] * 100));
+			if (key === 'r' || key === 'b' || key === 'g' || key === 'w') {
+				this.sliderBindingsManager[key].output.innerHTML = String(Math.floor(this.uiValues[key] * 100));
+			} else {
+				this.sliderBindingsManager[key].output.innerHTML = String(Math.floor(this.uiValues[key]));
+			}
+		});
+	};
+
+	/**
+	 * Adds event listener to each slider input to listen for value changes
+	 */
+	private setSliderValues = (): void => {
+		Object.keys(this.sliderBindingsManager).forEach((key: string) => {
+			this.sliderBindingsManager[key].input.addEventListener('input', (e: any): void => {
+				if (key === 'r' || key === 'b' || key === 'g' || key === 'w') {
+					this.uiValues[key] = parseInt(e.currentTarget.value) / 100;
+				} else {
+					this.uiValues[key] = parseInt(e.currentTarget.value);
+				}
+			});
 		});
 	};
 
@@ -63,20 +82,5 @@ export class InputReferences {
 			x: { input: x, output: xValueDiv },
 			y: { input: y, output: yValueDiv },
 		};
-	};
-
-	/**
-	 * Adds event listener to each slider input to listen for value changes
-	 */
-	private setSliderValues = (): void => {
-		Object.keys(this.sliderBindingsManager).forEach((key: string) => {
-			this.sliderBindingsManager[key].input.addEventListener('input', (e: any): void => {
-				if (key === 'r' || key === 'b' || key === 'g' || key === 'w') {
-					this.uiValues[key] = parseInt(e.currentTarget.value) / 100;
-				} else {
-					this.uiValues[key] = parseInt(e.currentTarget.value);
-				}
-			});
-		});
 	};
 }

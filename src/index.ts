@@ -74,17 +74,22 @@ const setRectangle = (gl: WebGLRenderingContext, x: number, y: number, width: nu
 	const canvasCtx: CreateCanvas = new CreateCanvas();
 	const glCanvas = new GLCanvas(canvasCtx.canvas);
 	resize(glCanvas.gl);
+
 	/**
 	 * Create UI Elements
 	 */
+	const translation = [0, 0];
+	const objectWidth = 100;
+	const objectHeight = 30;
 	const sliderContainer: string = 'slider-container';
+
 	new Slider('r', sliderContainer, { min: 0, max: 100, step: 1, value: 50 });
 	new Slider('g', sliderContainer, { min: 0, max: 100, step: 1, value: 50 });
 	new Slider('b', sliderContainer, { min: 0, max: 100, step: 1, value: 50 });
 	new Slider('w', sliderContainer, { min: 0, max: 100, step: 1, value: 100 });
 
-	new Slider('x', sliderContainer, { min: 0, max: glCanvas.gl.canvas.width - 100, step: 1, value: 0 });
-	new Slider('y', sliderContainer, { min: 0, max: glCanvas.gl.canvas.height - 30, step: 1, value: 0 });
+	new Slider('x', sliderContainer, { min: 0, max: glCanvas.gl.canvas.width - objectWidth, step: 1, value: 0 });
+	new Slider('y', sliderContainer, { min: 0, max: glCanvas.gl.canvas.height - objectHeight, step: 1, value: 0 });
 
 	/**
 	 * Bind UI References
@@ -120,10 +125,6 @@ const setRectangle = (gl: WebGLRenderingContext, x: number, y: number, width: nu
 	 */
 	glCanvas.gl.bindBuffer(glCanvas.gl.ARRAY_BUFFER, positionBuffer);
 
-	const translation = [0, 0];
-	const width = 100;
-	const height = 30;
-
 	/**
 	 * BEGIN RENDER LOGIC
 	 */
@@ -156,7 +157,7 @@ const setRectangle = (gl: WebGLRenderingContext, x: number, y: number, width: nu
 		 */
 		glCanvas.gl.bindBuffer(glCanvas.gl.ARRAY_BUFFER, positionBuffer);
 
-		setRectangle(glCanvas.gl, translation[0], translation[1], width, height);
+		setRectangle(glCanvas.gl, translation[0], translation[1], objectWidth, objectHeight);
 
 		/**
 		 * Tell attribute how to extract data from positionBuffer
