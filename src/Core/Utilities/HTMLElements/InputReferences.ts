@@ -11,9 +11,13 @@ export class InputReferences {
 	private sliderBindingsManager: ISliderBindingsManager = {};
 	private readonly toBind: string[] = [];
 	private readonly needsMath: string[] = ['colorR', 'colorG', 'colorB', 'colorW', 'scaleX', 'scaleY'];
+
 	/**
 	 * Creates an InputReference class to handle HTML bindings
-	 * @this {INumHashMap} uiValues | sets defaults on slider values and used as value store for sliders
+	 * @param {WebGLRenderingContext} gl | The main WebGlRenderingContext
+	 * @param {ISliderManager} sliderManager | Hashmap of HTML Slider objects
+	 * @param {IObjectProperties} objectProperties | Options for manipulating objects
+	 * @this {INumHashMap} uiValues | Value store for sliders
 	 */
 	constructor(gl: WebGLRenderingContext, sliderManager: ISliderManager, objectProperties: IObjectProperties) {
 		this.uiValues = {
