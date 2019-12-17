@@ -1,3 +1,4 @@
+import { GLBuffer } from '~/Core/GLComponents/GLBuffer';
 export interface IBufferManager {
-	[name: string]: WebGLBuffer;
+	[name: string]: GLBuffer;
 }

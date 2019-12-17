@@ -58,7 +58,9 @@ export class Engine {
 		/**
 		 * Rebinds the attributes to buffer with new context
 		 */
-		this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.bufferManager.positionBuffer);
+		Object.keys(this.bufferManager).forEach(key => {
+			this.bufferManager[key].bindBuffer(this.gl);
+		});
 
 		/**
 		 * Tell attribute how to extract data from positionBuffer

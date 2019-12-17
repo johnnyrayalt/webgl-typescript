@@ -13,11 +13,8 @@ import { IUniformManager } from '~/Interfaces/GL/IUniformManager';
 import { LetterU } from '~Core/Geometry/LetterU';
 import { Canvas } from '~Core/Utilities/HTMLElements/Canvas';
 import { IObjectProperties } from '~Interfaces/IObjectProperties';
+import { GLBuffer } from './Core/GLComponents/GLBuffer';
 require('./Assets/IndexStyles.css');
-
-const setGeometry = (gl: WebGLRenderingContext, geometry: number[]): void => {
-	gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(geometry), gl.STATIC_DRAW);
-};
 
 ((): void => {
 	/**
@@ -72,7 +69,7 @@ const setGeometry = (gl: WebGLRenderingContext, geometry: number[]): void => {
 	const shaderProgram: WebGLProgram = GLShader.createProgram(glCanvas.gl, vertexShader.shader, fragmentShader.shader);
 
 	/**
-	 * get Attributes and Uniforms
+	 * gets Attributes and Uniforms
 	 */
 	const attributeManager: IAttributeManager = {
 		positionAttributeLocation: glCanvas.gl.getAttribLocation(shaderProgram, 'a_position'),
@@ -88,14 +85,17 @@ const setGeometry = (gl: WebGLRenderingContext, geometry: number[]): void => {
 	 * Create buffers for attributes to recieve data
 	 */
 	const bufferManager: IBufferManager = {
-		positionBuffer: glCanvas.gl.createBuffer(),
+		positionBuffer: new GLBuffer(glCanvas.gl),
 	};
 
 	/**
 	 * Bind buffers
 	 */
-	glCanvas.gl.bindBuffer(glCanvas.gl.ARRAY_BUFFER, bufferManager.positionBuffer);
-	setGeometry(glCanvas.gl, LetterU);
+	Object.keys(bufferManager).forEach(key => {
+		bufferManager[key].bindBuffer(glCanvas.gl);
+	});
+
+	GLBuffer.setGeometry(glCanvas.gl, LetterU);
 
 	/**
 	 * BEGIN RENDER LOGIC
