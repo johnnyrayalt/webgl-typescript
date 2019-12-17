@@ -1,5 +1,6 @@
 import { ISliderBindingsManager } from '~/Interfaces/GL/ISliderBindingsManager';
 import { INumHashMap } from '~/Interfaces/INumHashMap';
+import { ISliderManager } from '~Interfaces/HTML/ISliderManager';
 import { IObjectProperties } from '~Interfaces/IObjectProperties';
 
 /**
@@ -8,20 +9,22 @@ import { IObjectProperties } from '~Interfaces/IObjectProperties';
 export class InputReferences {
 	uiValues: INumHashMap = {};
 	sliderBindingsManager: ISliderBindingsManager = {};
-
+	private readonly needsMath: string[] = ['colorR', 'colorG', 'colorB', 'colorW', 'scaleX', 'scaleY'];
 	/**
 	 * Creates an InputReference class to handle HTML bindings
 	 * @this {INumHashMap} uiValues | sets defaults on slider values and used as value store for sliders
 	 */
-	constructor(gl: WebGLRenderingContext, sliderManager: any, objectProperties: IObjectProperties) {
+	constructor(gl: WebGLRenderingContext, sliderManager: ISliderManager, objectProperties: IObjectProperties) {
 		this.uiValues = {
-			r: sliderManager.rColor.options.value / 100,
-			g: sliderManager.gColor.options.value / 100,
-			b: sliderManager.bColor.options.value / 100,
-			w: sliderManager.wColor.options.value / 100,
-			x: (gl.canvas.width - objectProperties.width) * 0.25,
-			y: (gl.canvas.height - objectProperties.height) * 0.25,
-			angle: sliderManager.angle.options.value,
+			colorR: sliderManager.rColor.options.value / 100,
+			colorG: sliderManager.gColor.options.value / 100,
+			colorB: sliderManager.bColor.options.value / 100,
+			colorW: sliderManager.wColor.options.value / 100,
+			positionX: (gl.canvas.width - objectProperties.width) * 0.25,
+			positionY: (gl.canvas.height - objectProperties.height) * 0.25,
+			angle: sliderManager.angle.options.value * 100,
+			scaleX: sliderManager.scaleX.options.value / 100,
+			scaleY: sliderManager.scaleY.options.value / 100,
 		};
 		this.bindSliders();
 		this.setDOMSliderValues();
@@ -33,7 +36,7 @@ export class InputReferences {
 	 */
 	public setDOMSliderValues = (): void => {
 		Object.keys(this.sliderBindingsManager).forEach((key: string): void => {
-			if (key === 'r' || key === 'b' || key === 'g' || key === 'w') {
+			if (this.needsMath.includes(key)) {
 				this.sliderBindingsManager[key].output.innerHTML = String(Math.floor(this.uiValues[key] * 100));
 			} else {
 				this.sliderBindingsManager[key].output.innerHTML = String(Math.floor(this.uiValues[key]));
@@ -41,14 +44,17 @@ export class InputReferences {
 		});
 	};
 
-	public updateObjectPosition = (translation: number[]): void => {
-		if (translation[0] !== this.uiValues.x || translation[1] !== this.uiValues.y) {
-			translation[0] = this.uiValues.x;
-			translation[1] = this.uiValues.y;
+	public updateObject = (translation: number[], rotation: number[], scale: number[]): void => {
+		if (translation[0] !== this.uiValues.positionX || translation[1] !== this.uiValues.positionY) {
+			translation[0] = this.uiValues.positionX;
+			translation[1] = this.uiValues.positionY;
 		}
-	};
 
-	public updateObjectRotation = (rotation: number[]): void => {
+		if (scale[0] !== this.uiValues.scaleX || scale[1] !== this.uiValues.scaleY) {
+			scale[0] = this.uiValues.scaleX;
+			scale[1] = this.uiValues.scaleY;
+		}
+
 		const angleInDegrees: number = 360 - this.uiValues.angle;
 		const angleInRadians: number = (angleInDegrees * Math.PI) / 180;
 		rotation[0] = Math.sin(angleInRadians);
@@ -61,7 +67,7 @@ export class InputReferences {
 	private setSliderValues = (): void => {
 		Object.keys(this.sliderBindingsManager).forEach((key: string) => {
 			this.sliderBindingsManager[key].input.addEventListener('input', (e: any): void => {
-				if (key === 'r' || key === 'b' || key === 'g' || key === 'w') {
+				if (this.needsMath.includes(key)) {
 					this.uiValues[key] = parseInt(e.currentTarget.value) / 100;
 				} else {
 					this.uiValues[key] = parseInt(e.currentTarget.value);
@@ -75,34 +81,51 @@ export class InputReferences {
 	 * set @this sliderBindingsManager
 	 */
 	private bindSliders = (): void => {
-		const r: HTMLInputElement = <HTMLInputElement>document.getElementById('r-input');
-		const g: HTMLInputElement = <HTMLInputElement>document.getElementById('g-input');
-		const b: HTMLInputElement = <HTMLInputElement>document.getElementById('b-input');
-		const w: HTMLInputElement = <HTMLInputElement>document.getElementById('w-input');
+		/**
+		 * HTMLInputElemets values from sliders
+		 */
+		const colorR: HTMLInputElement = <HTMLInputElement>document.getElementById('colorR-input');
+		const colorG: HTMLInputElement = <HTMLInputElement>document.getElementById('colorG-input');
+		const colorB: HTMLInputElement = <HTMLInputElement>document.getElementById('colorB-input');
+		const colorW: HTMLInputElement = <HTMLInputElement>document.getElementById('colorW-input');
 
-		const x: HTMLInputElement = <HTMLInputElement>document.getElementById('x-input');
-		const y: HTMLInputElement = <HTMLInputElement>document.getElementById('y-input');
+		const positionX: HTMLInputElement = <HTMLInputElement>document.getElementById('positionX-input');
+		const positionY: HTMLInputElement = <HTMLInputElement>document.getElementById('positionY-input');
 
 		const angle: HTMLInputElement = <HTMLInputElement>document.getElementById('angle-input');
 
-		const rValueDiv: HTMLElement = document.getElementById('r-value');
-		const gValueDiv: HTMLElement = document.getElementById('g-value');
-		const bValueDiv: HTMLElement = document.getElementById('b-value');
-		const wValueDiv: HTMLElement = document.getElementById('w-value');
+		const scaleX: HTMLInputElement = <HTMLInputElement>document.getElementById('scaleX-input');
+		const scaleY: HTMLInputElement = <HTMLInputElement>document.getElementById('scaleY-input');
 
-		const xValueDiv: HTMLElement = document.getElementById('x-value');
-		const yValueDiv: HTMLElement = document.getElementById('y-value');
+		/**
+		 * Value shows in DOM
+		 */
+		const colorRValueDiv: HTMLElement = document.getElementById('colorR-value');
+		const gcolorGValueDiv: HTMLElement = document.getElementById('colorG-value');
+		const colorBValueDiv: HTMLElement = document.getElementById('colorB-value');
+		const colorWValueDiv: HTMLElement = document.getElementById('colorW-value');
+
+		const positionXValueDiv: HTMLElement = document.getElementById('positionX-value');
+		const positionYValueDiv: HTMLElement = document.getElementById('positionY-value');
 
 		const angleValueDiv: HTMLElement = document.getElementById('angle-value');
 
+		const scaleXValueDiv: HTMLElement = document.getElementById('scaleX-value');
+		const scaleYValueDiv: HTMLElement = document.getElementById('scaleY-value');
+
+		/**
+		 * Slider Bindings Manager
+		 */
 		this.sliderBindingsManager = {
-			r: { input: r, output: rValueDiv },
-			g: { input: g, output: gValueDiv },
-			b: { input: b, output: bValueDiv },
-			w: { input: w, output: wValueDiv },
-			x: { input: x, output: xValueDiv },
-			y: { input: y, output: yValueDiv },
+			colorR: { input: colorR, output: colorRValueDiv },
+			colorG: { input: colorG, output: gcolorGValueDiv },
+			colorB: { input: colorB, output: colorBValueDiv },
+			colorW: { input: colorW, output: colorWValueDiv },
+			positionX: { input: positionX, output: positionXValueDiv },
+			positionY: { input: positionY, output: positionYValueDiv },
 			angle: { input: angle, output: angleValueDiv },
+			scaleX: { input: scaleX, output: scaleXValueDiv },
+			scaleY: { input: scaleY, output: scaleYValueDiv },
 		};
 	};
 }

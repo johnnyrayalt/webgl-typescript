@@ -7,6 +7,7 @@ export class Slider {
 		this.options = options;
 		this.generateSlider(name, sliderContainerID, options);
 	}
+
 	/**
 	 * Gets location to generate slider and sets the inner HTML for the slider with passed options as defaults
 	 * @param {string} name | Name of the slider to be set as the ID

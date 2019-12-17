@@ -85,10 +85,10 @@ export class Engine {
 		 */
 		this.gl.uniform4f(
 			this.uniformManager.colorUniformLocation,
-			this.inputReferences.uiValues.r,
-			this.inputReferences.uiValues.g,
-			this.inputReferences.uiValues.b,
-			this.inputReferences.uiValues.w,
+			this.inputReferences.uiValues.colorR,
+			this.inputReferences.uiValues.colorG,
+			this.inputReferences.uiValues.colorB,
+			this.inputReferences.uiValues.colorW,
 		);
 		this.inputReferences.setDOMSliderValues();
 
@@ -103,10 +103,18 @@ export class Engine {
 		this.gl.uniform2fv(this.uniformManager.rotationUniformLocation, this.objectProperties.rotation);
 
 		/**
-		 * updates objects x & y coords
+		 * Updates scale
 		 */
-		this.inputReferences.updateObjectPosition(this.objectProperties.translation);
-		this.inputReferences.updateObjectRotation(this.objectProperties.rotation);
+		this.gl.uniform2fv(this.uniformManager.scaleUniformLocation, this.objectProperties.scale);
+
+		/**
+		 * Update DOM
+		 */
+		this.inputReferences.updateObject(
+			this.objectProperties.translation,
+			this.objectProperties.rotation,
+			this.objectProperties.scale,
+		);
 		/**
 		 * Draws image as triangles
 		 */

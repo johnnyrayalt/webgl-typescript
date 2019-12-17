@@ -3,4 +3,5 @@ export interface IObjectProperties {
 	rotation?: number[];
 	width?: number;
 	height?: number;
+	scale?: number[];
 }
