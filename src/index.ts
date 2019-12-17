@@ -1,10 +1,11 @@
-import { InputReferences } from './Core/Utilities/InputReferences';
 import { GLCanvas } from '~/Core/GLComponents/GLCanvas';
 // @ts-ignore
 import BasicFragmentShader from '~/Core/Shaders/FragmentShaders/BasicFragmentShader.frag';
 // @ts-ignore
 import BasicVertexShader from '~/Core/Shaders/VertexShaders/BasicVertexShader.vert';
-import { CreateUI } from '~/Core/Utilities/CreateUI';
+import { Slider } from '~Core/Utilities/Slider';
+import { CreateCanvas } from './Core/Utilities/CreateCanvas';
+import { InputReferences } from './Core/Utilities/InputReferences';
 require('./Assets/IndexStyles.css');
 
 const shaderManager: { [name: string]: string } = {};
@@ -70,13 +71,20 @@ const setRectangle = (gl: WebGLRenderingContext, x: number, y: number, width: nu
 	/**
 	 * Create canvas as HTMLCanvasElement and attach WebGLRenderingContext
 	 */
-	const canvasCtx: HTMLCanvasElement = CreateUI.createHTMLCanvas();
-	const glCanvas = new GLCanvas(canvasCtx);
-
+	const canvasCtx: CreateCanvas = new CreateCanvas();
+	const glCanvas = new GLCanvas(canvasCtx.canvas);
+	resize(glCanvas.gl);
 	/**
 	 * Create UI Elements
 	 */
-	CreateUI.bootStrapUI();
+	const sliderContainer: string = 'slider-container';
+	new Slider('r', sliderContainer, { min: 0, max: 100, step: 1, value: 50 });
+	new Slider('g', sliderContainer, { min: 0, max: 100, step: 1, value: 50 });
+	new Slider('b', sliderContainer, { min: 0, max: 100, step: 1, value: 50 });
+	new Slider('w', sliderContainer, { min: 0, max: 100, step: 1, value: 100 });
+
+	new Slider('x', sliderContainer, { min: 0, max: glCanvas.gl.canvas.width - 100, step: 1, value: 0 });
+	new Slider('y', sliderContainer, { min: 0, max: glCanvas.gl.canvas.height - 30, step: 1, value: 0 });
 
 	/**
 	 * Bind UI References

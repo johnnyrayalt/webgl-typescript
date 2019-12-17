@@ -12,7 +12,14 @@ export class InputReferences {
 	 * @this {INumHashMap} rgbw | Sets default color values to r, g, b = 50 & w = 100.
 	 */
 	constructor() {
-		this.uiValues = { r: 50 / 100, g: 50 / 100, b: 50 / 100, w: 100 / 100, x: 0, y: 0 };
+		this.uiValues = {
+			r: 50 / 100,
+			g: 50 / 100,
+			b: 50 / 100,
+			w: 100 / 100,
+			x: 0,
+			y: 0,
+		};
 		this.bindSliders();
 		this.setDOMSliderValues();
 		this.setSliderValues();
@@ -64,7 +71,11 @@ export class InputReferences {
 	private setSliderValues = (): void => {
 		Object.keys(this.sliderBindingsManager).forEach((key: string) => {
 			this.sliderBindingsManager[key].input.addEventListener('input', (e: any): void => {
-				this.uiValues[key] = parseInt(e.currentTarget.value) / 100;
+				if (key === 'r' || key === 'b' || key === 'g' || key === 'w') {
+					this.uiValues[key] = parseInt(e.currentTarget.value) / 100;
+				} else {
+					this.uiValues[key] = parseInt(e.currentTarget.value);
+				}
 			});
 		});
 	};

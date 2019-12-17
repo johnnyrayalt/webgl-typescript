@@ -2,10 +2,10 @@ export class GLCanvas {
 	public gl: WebGLRenderingContext;
 
 	constructor(canvasCtx: HTMLCanvasElement) {
-		this.attachGLCtx(canvasCtx);
+		this.attachGLctx(canvasCtx);
 	}
 
-	private attachGLCtx = (canvasCtx: HTMLCanvasElement): WebGLRenderingContext => {
+	private attachGLctx = (canvasCtx: HTMLCanvasElement): WebGLRenderingContext => {
 		if (!canvasCtx) {
 			throw new Error(`Canvas context is undefined for canvas element: ${canvasCtx}`);
 		}
