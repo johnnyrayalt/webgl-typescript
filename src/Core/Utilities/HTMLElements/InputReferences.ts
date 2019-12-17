@@ -10,7 +10,7 @@ export class InputReferences {
 
 	/**
 	 * Creates an InputReference class to handle HTML bindings
-	 * @this {INumHashMap} rgbw | Sets default color values to r, g, b = 50 & w = 100.
+	 * @this {INumHashMap} uiValues | sets defaults on slider values and used as value store for sliders
 	 */
 	constructor() {
 		this.uiValues = {

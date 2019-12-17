@@ -96,10 +96,10 @@ const setGeometry = (gl: WebGLRenderingContext, geometry: number[]): void => {
 	 */
 	glCanvas.gl.bindBuffer(glCanvas.gl.ARRAY_BUFFER, bufferManager.positionBuffer);
 	setGeometry(glCanvas.gl, LetterU);
+
 	/**
 	 * BEGIN RENDER LOGIC
 	 */
-
 	new Engine(
 		glCanvas.gl,
 		shaderProgram,
