@@ -59,12 +59,37 @@ const resize = (gl: WebGLRenderingContext): void => {
 	}
 };
 
-const setRectangle = (gl: WebGLRenderingContext, x: number, y: number, width: number, height: number): void => {
-	const x1 = x;
-	const x2 = x + width;
-	const y1 = y;
-	const y2 = y + height;
-	gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([x1, y1, x2, y1, x1, y2, x1, y2, x2, y1, x2, y2]), gl.STATIC_DRAW);
+const setGeometry = (gl: WebGLRenderingContext): void => {
+	gl.bufferData(
+		gl.ARRAY_BUFFER,
+		// prettier-ignore
+		new Float32Array([
+			// left column
+			0, 0,
+			30, 0,
+			0, 150,
+			0, 150,
+			30, 0,
+			30, 150,
+
+			// right column
+			60, 0,
+			90, 0,
+			60, 150,
+			60, 150,
+			90, 0,
+			90, 150,
+
+			// bottom rung
+			30, 120,
+			67, 120,
+			30, 150,
+			30, 150,
+			67, 120,
+			67, 150,
+		]),
+		gl.STATIC_DRAW,
+	);
 };
 
 ((): void => {
@@ -114,6 +139,7 @@ const setRectangle = (gl: WebGLRenderingContext, x: number, y: number, width: nu
 	const positionAttributeLocation = glCanvas.gl.getAttribLocation(shaderProgram, 'a_position');
 	const resolutionUniformLocation = glCanvas.gl.getUniformLocation(shaderProgram, 'u_resolution');
 	const colorUniformLocation = glCanvas.gl.getUniformLocation(shaderProgram, 'u_color');
+	const translationUniformLocation = glCanvas.gl.getUniformLocation(shaderProgram, 'u_translation');
 
 	/**
 	 * Create buffers for attributes to recieve data
@@ -124,7 +150,7 @@ const setRectangle = (gl: WebGLRenderingContext, x: number, y: number, width: nu
 	 * Bind buffers
 	 */
 	glCanvas.gl.bindBuffer(glCanvas.gl.ARRAY_BUFFER, positionBuffer);
-
+	setGeometry(glCanvas.gl);
 	/**
 	 * BEGIN RENDER LOGIC
 	 */
@@ -157,8 +183,6 @@ const setRectangle = (gl: WebGLRenderingContext, x: number, y: number, width: nu
 		 */
 		glCanvas.gl.bindBuffer(glCanvas.gl.ARRAY_BUFFER, positionBuffer);
 
-		setRectangle(glCanvas.gl, translation[0], translation[1], objectWidth, objectHeight);
-
 		/**
 		 * Tell attribute how to extract data from positionBuffer
 		 */
@@ -186,6 +210,7 @@ const setRectangle = (gl: WebGLRenderingContext, x: number, y: number, width: nu
 			inputReferences.uiValues.w,
 		);
 		inputReferences.setDOMSliderValues();
+		glCanvas.gl.uniform2fv(translationUniformLocation, translation);
 		const updatePosition = () => {
 			if (translation[0] !== inputReferences.uiValues.x || translation[1] !== inputReferences.uiValues.y) {
 				translation[0] = inputReferences.uiValues.x;
@@ -197,7 +222,7 @@ const setRectangle = (gl: WebGLRenderingContext, x: number, y: number, width: nu
 		 * Draws image as triangles
 		 */
 		const primitiveType = glCanvas.gl.TRIANGLES;
-		const count = 6;
+		const count = 18;
 		glCanvas.gl.drawArrays(primitiveType, offset, count);
 		requestAnimationFrame(drawScene.bind(drawScene));
 	};
