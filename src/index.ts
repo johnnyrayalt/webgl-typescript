@@ -38,17 +38,17 @@ require('~/Assets/IndexStyles.css');
 	const sliderContainer: string = 'slider-container';
 
 	const sliderManager: ISliderManager = {
-		rColor: new Slider('colorR', sliderContainer, { min: 0, max: 100, step: 1, value: 50 }),
-		gColor: new Slider('colorG', sliderContainer, { min: 0, max: 100, step: 1, value: 50 }),
-		bColor: new Slider('colorB', sliderContainer, { min: 0, max: 100, step: 1, value: 50 }),
-		wColor: new Slider('colorW', sliderContainer, { min: 0, max: 100, step: 1, value: 100 }),
-		xPosition: new Slider('positionX', sliderContainer, {
+		colorR: new Slider('colorR', sliderContainer, { min: 0, max: 100, step: 1, value: 50 }),
+		colorG: new Slider('colorG', sliderContainer, { min: 0, max: 100, step: 1, value: 50 }),
+		colorB: new Slider('colorB', sliderContainer, { min: 0, max: 100, step: 1, value: 50 }),
+		colorW: new Slider('colorW', sliderContainer, { min: 0, max: 100, step: 1, value: 100 }),
+		positionX: new Slider('positionX', sliderContainer, {
 			min: 0,
 			max: glCanvas.gl.canvas.width - objectProperties.width,
 			step: 1,
 			value: (glCanvas.gl.canvas.width - objectProperties.width) * 0.25,
 		}),
-		yPosition: new Slider('positionY', sliderContainer, {
+		positionY: new Slider('positionY', sliderContainer, {
 			min: 0,
 			max: glCanvas.gl.canvas.height - objectProperties.height,
 			step: 1,
