@@ -28,6 +28,10 @@ require('~/Assets/IndexStyles.css');
 	/**
 	 * Create UI Elements
 	 */
+
+	/**
+	 * @type {IObjectProperties} | Default options to be passed to value store
+	 */
 	const objectProperties: IObjectProperties = {
 		translation: [0, 0],
 		rotation: [0, 1],
@@ -35,8 +39,11 @@ require('~/Assets/IndexStyles.css');
 		width: 100,
 		height: 30,
 	};
-	const sliderContainer: string = 'slider-container';
 
+	/**
+	 * @type {ISliderManager} | Hashmap for all sliders objects with options
+	 */
+	const sliderContainer: string = 'slider-container';
 	const sliderManager: ISliderManager = {
 		colorR: new Slider('colorR', sliderContainer, { min: 0, max: 100, step: 1, value: 50 }),
 		colorG: new Slider('colorG', sliderContainer, { min: 0, max: 100, step: 1, value: 50 }),

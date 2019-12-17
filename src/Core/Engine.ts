@@ -65,7 +65,6 @@ export class Engine {
 		/**
 		 * Tell attribute how to extract data from positionBuffer
 		 */
-
 		this.gl.vertexAttribPointer(
 			this.attributeManager.positionAttributeLocation.location,
 			this.attributeManager.positionAttributeLocation.size,
