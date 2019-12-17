@@ -1,7 +1,10 @@
 import { ISliderOptions } from '~/Interfaces/HTML/ISliderOptions';
 
 export class Slider {
+	public readonly options: ISliderOptions;
+
 	constructor(name: string, sliderContainerID: string, options: ISliderOptions) {
+		this.options = options;
 		this.generateSlider(name, sliderContainerID, options);
 	}
 	/**

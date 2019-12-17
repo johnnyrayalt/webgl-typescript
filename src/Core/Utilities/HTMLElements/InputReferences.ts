@@ -1,5 +1,6 @@
 import { ISliderBindingsManager } from '~/Interfaces/GL/ISliderBindingsManager';
 import { INumHashMap } from '~/Interfaces/INumHashMap';
+import { IObjectProperties } from '~Interfaces/IObjectProperties';
 
 /**
  * Service for binding and holding values from HTML inputs
@@ -12,15 +13,15 @@ export class InputReferences {
 	 * Creates an InputReference class to handle HTML bindings
 	 * @this {INumHashMap} uiValues | sets defaults on slider values and used as value store for sliders
 	 */
-	constructor() {
+	constructor(gl: WebGLRenderingContext, sliderManager: any, objectProperties: IObjectProperties) {
 		this.uiValues = {
-			r: 50 / 100,
-			g: 50 / 100,
-			b: 50 / 100,
-			w: 100 / 100,
-			x: 0,
-			y: 0,
-			angle: 0,
+			r: sliderManager.rColor.options.value / 100,
+			g: sliderManager.gColor.options.value / 100,
+			b: sliderManager.bColor.options.value / 100,
+			w: sliderManager.wColor.options.value / 100,
+			x: (gl.canvas.width - objectProperties.width) * 0.25,
+			y: (gl.canvas.height - objectProperties.height) * 0.25,
+			angle: sliderManager.angle.options.value,
 		};
 		this.bindSliders();
 		this.setDOMSliderValues();

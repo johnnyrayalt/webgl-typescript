@@ -35,35 +35,59 @@ require('~/Assets/IndexStyles.css');
 	};
 	const sliderContainer: string = 'slider-container';
 
-	new Slider('r', sliderContainer, { min: 0, max: 100, step: 1, value: 50 });
-	new Slider('g', sliderContainer, { min: 0, max: 100, step: 1, value: 50 });
-	new Slider('b', sliderContainer, { min: 0, max: 100, step: 1, value: 50 });
-	new Slider('w', sliderContainer, { min: 0, max: 100, step: 1, value: 100 });
+	const sliderManager: any = {
+		rColor: new Slider('r', sliderContainer, { min: 0, max: 100, step: 1, value: 50 }),
+		gColor: new Slider('g', sliderContainer, { min: 0, max: 100, step: 1, value: 50 }),
+		bColor: new Slider('b', sliderContainer, { min: 0, max: 100, step: 1, value: 50 }),
+		wColor: new Slider('w', sliderContainer, { min: 0, max: 100, step: 1, value: 100 }),
+		xPosition: new Slider('x', sliderContainer, {
+			min: 0,
+			max: glCanvas.gl.canvas.width - objectProperties.width,
+			step: 1,
+			value: (glCanvas.gl.canvas.width - objectProperties.width) * 0.25,
+		}),
+		yPosition: new Slider('y', sliderContainer, {
+			min: 0,
+			max: glCanvas.gl.canvas.height - objectProperties.height,
+			step: 1,
+			value: (glCanvas.gl.canvas.height - objectProperties.height) * 0.25,
+		}),
+		angle: new Slider('angle', sliderContainer, {
+			min: 0,
+			max: 360,
+			step: 1,
+			value: 0,
+		}),
+	};
+	// new Slider('r', sliderContainer, { min: 0, max: 100, step: 1, value: 50 });
+	// new Slider('g', sliderContainer, { min: 0, max: 100, step: 1, value: 50 });
+	// new Slider('b', sliderContainer, { min: 0, max: 100, step: 1, value: 50 });
+	// new Slider('w', sliderContainer, { min: 0, max: 100, step: 1, value: 100 });
 
-	new Slider('x', sliderContainer, {
-		min: 0,
-		max: glCanvas.gl.canvas.width - objectProperties.width,
-		step: 1,
-		value: 0,
-	});
-	new Slider('y', sliderContainer, {
-		min: 0,
-		max: glCanvas.gl.canvas.height - objectProperties.height,
-		step: 1,
-		value: 0,
-	});
+	// new Slider('x', sliderContainer, {
+	// 	min: 0,
+	// 	max: glCanvas.gl.canvas.width - objectProperties.width,
+	// 	step: 1,
+	// 	value: (glCanvas.gl.canvas.width - objectProperties.width) * 0.25,
+	// });
+	// new Slider('y', sliderContainer, {
+	// 	min: 0,
+	// 	max: glCanvas.gl.canvas.height - objectProperties.height,
+	// 	step: 1,
+	// 	value: (glCanvas.gl.canvas.height - objectProperties.height) * 0.25,
+	// });
 
-	new Slider('angle', sliderContainer, {
-		min: 0,
-		max: 360,
-		step: 1,
-		value: 0,
-	});
+	// new Slider('angle', sliderContainer, {
+	// 	min: 0,
+	// 	max: 360,
+	// 	step: 1,
+	// 	value: 0,
+	// });
 
 	/**
 	 * Bind UI References
 	 */
-	const inputReferences = new InputReferences();
+	const inputReferences = new InputReferences(glCanvas.gl, sliderManager, objectProperties);
 
 	/**
 	 * Gets and Creates Shaders
