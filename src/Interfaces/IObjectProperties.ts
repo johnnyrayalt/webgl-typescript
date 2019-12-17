@@ -1,5 +1,6 @@
 export interface IObjectProperties {
-	translation: number[];
-	width: number;
-	height: number;
+	translation?: number[];
+	rotation?: number[];
+	width?: number;
+	height?: number;
 }

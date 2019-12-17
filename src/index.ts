@@ -29,6 +29,7 @@ require('~/Assets/IndexStyles.css');
 	 */
 	const objectProperties: IObjectProperties = {
 		translation: [0, 0],
+		rotation: [0, 1],
 		width: 100,
 		height: 30,
 	};
@@ -48,6 +49,13 @@ require('~/Assets/IndexStyles.css');
 	new Slider('y', sliderContainer, {
 		min: 0,
 		max: glCanvas.gl.canvas.height - objectProperties.height,
+		step: 1,
+		value: 0,
+	});
+
+	new Slider('angle', sliderContainer, {
+		min: 0,
+		max: 360,
 		step: 1,
 		value: 0,
 	});
@@ -86,6 +94,7 @@ require('~/Assets/IndexStyles.css');
 		resolutionUniformLocation: glCanvas.gl.getUniformLocation(shaderProgram, 'u_resolution'),
 		colorUniformLocation: glCanvas.gl.getUniformLocation(shaderProgram, 'u_color'),
 		translationUniformLocation: glCanvas.gl.getUniformLocation(shaderProgram, 'u_translation'),
+		rotationUniformLocation: glCanvas.gl.getUniformLocation(shaderProgram, 'u_rotation'),
 	};
 
 	/**
@@ -102,6 +111,9 @@ require('~/Assets/IndexStyles.css');
 		bufferManager[key].bindBuffer(glCanvas.gl);
 	});
 
+	/**
+	 * Send array of vertices to buffer
+	 */
 	GLBuffer.setGeometry(glCanvas.gl, LetterU);
 
 	/**

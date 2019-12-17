@@ -35,7 +35,8 @@ canvas {
 }
 
 .slider-widget-label {
-	width: 25px;
+	text-align: right;
+	width: 100px;
 }
 
 .slider-widget-value {

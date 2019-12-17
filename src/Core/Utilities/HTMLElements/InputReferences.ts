@@ -20,6 +20,7 @@ export class InputReferences {
 			w: 100 / 100,
 			x: 0,
 			y: 0,
+			angle: 0,
 		};
 		this.bindSliders();
 		this.setDOMSliderValues();
@@ -30,7 +31,7 @@ export class InputReferences {
 	 * Sets innerString for slider output div
 	 */
 	public setDOMSliderValues = (): void => {
-		Object.keys(this.sliderBindingsManager).forEach((key: string) => {
+		Object.keys(this.sliderBindingsManager).forEach((key: string): void => {
 			if (key === 'r' || key === 'b' || key === 'g' || key === 'w') {
 				this.sliderBindingsManager[key].output.innerHTML = String(Math.floor(this.uiValues[key] * 100));
 			} else {
@@ -39,11 +40,18 @@ export class InputReferences {
 		});
 	};
 
-	public updateObjectPosition = (translation: number[]) => {
+	public updateObjectPosition = (translation: number[]): void => {
 		if (translation[0] !== this.uiValues.x || translation[1] !== this.uiValues.y) {
 			translation[0] = this.uiValues.x;
 			translation[1] = this.uiValues.y;
 		}
+	};
+
+	public updateObjectRotation = (rotation: number[]): void => {
+		const angleInDegrees: number = 360 - this.uiValues.angle;
+		const angleInRadians: number = (angleInDegrees * Math.PI) / 180;
+		rotation[0] = Math.sin(angleInRadians);
+		rotation[1] = Math.cos(angleInRadians);
 	};
 
 	/**
@@ -74,6 +82,8 @@ export class InputReferences {
 		const x: HTMLInputElement = <HTMLInputElement>document.getElementById('x-input');
 		const y: HTMLInputElement = <HTMLInputElement>document.getElementById('y-input');
 
+		const angle: HTMLInputElement = <HTMLInputElement>document.getElementById('angle-input');
+
 		const rValueDiv: HTMLElement = document.getElementById('r-value');
 		const gValueDiv: HTMLElement = document.getElementById('g-value');
 		const bValueDiv: HTMLElement = document.getElementById('b-value');
@@ -82,6 +92,8 @@ export class InputReferences {
 		const xValueDiv: HTMLElement = document.getElementById('x-value');
 		const yValueDiv: HTMLElement = document.getElementById('y-value');
 
+		const angleValueDiv: HTMLElement = document.getElementById('angle-value');
+
 		this.sliderBindingsManager = {
 			r: { input: r, output: rValueDiv },
 			g: { input: g, output: gValueDiv },
@@ -89,6 +101,7 @@ export class InputReferences {
 			w: { input: w, output: wValueDiv },
 			x: { input: x, output: xValueDiv },
 			y: { input: y, output: yValueDiv },
+			angle: { input: angle, output: angleValueDiv },
 		};
 	};
 }

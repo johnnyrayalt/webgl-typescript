@@ -91,13 +91,22 @@ export class Engine {
 			this.inputReferences.uiValues.w,
 		);
 		this.inputReferences.setDOMSliderValues();
+
+		/**
+		 * Updates translation
+		 */
 		this.gl.uniform2fv(this.uniformManager.translationUniformLocation, this.objectProperties.translation);
+
+		/**
+		 * Updates rotation
+		 */
+		this.gl.uniform2fv(this.uniformManager.rotationUniformLocation, this.objectProperties.rotation);
 
 		/**
 		 * updates objects x & y coords
 		 */
 		this.inputReferences.updateObjectPosition(this.objectProperties.translation);
-
+		this.inputReferences.updateObjectRotation(this.objectProperties.rotation);
 		/**
 		 * Draws image as triangles
 		 */
