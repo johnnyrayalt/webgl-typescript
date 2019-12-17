@@ -58,6 +58,14 @@ const resize = (gl: WebGLRenderingContext): void => {
 	}
 };
 
+const setRectangle = (gl: WebGLRenderingContext, x: number, y: number, width: number, height: number): void => {
+	const x1 = x;
+	const x2 = x + width;
+	const y1 = y;
+	const y2 = y + height;
+	gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([x1, y1, x2, y1, x1, y2, x1, y2, x2, y1, x2, y2]), gl.STATIC_DRAW);
+};
+
 ((): void => {
 	/**
 	 * Create canvas as HTMLCanvasElement and attach WebGLRenderingContext
@@ -104,83 +112,86 @@ const resize = (gl: WebGLRenderingContext): void => {
 	 */
 	glCanvas.gl.bindBuffer(glCanvas.gl.ARRAY_BUFFER, positionBuffer);
 
-	/**
-	 * Fill buffers with data
-	 */
-	// prettier-ignore
-	const positions = [
-		10, 20,
-		80, 20,
-		10, 30,
-		10, 30,
-		80, 20,
-		80, 30
-	];
-	glCanvas.gl.bufferData(glCanvas.gl.ARRAY_BUFFER, new Float32Array(positions), glCanvas.gl.STATIC_DRAW);
+	const translation = [0, 0];
+	const width = 100;
+	const height = 30;
 
 	/**
 	 * BEGIN RENDER LOGIC
 	 */
 
-	/**
-	 * Set canvas size to client size
-	 */
-	resize(glCanvas.gl);
-	glCanvas.gl.viewport(0, 0, glCanvas.gl.canvas.width, glCanvas.gl.canvas.height);
+	const drawScene = (): void => {
+		/**
+		 * Set canvas size to client size
+		 */
+		resize(glCanvas.gl);
+		glCanvas.gl.viewport(0, 0, glCanvas.gl.canvas.width, glCanvas.gl.canvas.height);
 
-	/**
-	 * Clear the canvas
-	 */
-	glCanvas.gl.clearColor(0, 0, 0, 0);
-	glCanvas.gl.clear(glCanvas.gl.COLOR_BUFFER_BIT);
+		/**
+		 * Clear the canvas
+		 */
+		glCanvas.gl.clearColor(0, 0, 0, 0);
+		glCanvas.gl.clear(glCanvas.gl.COLOR_BUFFER_BIT);
 
-	/**
-	 * Use program
-	 */
-	glCanvas.gl.useProgram(shaderProgram);
+		/**
+		 * Use program
+		 */
+		glCanvas.gl.useProgram(shaderProgram);
 
-	/**
-	 * Extracts data from buffer and supplies it to attributes specified
-	 */
-	glCanvas.gl.enableVertexAttribArray(positionAttributeLocation);
+		/**
+		 * Extracts data from buffer and supplies it to attributes specified
+		 */
+		glCanvas.gl.enableVertexAttribArray(positionAttributeLocation);
 
-	/**
-	 * Rebinds the attributes to buffer with new context
-	 */
-	glCanvas.gl.bindBuffer(glCanvas.gl.ARRAY_BUFFER, positionBuffer);
+		/**
+		 * Rebinds the attributes to buffer with new context
+		 */
+		glCanvas.gl.bindBuffer(glCanvas.gl.ARRAY_BUFFER, positionBuffer);
 
-	/**
-	 * Tell attribute how to extract data from positionBuffer
-	 */
-	const size: number = 2; // number of components per iteration
-	const type = glCanvas.gl.FLOAT; // data in 32bit floats
-	const normalize = false; // Do not normalize the data
-	const stride = 0; // 0 = move forward size * sizeof(type) each iteration to get the next position
-	const offset = 0; // Start at the begining of the buffer
+		setRectangle(glCanvas.gl, translation[0], translation[1], width, height);
 
-	glCanvas.gl.vertexAttribPointer(positionAttributeLocation, size, type, normalize, stride, offset);
+		/**
+		 * Tell attribute how to extract data from positionBuffer
+		 */
+		const size: number = 2; // number of components per iteration
+		const type = glCanvas.gl.FLOAT; // data in 32bit floats
+		const normalize = false; // Do not normalize the data
+		const stride = 0; // 0 = move forward size * sizeof(type) each iteration to get the next position
+		const offset = 0; // Start at the begining of the buffer
 
-	/**
-	 * Set the resolution
-	 */
-	glCanvas.gl.uniform2f(resolutionUniformLocation, glCanvas.gl.canvas.width, glCanvas.gl.canvas.height);
+		glCanvas.gl.vertexAttribPointer(positionAttributeLocation, size, type, normalize, stride, offset);
 
-	/**
-	 * Updates Color & Slider UI values
-	 */
-	glCanvas.gl.uniform4f(
-		colorUniformLocation,
-		inputReferences.rgbw.r,
-		inputReferences.rgbw.g,
-		inputReferences.rgbw.b,
-		inputReferences.rgbw.w,
-	);
-	inputReferences.setDOMSliderValues();
+		/**
+		 * Set the resolution
+		 */
+		glCanvas.gl.uniform2f(resolutionUniformLocation, glCanvas.gl.canvas.width, glCanvas.gl.canvas.height);
 
-	/**
-	 * Draws image as triangles
-	 */
-	const primitiveType = glCanvas.gl.TRIANGLES;
-	const count = 6;
-	glCanvas.gl.drawArrays(primitiveType, offset, count);
+		/**
+		 * Updates Color & Slider UI values
+		 */
+		glCanvas.gl.uniform4f(
+			colorUniformLocation,
+			inputReferences.uiValues.r,
+			inputReferences.uiValues.g,
+			inputReferences.uiValues.b,
+			inputReferences.uiValues.w,
+		);
+		inputReferences.setDOMSliderValues();
+		const updatePosition = () => {
+			if (translation[0] !== inputReferences.uiValues.x || translation[1] !== inputReferences.uiValues.y) {
+				translation[0] = inputReferences.uiValues.x;
+				translation[1] = inputReferences.uiValues.y;
+			}
+		};
+		updatePosition();
+		/**
+		 * Draws image as triangles
+		 */
+		const primitiveType = glCanvas.gl.TRIANGLES;
+		const count = 6;
+		glCanvas.gl.drawArrays(primitiveType, offset, count);
+		requestAnimationFrame(drawScene.bind(drawScene));
+	};
+
+	drawScene();
 })();

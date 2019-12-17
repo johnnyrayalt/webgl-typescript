@@ -56,6 +56,25 @@ const constants: Schema = {
 					},
 				},
 			},
+			positions: {
+				containerID: 'slider-container',
+				slider: {
+					xPosition: {
+						id: 'x',
+						min: 0,
+						step: 1,
+						max: 150000,
+						value: 0,
+					},
+					yPosition: {
+						id: 'y',
+						min: 0,
+						step: 1,
+						max: 150000,
+						value: 0,
+					},
+				},
+			},
 		},
 		dropdownGroup: {
 			shaders: {
