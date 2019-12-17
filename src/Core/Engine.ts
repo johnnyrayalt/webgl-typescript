@@ -53,25 +53,27 @@ export class Engine {
 		/**
 		 * Extracts data from buffer and supplies it to attributes specified
 		 */
-		this.gl.enableVertexAttribArray(this.attributeManager.positionAttributeLocation);
+		this.gl.enableVertexAttribArray(this.attributeManager.positionAttributeLocation.location);
 
 		/**
 		 * Rebinds the attributes to buffer with new context
 		 */
-		Object.keys(this.bufferManager).forEach(key => {
+		Object.keys(this.bufferManager).forEach((key: string) => {
 			this.bufferManager[key].bindBuffer(this.gl);
 		});
 
 		/**
 		 * Tell attribute how to extract data from positionBuffer
 		 */
-		const size: number = 2; // number of components per iteration
-		const type = this.gl.FLOAT; // data in 32bit floats
-		const normalize = false; // Do not normalize the data
-		const stride = 0; // 0 = move forward size * sizeof(type) each iteration to get the next position
-		const offset = 0; // Start at the begining of the buffer
 
-		this.gl.vertexAttribPointer(this.attributeManager.positionAttributeLocation, size, type, normalize, stride, offset);
+		this.gl.vertexAttribPointer(
+			this.attributeManager.positionAttributeLocation.location,
+			this.attributeManager.positionAttributeLocation.size,
+			this.attributeManager.positionAttributeLocation.type,
+			this.attributeManager.positionAttributeLocation.normalize,
+			this.attributeManager.positionAttributeLocation.stride,
+			this.attributeManager.positionAttributeLocation.offset,
+		);
 
 		/**
 		 * Set the resolution
@@ -91,13 +93,18 @@ export class Engine {
 		this.inputReferences.setDOMSliderValues();
 		this.gl.uniform2fv(this.uniformManager.translationUniformLocation, this.objectProperties.translation);
 
+		/**
+		 * updates objects x & y coords
+		 */
 		this.inputReferences.updateObjectPosition(this.objectProperties.translation);
+
 		/**
 		 * Draws image as triangles
 		 */
 		const primitiveType = this.gl.TRIANGLES;
 		const count = 18;
-		this.gl.drawArrays(primitiveType, offset, count);
+		this.gl.drawArrays(primitiveType, this.attributeManager.positionAttributeLocation.offset, count);
+
 		requestAnimationFrame(this.start.bind(this));
 	};
 }

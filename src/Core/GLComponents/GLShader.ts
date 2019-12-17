@@ -37,7 +37,7 @@ export class GLShader {
 		const error = gl.getProgramInfoLog(program);
 		if (error !== '') {
 			gl.deleteProgram(program);
-			throw new Error(`Error linking shaders into program: ${error}`);
+			throw new Error(`Error linking shaders into program ${program}: ${error}`);
 		}
 
 		return program;

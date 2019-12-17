@@ -72,7 +72,14 @@ require('~/Assets/IndexStyles.css');
 	 * gets Attributes and Uniforms
 	 */
 	const attributeManager: IAttributeManager = {
-		positionAttributeLocation: glCanvas.gl.getAttribLocation(shaderProgram, 'a_position'),
+		positionAttributeLocation: {
+			location: glCanvas.gl.getAttribLocation(shaderProgram, 'a_position'),
+			size: 2,
+			type: glCanvas.gl.FLOAT,
+			normalize: false,
+			stride: 0,
+			offset: 0,
+		},
 	};
 
 	const uniformManager: IUniformManager = {
