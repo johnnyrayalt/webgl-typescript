@@ -1,5 +1,17 @@
+export interface IBufferInfo {
+	[name: string]: {
+		[name: string]: {
+			buffer: WebGLBuffer;
+			numComponents: number;
+			type: number;
+			normalize: boolean;
+		};
+	};
+}
+
 export class GLBuffer {
 	public buffer: WebGLBuffer;
+	public bufferInfo: IBufferInfo = {};
 
 	constructor(gl: WebGLRenderingContext) {
 		this.buffer = gl.createBuffer();

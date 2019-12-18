@@ -1,6 +1,7 @@
 export interface IAttributeManager {
 	[name: string]: {
-		index: number;
+		index?: number;
+		numComponents?: number;
 		size: number;
 		type: number;
 		normalize: boolean;

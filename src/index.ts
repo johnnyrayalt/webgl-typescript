@@ -1,3 +1,4 @@
+import { GLAttributes } from './Core/GLComponents/GLAttributes';
 import { GLUniforms } from './Core/GLComponents/GLUniforms';
 import { Engine } from '~/Core/Engine';
 import { LetterU } from '~/Core/Geometry/LetterU';
@@ -20,6 +21,7 @@ import { IBufferManager } from '~/Interfaces/GL/IBufferManager';
 import { IUniformManager } from '~/Interfaces/GL/IUniformManager';
 import { ISliderManager } from '~/Interfaces/HTML/ISliderManager';
 import { IObjectProperties } from '~/Interfaces/IObjectProperties';
+import { IObjectArrays } from '~Interfaces/GL/IObjectArrays';
 require('~/Assets/IndexStyles.css');
 
 ((): void => {
@@ -101,11 +103,25 @@ require('~/Assets/IndexStyles.css');
 	 * Creates WebGLProgram from shaders
 	 */
 	const shaderProgram: WebGLProgram = GLShader.createProgram(glCanvas.gl, vertexShader.shader, fragmentShader.shader);
+	/**
+	 * Create buffers for attributes to recieve data
+	 */
+	const bufferManager: IBufferManager = {
+		positionBuffer: new GLBuffer(glCanvas.gl),
+	};
 
 	/**
 	 * @returns {GLUniforms} class with appropriate vector or matrix transformation method based on uniform type
 	 */
 	const uniformSetters: GLUniforms = new GLUniforms(glCanvas.gl, shaderProgram);
+	const attributeSetters: GLAttributes = new GLAttributes(glCanvas.gl, shaderProgram);
+	console.log(attributeSetters);
+
+	const objectArrays: IObjectArrays = {
+		position: { numComponents: 3, data: [0, -10, 0, 10, 10, 0, -10, 10, 0] },
+		texcoord: { numComponents: 2, data: [0.5, 0, 1, 1, 0, 1] },
+		normal: { numComponents: 3, data: [0, 0, 1, 0, 0, 1, 0, 0, 1] },
+	};
 
 	/**
 	 * gets Attributes and Uniforms
@@ -127,13 +143,6 @@ require('~/Assets/IndexStyles.css');
 		u_translation: glCanvas.gl.getUniformLocation(shaderProgram, 'u_translation'),
 		u_rotation: glCanvas.gl.getUniformLocation(shaderProgram, 'u_rotation'),
 		u_scale: glCanvas.gl.getUniformLocation(shaderProgram, 'u_scale'),
-	};
-
-	/**
-	 * Create buffers for attributes to recieve data
-	 */
-	const bufferManager: IBufferManager = {
-		positionBuffer: new GLBuffer(glCanvas.gl),
 	};
 
 	/**
