@@ -53,7 +53,7 @@ export class Engine {
 		/**
 		 * Extracts data from buffer and supplies it to attributes specified
 		 */
-		this.gl.enableVertexAttribArray(this.attributeManager.positionAttributeLocation.location);
+		this.gl.enableVertexAttribArray(this.attributeManager.a_position.index);
 
 		/**
 		 * Rebinds the attributes to buffer with new context
@@ -66,24 +66,24 @@ export class Engine {
 		 * Tell attribute how to extract data from positionBuffer
 		 */
 		this.gl.vertexAttribPointer(
-			this.attributeManager.positionAttributeLocation.location,
-			this.attributeManager.positionAttributeLocation.size,
-			this.attributeManager.positionAttributeLocation.type,
-			this.attributeManager.positionAttributeLocation.normalize,
-			this.attributeManager.positionAttributeLocation.stride,
-			this.attributeManager.positionAttributeLocation.offset,
+			this.attributeManager.a_position.index,
+			this.attributeManager.a_position.size,
+			this.attributeManager.a_position.type,
+			this.attributeManager.a_position.normalize,
+			this.attributeManager.a_position.stride,
+			this.attributeManager.a_position.offset,
 		);
 
 		/**
 		 * Set the resolution
 		 */
-		this.gl.uniform2f(this.uniformManager.resolutionUniformLocation, this.gl.canvas.width, this.gl.canvas.height);
+		this.gl.uniform2f(this.uniformManager.u_resolution, this.gl.canvas.width, this.gl.canvas.height);
 
 		/**
 		 * Updates Color & Slider UI values
 		 */
 		this.gl.uniform4f(
-			this.uniformManager.colorUniformLocation,
+			this.uniformManager.u_color,
 			this.inputReferences.uiValues.colorR,
 			this.inputReferences.uiValues.colorG,
 			this.inputReferences.uiValues.colorB,
@@ -94,17 +94,17 @@ export class Engine {
 		/**
 		 * Updates translation
 		 */
-		this.gl.uniform2fv(this.uniformManager.translationUniformLocation, this.objectProperties.translation);
+		this.gl.uniform2fv(this.uniformManager.u_translation, this.objectProperties.translation);
 
 		/**
 		 * Updates rotation
 		 */
-		this.gl.uniform2fv(this.uniformManager.rotationUniformLocation, this.objectProperties.rotation);
+		this.gl.uniform2fv(this.uniformManager.u_rotation, this.objectProperties.rotation);
 
 		/**
 		 * Updates scale
 		 */
-		this.gl.uniform2fv(this.uniformManager.scaleUniformLocation, this.objectProperties.scale);
+		this.gl.uniform2fv(this.uniformManager.u_scale, this.objectProperties.scale);
 
 		/**
 		 * Update DOM
@@ -119,7 +119,7 @@ export class Engine {
 		 */
 		const primitiveType = this.gl.TRIANGLES;
 		const count = 18;
-		this.gl.drawArrays(primitiveType, this.attributeManager.positionAttributeLocation.offset, count);
+		this.gl.drawArrays(primitiveType, this.attributeManager.a_position.offset, count);
 
 		requestAnimationFrame(this.start.bind(this));
 	};

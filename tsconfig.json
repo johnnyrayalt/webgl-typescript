@@ -8,7 +8,7 @@
 		"declaration": true,
 		"esModuleInterop": true,
 		"experimentalDecorators": true,
-		"lib": ["DOM", "esnext"],
+		"lib": ["DOM", "esnext", "es2015.iterable"],
 		"module": "esnext",
 		"moduleResolution": "node",
 		"noUnusedLocals": true,

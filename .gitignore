@@ -1,9 +1,0 @@
-dist/
-node_modules
-.cache
-.history
-.DS_Store
-.idea
-package-lock.json
-
-*.log

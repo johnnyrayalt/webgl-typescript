@@ -1,3 +1,4 @@
+import { GLUniforms } from './Core/GLComponents/GLUniforms';
 import { Engine } from '~/Core/Engine';
 import { LetterU } from '~/Core/Geometry/LetterU';
 import { GLBuffer } from '~/Core/GLComponents/GLBuffer';
@@ -6,7 +7,11 @@ import { GLShader } from '~/Core/GLComponents/GLShader';
 // @ts-ignore
 import BasicFragmentShader from '~/Core/Shaders/FragmentShaders/BasicFragmentShader.frag';
 // @ts-ignore
+import SphereFragShader from '~/Core/Shaders/SphereFragShader.frag';
+// @ts-ignore
 import BasicVertexShader from '~/Core/Shaders/VertexShaders/BasicVertexShader.vert';
+// @ts-ignore
+import SphereVertShader from '~/Core/Shaders/VertexShaders/SphereVertShader.vert';
 import { Canvas } from '~/Core/Utilities/HTMLElements/Canvas';
 import { InputReferences } from '~/Core/Utilities/HTMLElements/InputReferences';
 import { Slider } from '~/Core/Utilities/HTMLElements/Slider';
@@ -98,11 +103,16 @@ require('~/Assets/IndexStyles.css');
 	const shaderProgram: WebGLProgram = GLShader.createProgram(glCanvas.gl, vertexShader.shader, fragmentShader.shader);
 
 	/**
+	 * @returns {GLUniforms} class with appropriate vector or matrix transformation method based on uniform type
+	 */
+	const uniformSetters: GLUniforms = new GLUniforms(glCanvas.gl, shaderProgram);
+
+	/**
 	 * gets Attributes and Uniforms
 	 */
 	const attributeManager: IAttributeManager = {
-		positionAttributeLocation: {
-			location: glCanvas.gl.getAttribLocation(shaderProgram, 'a_position'),
+		a_position: {
+			index: glCanvas.gl.getAttribLocation(shaderProgram, 'a_position'),
 			size: 2,
 			type: glCanvas.gl.FLOAT,
 			normalize: false,
@@ -112,11 +122,11 @@ require('~/Assets/IndexStyles.css');
 	};
 
 	const uniformManager: IUniformManager = {
-		resolutionUniformLocation: glCanvas.gl.getUniformLocation(shaderProgram, 'u_resolution'),
-		colorUniformLocation: glCanvas.gl.getUniformLocation(shaderProgram, 'u_color'),
-		translationUniformLocation: glCanvas.gl.getUniformLocation(shaderProgram, 'u_translation'),
-		rotationUniformLocation: glCanvas.gl.getUniformLocation(shaderProgram, 'u_rotation'),
-		scaleUniformLocation: glCanvas.gl.getUniformLocation(shaderProgram, 'u_scale'),
+		u_resolution: glCanvas.gl.getUniformLocation(shaderProgram, 'u_resolution'),
+		u_color: glCanvas.gl.getUniformLocation(shaderProgram, 'u_color'),
+		u_translation: glCanvas.gl.getUniformLocation(shaderProgram, 'u_translation'),
+		u_rotation: glCanvas.gl.getUniformLocation(shaderProgram, 'u_rotation'),
+		u_scale: glCanvas.gl.getUniformLocation(shaderProgram, 'u_scale'),
 	};
 
 	/**
