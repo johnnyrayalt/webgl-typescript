@@ -106,8 +106,14 @@ require('~/Assets/IndexStyles.css');
 	/**
 	 * Create buffers for attributes to recieve data
 	 */
+	const objectArrays: IObjectArrays = {
+		position: { numComponents: 3, data: [0, -10, 0, 10, 10, 0, -10, 10, 0] },
+		texcoord: { numComponents: 2, data: [0.5, 0, 1, 1, 0, 1] },
+		normal: { numComponents: 3, data: [0, 0, 1, 0, 0, 1, 0, 0, 1] },
+		indeces: { numComponents: 3, data: [0, 1, 2, 1, 2, 3] },
+	};
 	const bufferManager: IBufferManager = {
-		positionBuffer: new GLBuffer(glCanvas.gl),
+		positionBuffer: new GLBuffer(glCanvas.gl, objectArrays),
 	};
 
 	/**
@@ -116,12 +122,6 @@ require('~/Assets/IndexStyles.css');
 	const uniformSetters: GLUniforms = new GLUniforms(glCanvas.gl, shaderProgram);
 	const attributeSetters: GLAttributes = new GLAttributes(glCanvas.gl, shaderProgram);
 	console.log(attributeSetters);
-
-	const objectArrays: IObjectArrays = {
-		position: { numComponents: 3, data: [0, -10, 0, 10, 10, 0, -10, 10, 0] },
-		texcoord: { numComponents: 2, data: [0.5, 0, 1, 1, 0, 1] },
-		normal: { numComponents: 3, data: [0, 0, 1, 0, 0, 1, 0, 0, 1] },
-	};
 
 	/**
 	 * gets Attributes and Uniforms
