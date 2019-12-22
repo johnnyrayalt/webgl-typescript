@@ -1,5 +1,9 @@
 import { IObjectArrays } from '~Interfaces/GL/IObjectArrays';
 
+export interface TypedArray {
+	[name: string]: Int8Array | Uint8Array | Int16Array | Uint16Array | Int32Array | Uint32Array | Float32Array;
+}
+
 export interface IBufferInfo {
 	attribs: IAttribBufferInfo;
 }
@@ -22,6 +26,8 @@ export class GLBuffer {
 	public buffer: WebGLBuffer;
 	public bufferInfo: IBufferInfo = { attribs: {} };
 
+	private mapping: { [name: string]: string } = {};
+
 	constructor(gl: WebGLRenderingContext, arrays: IObjectArrays) {
 		this.bufferInfo = {
 			attribs: this.createAttribsFromArrays(gl, arrays),
@@ -30,12 +36,13 @@ export class GLBuffer {
 	}
 
 	private createAttribsFromArrays = (gl: WebGLRenderingContext, arrays: IObjectArrays): IAttribBufferInfo => {
-		const mapping = this.createMapping(arrays);
+		this.mapping = this.createMapping(arrays);
 		const attribs: IAttribBufferInfo = {};
-		Object.keys(mapping).forEach((name: string): void => {
-			const bufferName = mapping[name];
+		Object.keys(this.mapping).forEach((name: string): void => {
+			const bufferName = this.mapping[name];
 			const originalArray = arrays[bufferName];
-			const array = this.makeTypedArray(originalArray, bufferName);
+			console.log(originalArray);
+			const array: TypedArray = this.makeTypedArray(originalArray, bufferName);
 			console.log(array);
 			attribs[name] = {
 				buffer: this.createBufferFromTypedArray(gl, array),
@@ -63,58 +70,34 @@ export class GLBuffer {
 				mapping['a_' + key] = key;
 			});
 		}
-		return mapping;
+		console.log(mapping);
+		return this.mapping;
 	};
 
-	private makeTypedArray = (array: any, name: string): any => {
-		const isArrayBuffer = (array: any) => {
-			return array.buffer && array.buffer instanceof ArrayBuffer;
-		};
-
-		if (isArrayBuffer(array)) {
-			console.log('1 >> fired');
-			return array;
-		}
-
-		if (array.data && isArrayBuffer(array.data)) {
-			console.log('2 >> fired');
-			return array.data;
-		}
-
-		if (Array.isArray(array)) {
-			console.log('3 >> fired');
-			array = {
-				data: array,
-			};
-		}
-
-		// if (!array.numComponents) {
-		// 	console.log('4 >> fired');
-		// 	array.numComponents = guessNumComponentsFromName(name, array.length);
-		// }
-
-		let type = array.type;
+	private makeTypedArray = (array: GLArray, name: string): TypedArray => {
+		let type: any;
 		if (!type) {
-			console.log('5 >> fired');
 			if (name === 'indices') {
 				type = Uint16Array;
 			}
 		}
-		const typedArray = this.createAugmentedTypedArray(
-			array.numComponents,
-			(array.data.length / array.numComponents) | 0,
-			type,
-		);
+
+		const TypedArray = (): any => {
+			const Type = type || Float32Array;
+			return this.augmentTypedArray(
+				new Type((array.numComponents * (array.data.length / array.numComponents)) | 0),
+				array.numComponents,
+			);
+		};
+
+		const typedArray = TypedArray();
 		typedArray.push(array.data);
+		console.log(typedArray);
 		return typedArray;
 	};
 
-	private createAugmentedTypedArray = (numComponents: any, numElements: any, type: any): any => {
-		const Type = type || Float32Array;
-		return this.augmentTypedArray(new Type(numComponents * numElements), numComponents);
-	};
-
-	private augmentTypedArray = (typedArray: any, numComponents: any) => {
+	private augmentTypedArray = (typedArray: TypedArray, numComponents: number): TypedArray => {
+		console.log('96', typedArray);
 		let cursor: number = 0;
 		typedArray.push = function() {
 			for (let i = 0; i < arguments.length; i++) {
@@ -122,8 +105,10 @@ export class GLBuffer {
 				if (value instanceof Array || (value.buffer && value.buffer instanceof ArrayBuffer)) {
 					for (let j = 0; j < value.length; ++j) {
 						typedArray[cursor++] = value[j];
+						console.log(typedArray[cursor++]);
 					}
 				} else {
+					console.log(value);
 					typedArray[cursor++] = value;
 				}
 			}
@@ -132,6 +117,9 @@ export class GLBuffer {
 			cursor = opt_index || 0;
 		};
 		typedArray.numComponents = numComponents;
+		// Object.defineProperties(typedArray, {
+		// 	push: function ()
+		// })
 		Object.defineProperty(typedArray, 'numElements', {
 			get: function() {
 				return (this.length / this.numComponents) | 0;
@@ -149,7 +137,7 @@ export class GLBuffer {
 		type = type || gl.ARRAY_BUFFER;
 		const buffer = gl.createBuffer();
 		gl.bindBuffer(type, buffer);
-		gl.bufferData(type, array.data.length, drawType || gl.STATIC_DRAW);
+		gl.bufferData(type, array.length, drawType || gl.STATIC_DRAW);
 		return buffer;
 	};
 
