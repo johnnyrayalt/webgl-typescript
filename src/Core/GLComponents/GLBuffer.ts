@@ -37,13 +37,13 @@ export class GLBuffer {
 
 	private createAttribsFromArrays = (gl: WebGLRenderingContext, arrays: IObjectArrays): IAttribBufferInfo => {
 		this.mapping = this.createMapping(arrays);
+		console.log(this.mapping);
 		const attribs: IAttribBufferInfo = {};
 		Object.keys(this.mapping).forEach((name: string): void => {
 			const bufferName = this.mapping[name];
 			const originalArray = arrays[bufferName];
 			console.log(originalArray);
 			const array: TypedArray = this.makeTypedArray(originalArray, bufferName);
-			console.log(array);
 			attribs[name] = {
 				buffer: this.createBufferFromTypedArray(gl, array),
 				numComponents: originalArray.numComponents || array.numComponents,
@@ -51,6 +51,7 @@ export class GLBuffer {
 				normalize: this.getNormalizationForTypedArray(array),
 			};
 		});
+		console.log(attribs);
 		return attribs;
 	};
 
@@ -70,8 +71,7 @@ export class GLBuffer {
 				mapping['a_' + key] = key;
 			});
 		}
-		console.log(mapping);
-		return this.mapping;
+		return (this.mapping = mapping);
 	};
 
 	private makeTypedArray = (array: GLArray, name: string): TypedArray => {
