@@ -112,16 +112,16 @@ require('~/Assets/IndexStyles.css');
 		normal: { numComponents: 3, data: [0, 0, 1, 0, 0, 1, 0, 0, 1] },
 		indeces: { numComponents: 3, data: [0, 1, 2, 1, 2, 3] },
 	};
+
 	const bufferManager: IBufferManager = {
 		positionBuffer: new GLBuffer(glCanvas.gl, objectArrays),
 	};
-
+	console.log(bufferManager.positionBuffer);
 	/**
 	 * @returns {GLUniforms} class with appropriate vector or matrix transformation method based on uniform type
 	 */
 	const uniformSetters: GLUniforms = new GLUniforms(glCanvas.gl, shaderProgram);
 	const attributeSetters: GLAttributes = new GLAttributes(glCanvas.gl, shaderProgram);
-	console.log(attributeSetters);
 
 	/**
 	 * gets Attributes and Uniforms
