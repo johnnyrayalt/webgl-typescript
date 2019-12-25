@@ -8,7 +8,7 @@ import { GLShader } from '~/Core/GLComponents/GLShader';
 // @ts-ignore
 import BasicFragmentShader from '~/Core/Shaders/FragmentShaders/BasicFragmentShader.frag';
 // @ts-ignore
-import SphereFragShader from '~/Core/Shaders/SphereFragShader.frag';
+import SphereFragShader from '~/Core/Shaders/FragmentShaders/SphereFragShader.frag';
 // @ts-ignore
 import BasicVertexShader from '~/Core/Shaders/VertexShaders/BasicVertexShader.vert';
 // @ts-ignore
@@ -25,6 +25,9 @@ import { IObjectArrays } from '~Interfaces/GL/IObjectArrays';
 require('~/Assets/IndexStyles.css');
 
 ((): void => {
+	/**
+	 * CREATE HTML
+	 */
 	/**
 	 * Create canvas as HTMLCanvasElement and attach WebGLRenderingContext
 	 */
@@ -94,34 +97,40 @@ require('~/Assets/IndexStyles.css');
 	const inputReferences = new InputReferences(glCanvas.gl, sliderManager, objectProperties);
 
 	/**
-	 * Gets and Creates Shaders
+	 * BEGIN SETUP GLSL PROGRAM
 	 */
-	const vertexShader = new GLShader(glCanvas.gl, 'Basic', glCanvas.gl.VERTEX_SHADER, BasicVertexShader);
-	const fragmentShader = new GLShader(glCanvas.gl, 'Basic', glCanvas.gl.FRAGMENT_SHADER, BasicFragmentShader);
+	/**
+	 * Creates and Gets Shaders
+	 */
+	const vertexShader = new GLShader(glCanvas.gl, 'Basic', glCanvas.gl.VERTEX_SHADER, SphereVertShader);
+	const fragmentShader = new GLShader(glCanvas.gl, 'Basic', glCanvas.gl.FRAGMENT_SHADER, SphereFragShader);
 
 	/**
 	 * Creates WebGLProgram from shaders
 	 */
 	const shaderProgram: WebGLProgram = GLShader.createProgram(glCanvas.gl, vertexShader.shader, fragmentShader.shader);
+
 	/**
 	 * Create buffers for attributes to recieve data
 	 */
-	const objectArrays: IObjectArrays = {
-		position: { numComponents: 3, data: [0, -10, 0, 10, 10, 0, -10, 10, 0] },
-		texcoord: { numComponents: 2, data: [0.5, 0, 1, 1, 0, 1] },
-		normal: { numComponents: 3, data: [0, 0, 1, 0, 0, 1, 0, 0, 1] },
-		indeces: { numComponents: 3, data: [0, 1, 2, 1, 2, 3] },
-	};
+	// const objectArrays: IObjectArrays = {
+	// 	position: { numComponents: 3, data: [0, -10, 0, 10, 10, 0, -10, 10, 0] },
+	// 	texcoord: { numComponents: 2, data: [0.5, 0, 1, 1, 0, 1] },
+	// 	normal: { numComponents: 3, data: [0, 0, 1, 0, 0, 1, 0, 0, 1] },
+	// 	indeces: { numComponents: 3, data: [0, 1, 2, 1, 2, 3] },
+	// };
 
-	const bufferManager: IBufferManager = {
-		positionBuffer: new GLBuffer(glCanvas.gl, objectArrays),
-	};
-	console.log(bufferManager.positionBuffer);
+	// const bufferManager: IBufferManager = {
+	// 	positionBuffer: new GLBuffer(glCanvas.gl, objectArrays),
+	// };
+
 	/**
 	 * @returns {GLUniforms} class with appropriate vector or matrix transformation method based on uniform type
 	 */
 	const uniformSetters: GLUniforms = new GLUniforms(glCanvas.gl, shaderProgram);
 	const attributeSetters: GLAttributes = new GLAttributes(glCanvas.gl, shaderProgram);
+	console.log('attributesetters', attributeSetters);
+	console.log('uniformSetters', uniformSetters);
 
 	/**
 	 * gets Attributes and Uniforms
@@ -136,7 +145,7 @@ require('~/Assets/IndexStyles.css');
 			offset: 0,
 		},
 	};
-
+	// console.log(attributeManager);
 	const uniformManager: IUniformManager = {
 		u_resolution: glCanvas.gl.getUniformLocation(shaderProgram, 'u_resolution'),
 		u_color: glCanvas.gl.getUniformLocation(shaderProgram, 'u_color'),
@@ -148,14 +157,14 @@ require('~/Assets/IndexStyles.css');
 	/**
 	 * Bind buffers
 	 */
-	Object.keys(bufferManager).forEach(key => {
-		bufferManager[key].bindBuffer(glCanvas.gl);
-	});
+	// Object.keys(bufferManager).forEach(key => {
+	// 	bufferManager[key].bindBuffer(glCanvas.gl);
+	// });
 
 	/**
 	 * Send array of vertices to buffer
 	 */
-	GLBuffer.setGeometry(glCanvas.gl, LetterU);
+	// GLBuffer.setGeometry(glCanvas.gl, LetterU);
 
 	/**
 	 * BEGIN RENDER LOGIC
@@ -168,5 +177,6 @@ require('~/Assets/IndexStyles.css');
 		bufferManager,
 		inputReferences,
 		objectProperties,
+		attributeSetters,
 	).start();
 })();

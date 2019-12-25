@@ -38,6 +38,10 @@ export class TypedArray {
 		return this.dataType;
 	};
 
+	public getData = (): number[] => {
+		return this.data;
+	};
+
 	public getNormalization = (): boolean => {
 		return this.normalize;
 	};

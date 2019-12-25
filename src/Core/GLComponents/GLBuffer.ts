@@ -40,6 +40,9 @@ export class GLBuffer {
 			attribs: this.createAttribsFromArrays(gl, arrays),
 		};
 		this.buffer = gl.createBuffer();
+		const bufferInfo = Object.assign({}, srcBufferInfo ? srcBufferInfo : {});
+		bufferInfo.attribs = Object.assign({}, srcBufferInfo ? srcBufferInfo.attribs : {}, newAttribs);
+		console.log('glbuffer', this.bufferInfo);
 	}
 
 	private createAttribsFromArrays = (gl: WebGLRenderingContext, arrays: IObjectArrays): IAttribBufferInfo => {
@@ -50,13 +53,12 @@ export class GLBuffer {
 			const originalArray = arrays[bufferName];
 			const typedArray = new TypedArray(gl, originalArray, bufferName);
 			attribs[name] = {
-				buffer: this.createBufferFromTypedArray(gl, typedArray.getArrayType()),
+				buffer: this.createBufferFromTypedArray(gl, typedArray),
 				numComponents: typedArray.getNumComponents(),
 				dataType: typedArray.getDataType(),
 				normalize: typedArray.getNormalization(),
 			};
 		});
-		console.log(attribs);
 		return attribs;
 	};
 
@@ -81,14 +83,14 @@ export class GLBuffer {
 
 	private createBufferFromTypedArray = (
 		gl: WebGLRenderingContext,
-		array: any,
+		array: TypedArray,
 		type?: number,
 		drawType?: number,
 	): WebGLBuffer => {
 		type = type || gl.ARRAY_BUFFER;
 		const buffer = gl.createBuffer();
 		gl.bindBuffer(type, buffer);
-		gl.bufferData(type, array.length, drawType || gl.STATIC_DRAW);
+		gl.bufferData(type, array.getData().length, drawType || gl.STATIC_DRAW);
 		return buffer;
 	};
 

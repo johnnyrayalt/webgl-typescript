@@ -1,3 +1,4 @@
+import { GLAttributes } from './GLComponents/GLAttributes';
 import { Canvas } from '~/Core/Utilities/HTMLElements/Canvas';
 import { InputReferences } from '~/Core/Utilities/HTMLElements/InputReferences';
 import { IAttributeManager } from '~/Interfaces/GL/IAttributeManager';
@@ -13,6 +14,7 @@ export class Engine {
 	private bufferManager: IBufferManager;
 	private inputReferences: InputReferences;
 	private objectProperties: IObjectProperties;
+	private attributeSetter: GLAttributes;
 
 	constructor(
 		gl: WebGLRenderingContext,
@@ -22,6 +24,7 @@ export class Engine {
 		bufferManager: IBufferManager,
 		inputReferences: InputReferences,
 		objectProperties: IObjectProperties,
+		attributeSetter: GLAttributes,
 	) {
 		this.gl = gl;
 		this.shaderProgram = shaderProgram;
@@ -30,6 +33,7 @@ export class Engine {
 		this.bufferManager = bufferManager;
 		this.inputReferences = inputReferences;
 		this.objectProperties = objectProperties;
+		this.attributeSetter = attributeSetter;
 	}
 
 	public start = (): void => {
@@ -50,9 +54,14 @@ export class Engine {
 		 */
 		this.gl.useProgram(this.shaderProgram);
 
+		Object.keys(this.attributeSetter.setters).forEach(setter => {
+			// console.log(this.attributeSetter);
+		});
+
 		/**
 		 * Extracts data from buffer and supplies it to attributes specified
 		 */
+		// console.log(this.attributeSetter);
 		this.gl.enableVertexAttribArray(this.attributeManager.a_position.index);
 
 		/**

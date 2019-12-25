@@ -1,8 +1,9 @@
 import { IAttributeManager } from '~/Interfaces/GL/IAttributeManager';
 import { IBufferManager } from './../../Interfaces/GL/IBufferManager';
+import { IAttribBufferInfo } from './GLBuffer';
 
 export class GLAttributes {
-	public attributeSetters: { [name: string]: Function } = {};
+	public setters: { [name: string]: Function } = {};
 	private numAttributes: number;
 
 	constructor(gl: WebGLRenderingContext, program: WebGLProgram) {
@@ -16,9 +17,22 @@ export class GLAttributes {
 
 			const index: number = gl.getAttribLocation(program, attributeInfo.name);
 
-			this.attributeSetters[attributeInfo.name] = this.createSetter(gl, index, attributeInfo.name);
+			this.setters[attributeInfo.name] = this.createSetter(gl, index, attributeInfo.name);
 		}
 	}
+
+	public setAttributes = (attribs: IAttribBufferInfo) => {
+		console.log(attribs);
+		console.log(this.setters);
+		Object.keys(attribs).forEach((name: string) => {
+			const setter = this.setters[name];
+			console.log(setter);
+			if (setter) {
+				console.log(setter(attribs[name]));
+				setter(attribs[name]);
+			}
+		});
+	};
 
 	private createSetter = (gl: WebGLRenderingContext, index: number, key: string): Function => {
 		return (bufferManager: IBufferManager, attributeManager: IAttributeManager) => {
