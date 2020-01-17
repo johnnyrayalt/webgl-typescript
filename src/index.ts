@@ -9,7 +9,8 @@ let gl: WebGL2RenderingContext,
 	vertexBuffer: WebGLBuffer,
 	indexBuffer: WebGLBuffer,
 	indices: number[],
-	aVertexPosition: number;
+	aVertexPosition: number,
+	vao: WebGLVertexArrayObject;
 
 const canvas = new GLCanvas();
 gl = canvas.getGLContext();
@@ -52,17 +53,28 @@ const initBuffers = (): void => {
 		];
 	indices = [0, 1, 2, 0, 2, 3];
 
+	// VAO: Vertex Array Object: Has data for vertices and indices for buffer
+	vao = gl.createVertexArray();
+
+	// Bind VAO
+	gl.bindVertexArray(vao);
+
 	// VBO: Vertex Buffer Object
 	vertexBuffer = gl.createBuffer();
 	gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
 	gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
+
+	// Provide instructions for VAO to use data later in draw
+	gl.enableVertexAttribArray(aVertexPosition);
+	gl.vertexAttribPointer(aVertexPosition, 3, gl.FLOAT, false, 0, 0);
 
 	// IBO: Index Buffer Object
 	indexBuffer = gl.createBuffer();
 	gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
 	gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(indices), gl.STATIC_DRAW);
 
-	// Clean up by unbinding buffers
+	// Clean
+	gl.bindVertexArray(null);
 	gl.bindBuffer(gl.ARRAY_BUFFER, null);
 	gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, null);
 };
@@ -72,10 +84,8 @@ const draw = (): void => {
 	gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 	gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
 
-	// Use the buffers that were just made
-	gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
-	gl.vertexAttribPointer(aVertexPosition, 3, gl.FLOAT, false, 0, 0);
-	gl.enableVertexAttribArray(aVertexPosition);
+	// Bind VAO
+	gl.bindVertexArray(vao);
 
 	// bind ibo
 	gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
@@ -84,6 +94,7 @@ const draw = (): void => {
 	gl.drawElements(gl.TRIANGLES, indices.length, gl.UNSIGNED_SHORT, 0);
 
 	// clean up
+	gl.bindVertexArray(null);
 	gl.bindBuffer(gl.ARRAY_BUFFER, null);
 	gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, null);
 };
