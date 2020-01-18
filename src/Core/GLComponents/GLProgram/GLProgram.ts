@@ -1,4 +1,5 @@
 import { GLShader } from '~/Core/GLComponents/GLProgram/GLShaders';
+
 export class GLProgram {
 	private program: WebGLProgram;
 
